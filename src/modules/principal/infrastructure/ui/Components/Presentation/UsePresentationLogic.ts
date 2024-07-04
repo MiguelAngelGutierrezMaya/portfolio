@@ -10,11 +10,9 @@ export const usePresentationLogic = () => {
     //
     // Constants
     //
-    const about: string = 'I am an Information systems technologist and systems engineering student, able to meet user requirements\n' +
-        '                and identify computer solutions for those requirements. I am an Analyst and designer of business\n' +
-        '                information systems and have skills in solving problems that require software processes. Experience in\n' +
-        '                the development of web and spa applications for the optimization of data loading processes and\n' +
-        '                communication with other information systems through API'
+    const about: string = 'Full stack developer with B2 English and more than 5+ years of experience developing and maintaining web technology solutions and backend services, also more than 3+ years of experience developing cross-platform mobile solutions to address small business requirements.\n' +
+        'Experience leading and teaching small frontend teams to achieve business goals by developing scalable solutions, addressing business use cases and applying clean code techniques.\n' +
+        'I am fully interested in mobile native development, constant growth, continuous learning and AI at the core in my work experience using development tools with generative AI and vendor services to address different use cases related to AI interactions and actions'
 
     let typeWriter: Typewriter
 

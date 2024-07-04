@@ -23,7 +23,7 @@ const Header: React.FC<HeaderProps> = () => {
     //
     // Hooks
     //
-    const {links} = useHeaderLogic();
+    const {links, setScroll, openWhatsapp} = useHeaderLogic();
 
     return (
         <header
@@ -34,11 +34,6 @@ const Header: React.FC<HeaderProps> = () => {
                 className="w-48 h-12 rounded-sm shadow"/>
 
             <section className={'md:ml-4 lg:ml-4 flex flex-col items-center gap-2'}>
-                <div className={'flex flex-row gap-2'}>
-                    <span className={'font-poppins text-xl text-white font-bold'}>Fullstack</span>
-                    <span className={'font-poppins text-xl text-primary/95 font-bold'}>developer</span>
-                </div>
-
                 <div className={'flex flex-row items-center gap-2'}>
                     {
                         links.map((link, index) => (
@@ -53,22 +48,19 @@ const Header: React.FC<HeaderProps> = () => {
                 <SectionLink
                     title={'About me'}
                     onClick={
-                        () => {
-                        }
+                        () => setScroll('presentation-title')
                     }
                 />
                 <SectionLink
                     title={'Experiences'}
                     onClick={
-                        () => {
-                        }
+                        () => setScroll('experiences-title')
                     }
                 />
                 <SectionLink
                     title={'Let\'s talk'}
                     onClick={
-                        () => {
-                        }
+                        () => openWhatsapp()
                     }
                 />
             </div>
