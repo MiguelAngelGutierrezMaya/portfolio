@@ -1,0 +1,15 @@
+---
+//
+// Layouts
+//
+import Layout from '../layouts/Layout.astro';
+
+//
+// Components
+//
+import Principal from '../modules/principal/infrastructure/ui/Principal/Principal';
+---
+
+<Layout title="Welcome to Astro.">
+    <Principal client:only="react"/>
+</Layout>
