@@ -8,6 +8,7 @@ import React from 'react';
 //
 import Icon from "../Icon/Icon.tsx";
 import SectionLink from "../SectionLink/SectionLink.tsx";
+import SectionLinkWithPopover from "../SectionLink/SectionLinkWithPopover.tsx";
 
 //
 // Hooks
@@ -46,20 +47,25 @@ const Header: React.FC<HeaderProps> = () => {
 
             <div className={'md:ml-auto lg:ml-auto flex flex-row gap-4'}>
                 <SectionLink
+                    className={'text-white hover:text-white/90'}
                     title={'About me'}
                     onClick={
                         () => setScroll('presentation-title')
                     }
                 />
                 <SectionLink
+                    className={'text-white hover:text-white/90'}
                     title={'Experiences'}
                     onClick={
                         () => setScroll('experiences-title')
                     }
                 />
-                <SectionLink
+                <SectionLinkWithPopover
                     title={'Let\'s talk'}
                     onClick={
+                        () => setScroll('contact')
+                    }
+                    onClickWhasapp={
                         () => openWhatsapp()
                     }
                 />

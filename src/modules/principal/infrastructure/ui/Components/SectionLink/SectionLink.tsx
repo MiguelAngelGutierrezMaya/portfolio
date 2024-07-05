@@ -5,12 +5,17 @@ import React, {type MouseEvent} from 'react';
 
 interface SectionLinkProps {
     title: string;
+    className?: string;
     onClick: () => void;
 }
 
-const SectionLink: React.FC<SectionLinkProps> = ({title, onClick}) => {
+function classNames(...classes: string[]) {
+    return classes.filter(Boolean).join(' ')
+}
+
+const SectionLink: React.FC<SectionLinkProps> = ({title, onClick, className}) => {
     return (
-        <a className={'font-poppins text-white cursor-pointer hover:text-white/90'} onClick={
+        <a className={classNames('font-poppins cursor-pointer', className || '')} onClick={
             (event: MouseEvent<HTMLAnchorElement>) => {
                 event.preventDefault();
                 onClick();
