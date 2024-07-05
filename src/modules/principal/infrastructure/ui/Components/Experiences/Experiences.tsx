@@ -36,7 +36,7 @@ const Experiences: React.FC<ExperiencesProps> = () => {
                                 />
                                 <ArticleContent
                                     companyImage={`${PUBLIC_FIREBASE_URL}/colegium.avif?alt=media&token=e0165306-ed3c-44f9-b23d-12d1b7eeb42d`}
-                                    title={'Software developer'}
+                                    title={'Backend developer'}
                                     timeline={'January 01, 2021 - September 12, 2021'}
                                     description={'Development of functionalities for applications\n' +
                                         'already made, address requirements or incidents\n' +
@@ -50,7 +50,7 @@ const Experiences: React.FC<ExperiencesProps> = () => {
                                 />
                                 <ArticleContent
                                     companyImage={`${PUBLIC_FIREBASE_URL}/pcaingenieria.avif?alt=media&token=d7b2e5c1-902d-4c8c-a9a1-50ecf4133106`}
-                                    title={'Software developer'}
+                                    title={'Fullstack developer'}
                                     timeline={'June 18, 2019 - December 31, 2020'}
                                     description={'Development of custom applications for different\n' +
                                         'clients, full-stack development, and support of\n' +
@@ -61,7 +61,7 @@ const Experiences: React.FC<ExperiencesProps> = () => {
                                 />
                                 <ArticleContent
                                     companyImage={`${PUBLIC_FIREBASE_URL}/crealodigital.avif?alt=media&token=bbeff7af-2099-4e05-9106-7ee04200a929`}
-                                    title={'Software developer'}
+                                    title={'Fullstack developer'}
                                     timeline={'March 02, 2019 - June 17, 2019'}
                                     description={'Fullstack development (Attend user requirements,\n' +
                                         'propose and develop the model and code. Analysis\n' +
@@ -74,7 +74,7 @@ const Experiences: React.FC<ExperiencesProps> = () => {
                                 />
                                 <ArticleContent
                                     companyImage={`${PUBLIC_FIREBASE_URL}/jetsetviajes.avif?alt=media&token=182432d4-c56b-4f63-8bde-cceb7f5f388b`}
-                                    title={'Software developer'}
+                                    title={'Fullstack developer'}
                                     timeline={'December 01, 2018 - March 01, 2019'}
                                     description={'Support and maintain the company\n' +
                                         '\'\n' +
