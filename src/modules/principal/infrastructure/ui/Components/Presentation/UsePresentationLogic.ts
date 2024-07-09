@@ -28,10 +28,10 @@ export const usePresentationLogic = () => {
 
 
     const keywords = ['Frontend developer', 'Backend developer', 'Mobile developer'];
-    const title = `Full stack developer\n${
+    const title = `${
         prefersReduceMotion ? keywords[keywordIndex] : keywords[keywordIndex].substring(0, letterIndex)
     }`
-    const fullTitle: string = 'Full stack developer\nFrontend developer, Backend developer, Mobile developer'
+    const fullTitle: string = 'Frontend developer, Backend developer, Mobile developer'
 
     //
     // Hooks
