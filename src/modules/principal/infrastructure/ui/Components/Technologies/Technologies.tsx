@@ -29,7 +29,7 @@ const Technologies: React.FC<TechnologiesProps> = () => {
                             className={'text-3xl font-semibold tracking-tight text-zinc-800 dark:text-zinc-100'}>Hard
                             Skills</h2>
                         <div ref={divRef}
-                             className={`${isIntersecting && technologies.length > 0 ? 'animate-fade-right animate-ease-in' : ''} flex flex-row flex-wrap w-full sm:mt-20 pl-8 pr-8`}>
+                             className={`${isIntersecting && technologies.length > 0 ? 'animate-fade-right animate-ease-in' : ''} mt-2 flex flex-row flex-wrap w-full`}>
                             {isIntersecting && technologies.length > 0 && technologies.map((el: Technology) => (
                                 <TechnologyComponent
                                     item={el}
