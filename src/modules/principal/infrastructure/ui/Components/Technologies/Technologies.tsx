@@ -26,7 +26,7 @@ const Technologies: React.FC<TechnologiesProps> = () => {
                 <div className="mx-auto max-w-2xl lg:max-w-5xl">
                     <div className="max-w-2xl">
                         <h2
-                            className={'text-3xl font-semibold tracking-tight text-zinc-800 dark:text-zinc-100'}>Hard
+                            className={'text-3xl font-semibold tracking-tight text-zinc-100'}>Hard
                             Skills</h2>
                         <div ref={divRef}
                              className={`${isIntersecting && technologies.length > 0 ? 'animate-fade-right animate-ease-in' : ''} mt-2 flex flex-row flex-wrap w-full`}>

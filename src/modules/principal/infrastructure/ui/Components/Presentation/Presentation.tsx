@@ -42,7 +42,7 @@ const Presentation: React.FC<PresentationProps> = () => {
                         </div>
                         <h1
                             id={'presentation-title'}
-                            className="heading mt-8 text-3xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
+                            className="heading mt-8 text-3xl font-bold tracking-tight sm:text-5xl text-zinc-100">
                             {isServerSide() ? (
                                 <>
                                     <span aria-hidden="true">Full stack developer {keywords[0]}</span>
@@ -56,7 +56,7 @@ const Presentation: React.FC<PresentationProps> = () => {
                                 </>
                             )}
                         </h1>
-                        <p className="mt-6 text-justify text-base text-zinc-600 dark:text-zinc-400">
+                        <p className="mt-6 text-justify text-base text-zinc-400">
                             {about}
                         </p>
                     </div>

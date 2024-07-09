@@ -17,9 +17,9 @@ const Experiences: React.FC<ExperiencesProps> = () => {
                 <div className="mx-auto max-w-2xl lg:max-w-5xl">
                     <div className="max-w-2xl">
                         <h2 id={'experiences-title'}
-                            className={'text-3xl font-semibold tracking-tight text-zinc-800 dark:text-zinc-100'}>Work
+                            className={'text-3xl font-semibold tracking-tight text-zinc-100'}>Work
                             experiences</h2>
-                        <div className="mt-8 md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40">
+                        <div className="mt-8 md:border-l md:border-zinc-100 md:pl-6 md:border-zinc-700/40">
                             <div className="flex max-w-3xl flex-col space-y-16">
                                 <ArticleContent
                                     companyImage={`${PUBLIC_FIREBASE_URL}/keybe-ai.avif?alt=media&token=1e8dc31e-7b54-4373-9c02-4825522c26f1`}

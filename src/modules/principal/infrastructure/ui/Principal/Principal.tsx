@@ -29,7 +29,7 @@ const Principal: React.FC<PrincipalProps> = () => {
         <>
             <div className="bg-black fixed inset-0 flex justify-center sm:px-8">
                 <div className="flex w-full h-full max-w-7xl lg:px-8">
-                    <div className="w-full bg-zinc-900 ring-1 ring-zinc-100 dark:ring-zinc-300/20 overflow-y-auto">
+                    <div className="w-full bg-zinc-900 ring-1 ring-zinc-100 ring-zinc-300/20 overflow-y-auto">
                         <Header/>
                         <Presentation/>
                         <Stacks/>
