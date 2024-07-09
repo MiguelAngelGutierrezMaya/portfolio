@@ -9,7 +9,6 @@ import React from 'react';
 import {useTechnologiesLogic} from "./UseTechnologiesLogic.ts";
 import type {Technology} from "../../../../models/Technology.ts";
 import TechnologyComponent from "./TechnologyComponent/Technology.tsx";
-import ArticleContent from "../Experiences/ArticleContent.tsx";
 
 interface TechnologiesProps {
 }
@@ -18,7 +17,7 @@ const Technologies: React.FC<TechnologiesProps> = () => {
     //
     // Hooks
     //
-    const {technologies} = useTechnologiesLogic();
+    const {technologies, isIntersecting, divRef} = useTechnologiesLogic();
 
     return (
         <div
@@ -29,8 +28,9 @@ const Technologies: React.FC<TechnologiesProps> = () => {
                         <h2
                             className={'text-3xl font-semibold tracking-tight text-zinc-800 dark:text-zinc-100'}>Hard
                             Skills</h2>
-                        <div className="flex flex-row flex-wrap w-full sm:mt-20 pl-8 pr-8">
-                            {technologies.map((el: Technology) => (
+                        <div ref={divRef}
+                             className={`${isIntersecting && technologies.length > 0 ? 'animate-fade-right animate-ease-in' : ''} flex flex-row flex-wrap w-full sm:mt-20 pl-8 pr-8`}>
+                            {isIntersecting && technologies.length > 0 && technologies.map((el: Technology) => (
                                 <TechnologyComponent
                                     item={el}
                                     key={el.name}
