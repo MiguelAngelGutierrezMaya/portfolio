@@ -19,6 +19,24 @@ const ArticleContent: React.FC<ArticleContentProps> = ({title, timeline, descrip
     //
     const {isIntersecting, articleRef} = useArticleContentLogic();
 
+    //
+    // Computed
+    //
+    const companyPhotoInfo = (): React.JSX.Element => {
+        return (
+            <div className={'flex flex-row gap-2 items-center'}>
+                <figure className={'h-10 w-10 bg-white rounded-full'}>
+                    <img
+                        className="inline-block h-full w-full object-contain rounded-full"
+                        src={companyImage}
+                        alt={'article-image-' + title}
+                    />
+                </figure>
+                <span className="ml-4 relative z-10">{title}</span>
+            </div>
+        )
+    }
+
     return (
         <article
             ref={articleRef}
@@ -27,15 +45,19 @@ const ArticleContent: React.FC<ArticleContentProps> = ({title, timeline, descrip
                 <h2 className="text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
                     <div
                         className="absolute -inset-x-4 -inset-y-6 z-0 scale-95 bg-zinc-50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 sm:-inset-x-6 sm:rounded-2xl dark:bg-zinc-800/50"></div>
-                    <a href={url} target={'_blank'}><span
-                        className="absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-2xl"></span>
-                        <img
-                            className="inline-block h-10 w-10 rounded-full"
-                            src={companyImage}
-                            alt={title}
-                        />
-                        <span className="ml-4 relative z-10">{title}</span>
-                    </a>
+                    {url && (
+                        <a aria-label={'company-url-' + title} href={url} target={'_blank'}>
+                        <span
+                            className="absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-2xl"></span>
+                            {companyPhotoInfo()}
+                        </a>
+                    ) || (
+                        <>
+                            <span
+                                className="absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-2xl"></span>
+                            {companyPhotoInfo()}
+                        </>
+                    )}
                 </h2>
                 <time
                     className="md:hidden relative z-10 order-first mb-3 flex items-center text-sm text-zinc-400 dark:text-zinc-500 pl-3.5"

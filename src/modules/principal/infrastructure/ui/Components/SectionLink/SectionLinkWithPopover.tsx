@@ -63,12 +63,12 @@ const SectionLinkWithPopover: React.FC<SectionLinkWithPopoverProps> = ({title, o
             )
             }
         >
-            <a className={'font-poppins text-white cursor-pointer hover:text-white/90'} onClick={
-                (event: MouseEvent<HTMLAnchorElement>) => {
+            <button aria-label={'button-options-talk'} className={'font-poppins text-white cursor-pointer hover:text-white/90'} onClick={
+                (event: MouseEvent<HTMLButtonElement>) => {
                     event.preventDefault();
                     setIsOpen(!isOpen)
                 }
-            }>{title}</a>
+            }>{title}</button>
         </Popover>
     )
 }

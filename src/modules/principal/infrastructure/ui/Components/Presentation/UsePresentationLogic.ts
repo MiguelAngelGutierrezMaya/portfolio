@@ -1,12 +1,24 @@
 //
 // React dependencies
 //
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 
-// @ts-ignore
-import Typewriter from 'typewriter-effect/dist/core';
+//
+// Hooks
+//
+import {useReduceMotion} from "../../../../../shared/infrastructure/hooks/useReduceMotion.ts";
+import {useIsServerSide} from "../../../../../shared/infrastructure/hooks/useIsServerSide.ts";
 
 export const usePresentationLogic = () => {
+    //
+    // Hooks
+    //
+    const intervalRef = useRef<number>();
+    const prefersReduceMotion = useReduceMotion();
+    const isServerSide = useIsServerSide();
+    const [keywordIndex, setKeywordIndex] = useState(0);
+    const [letterIndex, setLetterIndex] = useState(0);
+
     //
     // Constants
     //
@@ -14,34 +26,63 @@ export const usePresentationLogic = () => {
         'Experience leading and teaching small frontend teams to achieve business goals by developing scalable solutions, addressing business use cases and applying clean code techniques.\n' +
         'I am fully interested in mobile native development, constant growth, continuous learning and AI at the core in my work experience using development tools with generative AI and vendor services to address different use cases related to AI interactions and actions'
 
-    let typeWriter: Typewriter
+
+    const keywords = ['Frontend developer', 'Backend developer', 'Mobile developer'];
+    const title = `Full stack developer\n${
+        prefersReduceMotion ? keywords[keywordIndex] : keywords[keywordIndex].substring(0, letterIndex)
+    }`
+    const fullTitle: string = 'Full stack developer\nFrontend developer, Backend developer, Mobile developer'
 
     //
-    // Use hooks
+    // Hooks
     //
-    const pElement = useRef<HTMLParagraphElement>(null)
+    useEffect(() => {
+        intervalRef.current = window.setInterval(() => {
+            setLetterIndex((prev) => prev + 1);
+        }, 100);
+
+        return () => window.clearInterval(intervalRef.current);
+    }, [keywordIndex]);
 
     useEffect(() => {
-        if (pElement.current) {
-            typeWriter = new Typewriter(pElement.current, {
-                loop: false,
-                delay: 5
-            })
+        if (!prefersReduceMotion && letterIndex > keywords[keywordIndex].length) {
+            clearInterval(intervalRef.current);
+            setTimeout(() => {
+                setKeywordIndex((prev) => {
+                    if (prev + 1 === keywords.length) {
+                        return 0;
+                    }
 
-            typeWriter
-                .pauseFor(300)
-                .typeString(about)
-                .start();
+                    return prev + 1;
+                });
+                setLetterIndex(0);
+            }, 1000);
         }
+    }, [letterIndex, prefersReduceMotion]);
 
-        return () => {
-            if (typeWriter) {
-                typeWriter.stop()
-            }
+    useEffect(() => {
+        if (prefersReduceMotion) {
+            const interval = setInterval(() => {
+                setKeywordIndex((prev) => {
+                    if (prev + 1 === keywords.length) {
+                        return 0;
+                    }
+
+                    return prev + 1;
+                });
+            }, 2000);
+
+            return () => {
+                clearInterval(interval);
+            };
         }
-    }, []);
+    }, [prefersReduceMotion]);
 
     return {
-        pElement
+        about,
+        title,
+        fullTitle,
+        isServerSide,
+        keywords
     }
 }

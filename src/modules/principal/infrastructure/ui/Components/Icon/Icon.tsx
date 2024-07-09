@@ -24,7 +24,9 @@ const Icon: React.FC<IconProps> = (iconData: { [key: string]: any }) => {
     }
 
     return (
-        <a target={'_blank'} className={'animate-jump-in animate-duration-[350ms] cursor-pointer text-white hover:text-white/90'} href={iconData.url || '#'}>
+        <a aria-label={'social-link-' + iconData.icon} target={'_blank'}
+           className={'animate-jump-in animate-duration-[350ms] cursor-pointer text-white hover:text-white/90'}
+           href={iconData.url || '#'}>
             {getIcon()}
         </a>
     )

@@ -29,10 +29,12 @@ const Header: React.FC<HeaderProps> = () => {
     return (
         <header
             className="w-full h-48 md:h-32 lg:h-32 bg-dark-secondary px-4 py-4 flex flex-col md:flex-row lg:flex-row items-center gap-2">
-            <img
-                src={`${PUBLIC_FIREBASE_URL}/logo-simple.avif?alt=media&token=1bca8201-08d8-48d3-998d-2a6e5506b036`}
-                alt="Miguel Gutierrez"
-                className="w-48 h-12 rounded-sm shadow"/>
+            <figure className={'w-14 h-14'}>
+                <img
+                    src={`${PUBLIC_FIREBASE_URL}/logo.webp?alt=media&token=1edaded3-067f-4168-bf41-494052a21bae`}
+                    alt="Miguel Gutierrez"
+                    className="animate-fade w-full h-full object-contain rounded-sm shadow"/>
+            </figure>
 
             <section className={'md:ml-4 lg:ml-4 flex flex-col items-center gap-2'}>
                 <div className={'flex flex-row items-center gap-2'}>

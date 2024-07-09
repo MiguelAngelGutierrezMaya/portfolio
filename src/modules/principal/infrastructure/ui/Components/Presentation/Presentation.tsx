@@ -8,6 +8,11 @@ import React from 'react';
 //
 import {usePresentationLogic} from "./UsePresentationLogic.ts";
 
+//
+// Styles
+//
+import './Presentation.css'
+
 interface PresentationProps {
 }
 
@@ -17,25 +22,42 @@ const Presentation: React.FC<PresentationProps> = () => {
     //
     // Hooks
     //
-    const {pElement} = usePresentationLogic()
+    const {about, title, fullTitle, keywords, isServerSide} = usePresentationLogic()
 
     return (
         <div id={'presentation'}
-            className="w-full mt-6 mb-6 pl-6 pr-6">
+             className="w-full mt-6 mb-6 pl-6 pr-6">
             <div className="relative px-4 sm:px-8 lg:px-12">
                 <div className="mx-auto max-w-2xl lg:max-w-5xl">
                     <div className="max-w-2xl">
-                        <img
-                            className="inline-block h-14 w-14 rounded-full"
-                            src={`${PUBLIC_FIREBASE_URL}/imagen-perfil.avif?alt=media&token=11cecd35-452c-4563-a7ba-6aab44b4cf41`}
-                            alt="Avatar image"
-                        />
+                        <div className={'flex flex-row gap-4 items-center'}>
+                            <figure className={'h-14 w-14 bg-white rounded-full'}>
+                                <img
+                                    className="inline-block h-full w-full object-contain rounded-full"
+                                    src={`${PUBLIC_FIREBASE_URL}/imagen-perfil.avif?alt=media&token=11cecd35-452c-4563-a7ba-6aab44b4cf41`}
+                                    alt="Avatar image"
+                                />
+                            </figure>
+                            <h2 className={'font-bold text-4xl text-amber-300'}>MIGUEL GUTIERREZ</h2>
+                        </div>
                         <h1
                             id={'presentation-title'}
-                            className="mt-8 text-4xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
-                            Front end developer, Backend developer and Mobile developer
+                            className="heading h-28 mt-8 text-3xl font-bold tracking-tight text-zinc-800 sm:text-5xl dark:text-zinc-100">
+                            {isServerSide() ? (
+                                <>
+                                    <span aria-hidden="true">Full stack developer {keywords[0]}</span>
+                                    <span className="sronly">, {keywords[1]} y {keywords[2]}</span>
+                                </>
+                            ) : (
+                                <>
+                                    <span aria-hidden="true">{title}</span>
+                                    <span className="sronly">{fullTitle}</span>
+                                </>
+                            )}
                         </h1>
-                        <p ref={pElement} className="mt-6 text-base text-zinc-600 dark:text-zinc-400"></p>
+                        <p className="mt-6 text-justify text-base text-zinc-600 dark:text-zinc-400">
+                            {about}
+                        </p>
                     </div>
                 </div>
             </div>

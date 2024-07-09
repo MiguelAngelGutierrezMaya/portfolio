@@ -15,12 +15,12 @@ function classNames(...classes: string[]) {
 
 const SectionLink: React.FC<SectionLinkProps> = ({title, onClick, className}) => {
     return (
-        <a className={classNames('font-poppins cursor-pointer', className || '')} onClick={
-            (event: MouseEvent<HTMLAnchorElement>) => {
+        <button aria-label={title} className={classNames('font-poppins cursor-pointer', className || '')} onClick={
+            (event: MouseEvent<HTMLButtonElement>) => {
                 event.preventDefault();
                 onClick();
             }
-        }>{title}</a>
+        }>{title}</button>
     )
 }
 
