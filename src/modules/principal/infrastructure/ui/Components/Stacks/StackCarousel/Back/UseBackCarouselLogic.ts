@@ -11,6 +11,13 @@ export const useBackCarouselLogic = () => {
     //
     const items: Item[] = [
         {
+            title: "Node auth service",
+            description: "Node auth service is a learning project consisting of a microservice for managing user authentication and authorization.",
+            githubLink: "https://github.com/MiguelAngelGutierrezMaya/hex-architecture-node-js",
+            image: `${PUBLIC_FIREBASE_URL}/backend.webp?alt=media&token=0a631641-627a-4b30-ab78-de4d93ba6324`,
+            technologies: ["Node.js", "Express", "MongoDB", "Docker"]
+        },
+        {
             title: 'Keybe chat services',
             description: 'Keybe v6 is a microservices and event-driven architecture for managing different customer conversation channels.',
             githubLink: '',
