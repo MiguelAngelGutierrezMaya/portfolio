@@ -1,6 +1,5 @@
 export interface EmailTemplate {
     from_name: string,
-    email: string,
     to_name: string,
     message: string
 }

@@ -13,7 +13,7 @@ import {ToastUseCases} from "../../../../../shared/application/ToastUseCases.ts"
 //
 // Models
 //
-import type {DataToSendEmail} from "../../../../models/controllers/ContactController.ts";
+import type {DataToSendEmail, EmailTemplate} from "../../../../models/controllers/ContactController.ts";
 
 //
 // Controllers
@@ -92,16 +92,17 @@ export const useContactLogic = () => {
         const PUBLIC_EMAIL_TEMPLATE_ID = import.meta.env.PUBLIC_EMAIL_TEMPLATE_ID;
         const PUBLIC_EMAIL_USER_ID = import.meta.env.PUBLIC_EMAIL_USER_ID;
 
+        const emailTemplate: EmailTemplate = {
+            message: `${data.message.toString()} - ${data.email.toString()}`,
+            from_name: data.name.toString(),
+            to_name: 'Miguel Angel'
+        }
+
         const dataToSendEmail: DataToSendEmail = {
             service_id: PUBLIC_EMAIL_SERVICE_ID,
             template_id: PUBLIC_EMAIL_TEMPLATE_ID,
             user_id: PUBLIC_EMAIL_USER_ID,
-            template_params: {
-                email: data.email.toString(),
-                message: data.message.toString(),
-                from_name: data.name.toString(),
-                to_name: 'Miguel Angel'
-            }
+            template_params: emailTemplate
         }
 
         const isSended: boolean = await ContactUseCases.sendEmail(contactController, dataToSendEmail)
