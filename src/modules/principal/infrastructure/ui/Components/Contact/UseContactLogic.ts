@@ -93,8 +93,8 @@ export const useContactLogic = () => {
         const PUBLIC_EMAIL_USER_ID = import.meta.env.PUBLIC_EMAIL_USER_ID;
 
         const emailTemplate: EmailTemplate = {
-            message: `${data.message.toString()} - ${data.email.toString()}`,
-            from_name: data.name.toString(),
+            message: data.message.toString(),
+            from_name: `${data.name.toString()} - (${data.email.toString()})`,
             to_name: 'Miguel Angel'
         }
 
