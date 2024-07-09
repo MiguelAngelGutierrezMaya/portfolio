@@ -19,6 +19,7 @@ import Experiences from "../Components/Experiences/Experiences.tsx";
 import Contact from "../Components/Contact/Contact.tsx";
 import {ToastContainer} from "react-toastify";
 import Tools from "../Components/Tools/Tools.tsx";
+import Technologies from "../Components/Technologies/Technologies.tsx";
 
 interface PrincipalProps {
 }
@@ -32,6 +33,7 @@ const Principal: React.FC<PrincipalProps> = () => {
                         <Header/>
                         <Presentation/>
                         <Stacks/>
+                        <Technologies/>
                         <Experiences/>
                         <Tools/>
                         <Contact/>
