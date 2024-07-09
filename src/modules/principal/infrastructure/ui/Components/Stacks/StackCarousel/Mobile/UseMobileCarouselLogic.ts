@@ -23,6 +23,55 @@ export const useMobileCarouselLogic = () => {
             githubLink: "https://github.com/MiguelAngelGutierrezMaya/platzi-tweets",
             image: `${PUBLIC_FIREBASE_URL}/tweets.webp?alt=media&token=7c9f3ca5-3364-4fbe-b1dc-2ae7e36e64b0`,
             technologies: ["swift", "firebase"]
+        },
+        {
+            title: "Expense Tracker",
+            description: "Expense Tracker is a learning project consisting of a mobile application for managing expenses.",
+            githubLink: "https://github.com/MiguelAngelGutierrezMaya/ai-expense-tracker",
+            image: `${PUBLIC_FIREBASE_URL}/expense-tracker.webp?alt=media&token=f88d305b-27b5-42fd-8f65-ebe93e525e7d`,
+            technologies: ["swift", "swiftUI", "firebase"]
+        },
+        {
+            title: "Messager",
+            description: "Messager is a learning project consisting of a mobile application for messaging.",
+            githubLink: "https://github.com/MiguelAngelGutierrezMaya/Messager",
+            image: `${PUBLIC_FIREBASE_URL}/messenger.webp?alt=media&token=1120f9e4-1934-4cb8-ae09-dbfdd691d231`,
+            technologies: ["swift", "UIKit", "firebase"]
+        },
+        {
+            title: "Chat App",
+            description: "Chat App is a learning project consisting of a mobile application for messaging.",
+            githubLink: "https://github.com/MiguelAngelGutierrezMaya/ChatAppIOS",
+            image: `${PUBLIC_FIREBASE_URL}/chatapp.webp?alt=media&token=bc53cfd0-6dcc-4b06-8d35-996907d2f784`,
+            technologies: ["swift", "UIKit", "firebase"]
+        },
+        {
+            title: "Make it so",
+            description: "Make it so is a learning project consisting of a mobile application for managing tasks.",
+            githubLink: "https://github.com/MiguelAngelGutierrezMaya/make-it-so",
+            image: `${PUBLIC_FIREBASE_URL}/make-it-so.webp?alt=media&token=2f1e5d5c-1c7b-4d2b-8a4e-1e4a2b6b7f8b`,
+            technologies: ["swift", "swiftUI", "firebase"]
+        },
+        {
+            title: "Netflix UI",
+            description: "Netflix UI is a learning project consisting of a simple UI simulating netflix introduction and profile selection.",
+            githubLink: "https://github.com/MiguelAngelGutierrezMaya/netflix-ui",
+            image: `${PUBLIC_FIREBASE_URL}/netflix.webp?alt=media&token=586feff5-231f-4ff1-a8f9-6772966bc438`,
+            technologies: ["swift", "swiftUI"]
+        },
+        {
+            title: "Speech to text transcribing",
+            description: "Speech to text transcribing is a learning project consisting of a mobile application for transcribing speech to text simulating a meeting",
+            githubLink: "https://github.com/MiguelAngelGutierrezMaya/specch-to-text-transcribing",
+            image: `${PUBLIC_FIREBASE_URL}/transcribe-record.webp?alt=media&token=7239cfa1-8054-44fb-9e7e-de0fbc307248`,
+            technologies: ["swift", "swiftUI"]
+        },
+        {
+            title: "Rick and Morty",
+            description: "Rick and Morty is a learning project consisting of a mobile application for managing episodes and characters of the Rick and Morty' series.",
+            githubLink: "",
+            image: `${PUBLIC_FIREBASE_URL}/rick-and-morty.webp?alt=media&token=7c9f3ca5-3364-4fbe-b1dc-2ae7e36e64b0`,
+            technologies: ["swift", "UIKit"]
         }
     ]
 
