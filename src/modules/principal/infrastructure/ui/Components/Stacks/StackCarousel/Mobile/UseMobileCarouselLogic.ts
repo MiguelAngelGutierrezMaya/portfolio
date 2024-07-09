@@ -49,7 +49,7 @@ export const useMobileCarouselLogic = () => {
             title: "Make it so",
             description: "Make it so is a learning project consisting of a mobile application for managing tasks.",
             githubLink: "https://github.com/MiguelAngelGutierrezMaya/make-it-so",
-            image: `${PUBLIC_FIREBASE_URL}/make-it-so.webp?alt=media&token=2f1e5d5c-1c7b-4d2b-8a4e-1e4a2b6b7f8b`,
+            image: `${PUBLIC_FIREBASE_URL}/make-it-so.webp?alt=media&token=82980d74-8df3-405d-a1c5-74ae71f955b4`,
             technologies: ["swift", "swiftUI", "firebase"]
         },
         {
@@ -69,9 +69,9 @@ export const useMobileCarouselLogic = () => {
         {
             title: "Rick and Morty",
             description: "Rick and Morty is a learning project consisting of a mobile application for managing episodes and characters of the Rick and Morty' series.",
-            githubLink: "",
-            image: `${PUBLIC_FIREBASE_URL}/rick-and-morty.webp?alt=media&token=7c9f3ca5-3364-4fbe-b1dc-2ae7e36e64b0`,
-            technologies: ["swift", "UIKit"]
+            githubLink: "https://github.com/MiguelAngelGutierrezMaya/rick-and-morty",
+            image: `${PUBLIC_FIREBASE_URL}/rick-and-morty.webp?alt=media&token=cf817f63-47a7-4d2d-9f1b-35a9f3d26f7b`,
+            technologies: ["swift", "UIKit", "clean architecture"]
         }
     ]
 
