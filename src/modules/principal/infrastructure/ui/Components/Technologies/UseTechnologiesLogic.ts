@@ -39,52 +39,82 @@ export const useTechnologiesLogic = () => {
     useEffect(() => {
         if (isIntersecting) {
             const importImages = async () => {
-                const html: ImageMetadata = (await import ('./utils/assets/html.webp')).default
-                const css: ImageMetadata = (await import ('./utils/assets/css.webp')).default
                 const docker: ImageMetadata = (await import ('./utils/assets/docker.webp')).default
-                const figma: ImageMetadata = (await import ('./utils/assets/figma.webp')).default
                 const flutter: ImageMetadata = (await import ('./utils/assets/flutter.webp')).default
-                const git: ImageMetadata = (await import ('./utils/assets/git.webp')).default
-                const javascript: ImageMetadata = (await import ('./utils/assets/javascript.webp')).default
                 const kotlin: ImageMetadata = (await import ('./utils/assets/kotlin.webp')).default
+                const swift: ImageMetadata = (await import ('./utils/assets/swift.webp')).default
                 const mongodb: ImageMetadata = (await import ('./utils/assets/mongodb.webp')).default
+                const nodejs: ImageMetadata = (await import ('./utils/assets/nodejs.webp')).default
+                const postgresql: ImageMetadata = (await import ('./utils/assets/postgresql.webp')).default
+                const react: ImageMetadata = (await import ('./utils/assets/reactjs.webp')).default
+                const astro: ImageMetadata = (await import ('./utils/assets/astro.webp')).default
+                const angular: ImageMetadata = (await import ('./utils/assets/angular.webp')).default
+                const aws: ImageMetadata = (await import ('./utils/assets/aws.webp')).default
+                const vuejs: ImageMetadata = (await import ('./utils/assets/vuejs.webp')).default
+                const mysql: ImageMetadata = (await import ('./utils/assets/mysql.webp')).default
+                const php: ImageMetadata = (await import ('./utils/assets/php.webp')).default
+                const python: ImageMetadata = (await import ('./utils/assets/python.webp')).default
 
                 setTechnologies([
                     {
-                        name: 'HTML',
-                        icon: html
-                    },
-                    {
-                        name: 'CSS',
-                        icon: css
-                    },
-                    {
                         name: 'Docker',
                         icon: docker
-                    },
-                    {
-                        name: 'Figma',
-                        icon: figma
                     },
                     {
                         name: 'Flutter',
                         icon: flutter
                     },
                     {
-                        name: 'Git',
-                        icon: git
-                    },
-                    {
-                        name: 'JavaScript',
-                        icon: javascript
-                    },
-                    {
                         name: 'Kotlin',
                         icon: kotlin
                     },
                     {
+                        name: 'Swift',
+                        icon: swift
+                    },
+                    {
                         name: 'MongoDB',
                         icon: mongodb
+                    },
+                    {
+                        name: 'NodeJS',
+                        icon: nodejs
+                    },
+                    {
+                        name: 'PostgreSQL',
+                        icon: postgresql
+                    },
+                    {
+                        name: 'ReactJS',
+                        icon: react
+                    },
+                    {
+                        name: 'Astro',
+                        icon: astro
+                    },
+                    {
+                        name: 'Angular',
+                        icon: angular
+                    },
+                    {
+                        name: 'AWS',
+                        icon: aws
+                    },
+                    {
+                        name: 'VueJS',
+                        icon: vuejs
+                    },
+                    {
+                        name: 'MySQL',
+                        icon: mysql
+                    },
+                    {
+                        name: 'PHP',
+                        icon: php
+                    },
+                    {
+                        name: 'Python',
+                        icon: python
                     }
                 ])
             }

@@ -30,10 +30,10 @@ const Technologies: React.FC<TechnologiesProps> = () => {
                             Skills</h2>
                         <div ref={divRef}
                              className={`${isIntersecting && technologies.length > 0 ? 'animate-fade-right animate-ease-in' : ''} mt-2 flex flex-row flex-wrap w-full`}>
-                            {isIntersecting && technologies.length > 0 && technologies.map((el: Technology) => (
+                            {isIntersecting && technologies.length > 0 && technologies.map((el: Technology, index) => (
                                 <TechnologyComponent
                                     item={el}
-                                    key={el.name}
+                                    key={el.name + index}
                                 />
                             ))}
                         </div>
