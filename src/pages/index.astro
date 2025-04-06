@@ -1,0 +1,15 @@
+---
+//
+// Layouts
+//
+import Layout from '@layouts/Layout.astro';
+
+//
+// Components
+//
+import Principal from '@principal/infrastructure/ui/Principal/Principal';
+---
+
+<Layout title="Miguel Angel Gutierrez Maya">
+  <Principal client:only="react" />
+</Layout>
