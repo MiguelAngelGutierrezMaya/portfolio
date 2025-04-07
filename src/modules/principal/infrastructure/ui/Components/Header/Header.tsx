@@ -18,7 +18,7 @@ import { useHeaderLogic } from '@principal/infrastructure/ui/Components/Header/U
 // Use type Record<never, never> instead of empty interface
 type HeaderProps = Record<never, never>;
 
-const PUBLIC_FIREBASE_URL = import.meta.env.PUBLIC_FIREBASE_URL;
+const PUBLIC_STORAGE_URL = import.meta.env.PUBLIC_STORAGE_URL;
 
 const Header: React.FC<HeaderProps> = () => {
   //
@@ -30,7 +30,7 @@ const Header: React.FC<HeaderProps> = () => {
     <header className="w-full h-48 md:h-32 lg:h-32 bg-dark-secondary px-4 py-4 flex flex-col md:flex-row lg:flex-row items-center gap-2">
       <figure className={'w-14 h-14'}>
         <img
-          src={`${PUBLIC_FIREBASE_URL}/logo.webp?alt=media&token=1edaded3-067f-4168-bf41-494052a21bae`}
+          src={`${PUBLIC_STORAGE_URL}/header/logo.webp`}
           alt="Miguel Gutierrez"
           className="animate-fade w-full h-full object-contain rounded-sm shadow"
         />

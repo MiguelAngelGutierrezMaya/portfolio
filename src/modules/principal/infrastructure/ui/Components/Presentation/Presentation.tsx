@@ -16,7 +16,7 @@ import '@principal/infrastructure/ui/Components/Presentation/Presentation.css';
 // Use type Record<never, never> instead of empty interface
 type PresentationProps = Record<never, never>;
 
-const PUBLIC_FIREBASE_URL = import.meta.env.PUBLIC_FIREBASE_URL;
+const PUBLIC_STORAGE_URL = import.meta.env.PUBLIC_STORAGE_URL;
 
 const Presentation: React.FC<PresentationProps> = () => {
   //
@@ -32,8 +32,8 @@ const Presentation: React.FC<PresentationProps> = () => {
             <div className={'flex flex-row gap-4 items-center'}>
               <figure className={'h-14 w-14 bg-white rounded-full'}>
                 <img
-                  className="inline-block h-full w-full object-contain rounded-full"
-                  src={`${PUBLIC_FIREBASE_URL}/imagen-perfil.avif?alt=media&token=11cecd35-452c-4563-a7ba-6aab44b4cf41`}
+                  className="inline-block h-full w-full rounded-full"
+                  src={`${PUBLIC_STORAGE_URL}/header/imagen-perfil.avif`}
                   alt="Avatar image"
                 />
               </figure>
