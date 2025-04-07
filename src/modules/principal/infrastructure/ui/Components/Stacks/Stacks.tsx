@@ -51,7 +51,7 @@ const Stacks: React.FC<StacksProps> = () => {
   return (
     <div className="mt-16 w-full sm:mt-20 pl-8 pr-8">
       <div className="flex flex-col h-full justify-center gap-4 px-6 lg:px-8">
-        <h2 className="text-2xl lg:text-3xl py-4 font-bold">Stacks</h2>
+        <h2 className="text-2xl lg:text-3xl py-4 font-bold text-white">Stacks</h2>
         <div className="flex flex-row flex-wrap">
           <ul className="flex flex-wrap gap-2">
             <Element
