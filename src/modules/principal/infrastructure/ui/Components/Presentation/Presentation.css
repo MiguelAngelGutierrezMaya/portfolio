@@ -32,3 +32,11 @@
   clip: rect(1px, 1px, 1px, 1px);
   clip-path: inset(50%);
 }
+
+/* Add preload hint for largest contentful paint element */
+#presentation .about-text {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 8rem;
+  max-height: 8rem;
+  overflow-y: auto;
+}

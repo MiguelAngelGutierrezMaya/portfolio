@@ -35,8 +35,6 @@ const Presentation: React.FC<PresentationProps> = () => {
                   src={`${PUBLIC_STORAGE_URL}/header/imagen-perfil.avif`}
                   alt="Avatar image"
                   loading="eager"
-                  width={48}
-                  height={48}
                   className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover object-center"
                 />
               </div>
@@ -63,7 +61,7 @@ const Presentation: React.FC<PresentationProps> = () => {
                 </>
               )}
             </h1>
-            <p className="mt-6 text-base text-zinc-400">{about}</p>
+            <p className="mt-6 text-base text-zinc-400 about-text">{about}</p>
           </div>
         </div>
       </div>
