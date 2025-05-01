@@ -9,11 +9,6 @@ import React from 'react';
 import { usePresentationLogic } from '@principal/infrastructure/ui/Components/Presentation/UsePresentationLogic';
 
 //
-// Components
-//
-import OptimizedImage from '@/modules/principal/infrastructure/ui/Components/shared/OptimizedImage';
-
-//
 // Styles
 //
 import '@principal/infrastructure/ui/Components/Presentation/Presentation.css';
@@ -35,17 +30,17 @@ const Presentation: React.FC<PresentationProps> = () => {
         <div className="mx-auto max-w-2xl lg:max-w-5xl">
           <div className="max-w-2xl">
             <div className={'flex flex-row gap-4 items-center'}>
-              <figure className={'h-14 w-14 bg-white rounded-full'}>
-                <OptimizedImage
-                  className="inline-block h-full w-full rounded-full"
+              <div className="relative flex-shrink-0 overflow-hidden rounded-full ring-2 ring-amber-100 bg-gray-900">
+                <img
                   src={`${PUBLIC_STORAGE_URL}/header/imagen-perfil.avif`}
-                  width={56}
-                  height={56}
-                  loading="eager"
                   alt="Avatar image"
+                  loading="eager"
+                  width={48}
+                  height={48}
+                  className="w-12 h-12 sm:w-14 sm:h-14 rounded-full object-cover object-center"
                 />
-              </figure>
-              <h2 className={'font-bold text-4xl text-amber-300'}>MIGUEL GUTIERREZ</h2>
+              </div>
+              <h2 className={'font-bold text-3xl sm:text-4xl text-amber-300'}>MIGUEL GUTIERREZ</h2>
             </div>
             <h1
               id={'presentation-title'}
