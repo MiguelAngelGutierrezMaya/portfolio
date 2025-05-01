@@ -7,6 +7,9 @@ import path from 'path';
 export default defineConfig({
   integrations: [react(), tailwind()],
   vite: {
+    build: {
+      sourcemap: true,
+    },
     resolve: {
       alias: {
         '@': path.resolve('./src'),

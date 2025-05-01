@@ -9,6 +9,11 @@ import React from 'react';
 import { usePresentationLogic } from '@principal/infrastructure/ui/Components/Presentation/UsePresentationLogic';
 
 //
+// Components
+//
+import OptimizedImage from '@/modules/principal/infrastructure/ui/Components/shared/OptimizedImage';
+
+//
 // Styles
 //
 import '@principal/infrastructure/ui/Components/Presentation/Presentation.css';
@@ -31,9 +36,12 @@ const Presentation: React.FC<PresentationProps> = () => {
           <div className="max-w-2xl">
             <div className={'flex flex-row gap-4 items-center'}>
               <figure className={'h-14 w-14 bg-white rounded-full'}>
-                <img
+                <OptimizedImage
                   className="inline-block h-full w-full rounded-full"
                   src={`${PUBLIC_STORAGE_URL}/header/imagen-perfil.avif`}
+                  width={56}
+                  height={56}
+                  loading="eager"
                   alt="Avatar image"
                 />
               </figure>
