@@ -9,6 +9,11 @@ import React from 'react';
 import type { Item } from '@principal/models/Item';
 import { FaGithub } from 'react-icons/fa6';
 
+//
+// Components
+//
+import LazyImage from '@principal/infrastructure/ui/Components/shared/LazyImage';
+
 interface StackCarouselItemProps {
   item: Item;
 }
@@ -34,7 +39,7 @@ const StackCarouselItem: React.FC<StackCarouselItemProps> = ({ item }) => {
   return (
     <div className={'flex flex-col gap-4 p-4 ml-2 mr-2 rounded-2xl bg-dark-secondary'}>
       <section className={'relative w-full h-[230px] mb-4'}>
-        <img
+        <LazyImage
           src={item.image}
           alt={item.title}
           className={'w-full h-full object-cover rounded-2xl shadow'}
