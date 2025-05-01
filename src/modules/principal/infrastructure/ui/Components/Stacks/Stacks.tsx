@@ -55,19 +55,19 @@ const Stacks: React.FC<StacksProps> = () => {
         <div className="flex flex-row flex-wrap">
           <ul className="flex flex-wrap gap-2">
             <Element
-              className={'cursor-pointer group relative'}
+              className={'cursor-pointer group relative w-[250px]'}
               title={'Frontend developer'}
               icon={<FaCodepen className="text-white h-8 w-8" />}
               onClick={() => setCarousel(CarouselType.FRONT)}
             />
             <Element
-              className={'cursor-pointer group relative'}
+              className={'cursor-pointer group relative w-[250px]'}
               title={'Backend developer'}
               icon={<FaLaptopCode className="text-white h-8 w-8" />}
               onClick={() => setCarousel(CarouselType.BACK)}
             />
             <Element
-              className={'cursor-pointer group relative'}
+              className={'cursor-pointer group relative w-[250px]'}
               title={'Mobile developer'}
               icon={<FaMobile className="text-white h-8 w-8" />}
               onClick={() => setCarousel(CarouselType.MOBILE)}
