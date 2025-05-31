@@ -12,7 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 //
 // Components
 //
-import Header from '@principal/infrastructure/ui/Components/Header/Header';
+import Header from '@/modules/principal/infrastructure/ui/Components/Header/Header';
 import Presentation from '@principal/infrastructure/ui/Components/Presentation/Presentation';
 import Stacks from '@principal/infrastructure/ui/Components/Stacks/Stacks';
 import Experiences from '@principal/infrastructure/ui/Components/Experiences/Experiences';

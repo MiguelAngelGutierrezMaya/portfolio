@@ -10,7 +10,8 @@
       "@layouts/*": ["src/layouts/*"],
       "@pages/*": ["src/pages/*"],
       "@shared/*": ["src/modules/shared/*"],
-      "@principal/*": ["src/modules/principal/*"]
+      "@principal/*": ["src/modules/principal/*"],
+      "@privacy/*": ["src/modules/privacy/*"]
     }
   }
 }

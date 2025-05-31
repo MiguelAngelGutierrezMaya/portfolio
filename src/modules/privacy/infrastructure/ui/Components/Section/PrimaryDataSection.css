@@ -1,0 +1,20 @@
+/* Performance and LCP optimizations for PrimaryDataSection */
+.primary-data-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 16rem;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.5rem;
+  background-color: #18181b; /* zinc-900 */
+  border-radius: 0.5rem;
+  border: 1px solid #f1f5f9; /* zinc-100 */
+  box-shadow: none; /* Remove heavy shadow for LCP */
+}
+
+@media (max-width: 640px) {
+  .primary-data-section {
+    padding: 1rem;
+    contain-intrinsic-size: 0 20rem;
+  }
+} 

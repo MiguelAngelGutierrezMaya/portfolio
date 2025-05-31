@@ -1,0 +1,15 @@
+---
+//
+// Layout
+//
+import Layout from '@layouts/Layout.astro';
+
+//
+// React components
+//
+import Policies from '@privacy/infrastructure/ui/Policies/Policies';
+---
+
+<Layout title="Privacy Policy">
+  <Policies client:only="react" />
+</Layout>

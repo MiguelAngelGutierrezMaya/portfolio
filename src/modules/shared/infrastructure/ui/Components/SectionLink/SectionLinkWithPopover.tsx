@@ -6,13 +6,13 @@ import React, { type MouseEvent } from 'react';
 //
 // Components
 //
-import SectionLink from '@principal/infrastructure/ui/Components/SectionLink/SectionLink';
+import SectionLink from '@shared/infrastructure/ui/Components/SectionLink/SectionLink';
 import { ArrowContainer, Popover } from 'react-tiny-popover';
 
 //
 // Hooks
 //
-import { useSectionLinkWithPopoverLogic } from '@principal/infrastructure/ui/Components/SectionLink/UseSectionLinkWithPopoverLogic';
+import { useSectionLinkWithPopoverLogic } from '@shared/infrastructure/ui/Components/SectionLink/UseSectionLinkWithPopoverLogic';
 
 interface SectionLinkWithPopoverProps {
   title: string;
