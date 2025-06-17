@@ -8,7 +8,6 @@
   padding: 1.5rem;
   background-color: #18181b; /* zinc-900 */
   border-radius: 0.5rem;
-  border: 1px solid #f1f5f9; /* zinc-100 */
   box-shadow: none; /* Remove heavy shadow for LCP */
 }
 
