@@ -5,6 +5,8 @@ interface Props {
 
 const { title } = Astro.props as Props;
 
+const facebookVerification = (import.meta as unknown as { env: { PUBLIC_FACEBOOK_DOMAIN_VERIFICATION: string } }).env.PUBLIC_FACEBOOK_DOMAIN_VERIFICATION;
+
 import './reset.css';
 ---
 
@@ -19,6 +21,7 @@ import './reset.css';
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="facebook-domain-verification" content={facebookVerification} />
     <title>{title}</title>
   </head>
   <body>
