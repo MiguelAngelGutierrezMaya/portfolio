@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = () => {
   const { setScroll, openWhatsapp } = useHeaderLogic();
 
   return (
-    <header className="w-full h-72 md:h-32 lg:h-32 bg-dark-secondary px-4 py-4 flex flex-col md:flex-row lg:flex-row items-center gap-2">
+    <header className="w-full h-80 md:h-32 lg:h-32 bg-dark-secondary px-4 py-4 flex flex-col md:flex-row lg:flex-row items-center gap-2">
       <MainImage />
 
       <IconGroup />
@@ -52,6 +52,11 @@ const Header: React.FC<HeaderProps> = () => {
           className={'text-white hover:text-white/90'}
           title={'Privacy Policy'}
           onClick={() => navigate('/privacy')}
+        />
+        <SectionLink
+          className={'text-white hover:text-white/90'}
+          title={'Terms of Service'}
+          onClick={() => navigate('/terms')}
         />
       </div>
     </header>

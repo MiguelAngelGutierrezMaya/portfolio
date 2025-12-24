@@ -1,0 +1,20 @@
+/* Performance and LCP optimizations for UserRightsSection */
+.user-rights-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 20rem;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.5rem;
+  background-color: #18181b; /* zinc-900 */
+  border-radius: 0.5rem;
+  box-shadow: none;
+}
+
+@media (max-width: 640px) {
+  .user-rights-section {
+    padding: 1rem;
+    contain-intrinsic-size: 0 24rem;
+  }
+}
+

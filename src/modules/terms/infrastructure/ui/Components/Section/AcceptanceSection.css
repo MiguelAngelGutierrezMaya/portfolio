@@ -1,0 +1,20 @@
+/* Performance and LCP optimizations for AcceptanceSection */
+.acceptance-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 10rem;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.5rem;
+  background-color: #18181b; /* zinc-900 */
+  border-radius: 0.5rem;
+  box-shadow: none;
+}
+
+@media (max-width: 640px) {
+  .acceptance-section {
+    padding: 1rem;
+    contain-intrinsic-size: 0 12rem;
+  }
+}
+

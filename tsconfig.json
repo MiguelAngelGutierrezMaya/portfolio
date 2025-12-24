@@ -11,7 +11,8 @@
       "@pages/*": ["src/pages/*"],
       "@shared/*": ["src/modules/shared/*"],
       "@principal/*": ["src/modules/principal/*"],
-      "@privacy/*": ["src/modules/privacy/*"]
+      "@privacy/*": ["src/modules/privacy/*"],
+      "@terms/*": ["src/modules/terms/*"]
     }
   }
 }

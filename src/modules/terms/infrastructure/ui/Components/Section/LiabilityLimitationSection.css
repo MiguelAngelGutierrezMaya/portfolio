@@ -1,0 +1,20 @@
+/* Performance and LCP optimizations for LiabilityLimitationSection */
+.liability-limitation-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 16rem;
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1.5rem;
+  background-color: #18181b; /* zinc-900 */
+  border-radius: 0.5rem;
+  box-shadow: none;
+}
+
+@media (max-width: 640px) {
+  .liability-limitation-section {
+    padding: 1rem;
+    contain-intrinsic-size: 0 18rem;
+  }
+}
+
