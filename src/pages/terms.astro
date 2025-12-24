@@ -7,9 +7,9 @@ import Layout from '@layouts/Layout.astro';
 //
 // React components
 //
-import Terms from '@terms/infrastructure/ui/Terms/Terms';
+import TermsComponent from '@terms/infrastructure/ui/Terms/Terms';
 ---
 
 <Layout title="Terms of Service">
-  <Terms client:only="react" />
+  <TermsComponent client:only="react" />
 </Layout>

@@ -1,16 +1,24 @@
 //
 // React dependencies
 //
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 
 //
 // Components
 //
 import { FaCodepen, FaLaptopCode, FaMobile } from 'react-icons/fa6';
 import Element from '@principal/infrastructure/ui/Components/Stacks/Element';
-import FrontCarousel from '@principal/infrastructure/ui/Components/Stacks/StackCarousel/Front/FrontCarousel';
-import BackCarousel from '@principal/infrastructure/ui/Components/Stacks/StackCarousel/Back/BackCarousel';
-import MobileCarousel from '@principal/infrastructure/ui/Components/Stacks/StackCarousel/Mobile/MobileCarousel';
+
+// Lazy load carousels (they include react-responsive-carousel)
+const FrontCarousel = lazy(
+  () => import('@principal/infrastructure/ui/Components/Stacks/StackCarousel/Front/FrontCarousel')
+);
+const BackCarousel = lazy(
+  () => import('@principal/infrastructure/ui/Components/Stacks/StackCarousel/Back/BackCarousel')
+);
+const MobileCarousel = lazy(
+  () => import('@principal/infrastructure/ui/Components/Stacks/StackCarousel/Mobile/MobileCarousel')
+);
 
 //
 // Hooks
@@ -36,13 +44,25 @@ const Stacks: React.FC<StacksProps> = () => {
   //
   const stackSelectedComputed = (): React.JSX.Element => {
     if (stackSelected === CarouselType.FRONT) {
-      return <FrontCarousel />;
+      return (
+        <Suspense fallback={<div className="w-full min-h-[400px]" />}>
+          <FrontCarousel />
+        </Suspense>
+      );
     }
     if (stackSelected === CarouselType.BACK) {
-      return <BackCarousel />;
+      return (
+        <Suspense fallback={<div className="w-full min-h-[400px]" />}>
+          <BackCarousel />
+        </Suspense>
+      );
     }
     if (stackSelected === CarouselType.MOBILE) {
-      return <MobileCarousel />;
+      return (
+        <Suspense fallback={<div className="w-full min-h-[400px]" />}>
+          <MobileCarousel />
+        </Suspense>
+      );
     }
 
     return <></>;

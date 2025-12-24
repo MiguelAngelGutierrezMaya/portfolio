@@ -1,7 +1,7 @@
 //
 // React components
 //
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 
 //
 // Styles
@@ -14,12 +14,18 @@ import 'react-toastify/dist/ReactToastify.css';
 //
 import Header from '@/modules/principal/infrastructure/ui/Components/Header/Header';
 import Presentation from '@principal/infrastructure/ui/Components/Presentation/Presentation';
-import Stacks from '@principal/infrastructure/ui/Components/Stacks/Stacks';
-import Experiences from '@principal/infrastructure/ui/Components/Experiences/Experiences';
 import Contact from '@principal/infrastructure/ui/Components/Contact/Contact';
 import { ToastContainer } from 'react-toastify';
-import Tools from '@principal/infrastructure/ui/Components/Tools/Tools';
-import Technologies from '@principal/infrastructure/ui/Components/Technologies/Technologies';
+
+// Lazy load heavy components
+const Stacks = lazy(() => import('@principal/infrastructure/ui/Components/Stacks/Stacks'));
+const Technologies = lazy(
+  () => import('@principal/infrastructure/ui/Components/Technologies/Technologies')
+);
+const Experiences = lazy(
+  () => import('@principal/infrastructure/ui/Components/Experiences/Experiences')
+);
+const Tools = lazy(() => import('@principal/infrastructure/ui/Components/Tools/Tools'));
 
 // Use type Record<never, never> instead of empty interface
 type PrincipalProps = Record<never, never>;
@@ -32,10 +38,18 @@ const Principal: React.FC<PrincipalProps> = () => {
           <div className="w-full bg-zinc-900 ring-1 ring-zinc-100 ring-zinc-300/20 overflow-y-auto">
             <Header />
             <Presentation />
-            <Stacks />
-            <Technologies />
-            <Experiences />
-            <Tools />
+            <Suspense fallback={<div className="w-full min-h-[200px]" />}>
+              <Stacks />
+            </Suspense>
+            <Suspense fallback={<div className="w-full min-h-[400px]" />}>
+              <Technologies />
+            </Suspense>
+            <Suspense fallback={<div className="w-full min-h-[300px]" />}>
+              <Experiences />
+            </Suspense>
+            <Suspense fallback={<div className="w-full min-h-[100px]" />}>
+              <Tools />
+            </Suspense>
             <Contact />
           </div>
         </div>
