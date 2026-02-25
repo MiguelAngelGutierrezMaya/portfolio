@@ -26,7 +26,26 @@ import './reset.css';
   </head>
   <body>
     <slot />
+    <footer class="seo-footer">
+      <nav>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+      </nav>
+      <p>&copy; {new Date().getFullYear()} Miguel Angel Gutierrez Maya. All rights reserved.</p>
+    </footer>
   </body>
 </html>
-<!--<style is:global>
-</style>-->
+
+<style is:global>
+  .seo-footer {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
