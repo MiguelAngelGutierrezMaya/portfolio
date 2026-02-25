@@ -10,6 +10,7 @@ interface ImportMetaEnv {
   readonly PUBLIC_EMAIL_USER_ID: string;
   readonly PUBLIC_FIREBASE_URL: string;
   readonly PUBLIC_FACEBOOK_DOMAIN_VERIFICATION: string;
+  readonly PUBLIC_SITE_URL: string;
 }
 
 interface ImportMeta {

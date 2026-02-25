@@ -5,9 +5,12 @@ interface Props {
 
 const { title } = Astro.props as Props;
 
-const facebookVerification = (import.meta as unknown as { env: { PUBLIC_FACEBOOK_DOMAIN_VERIFICATION: string } }).env.PUBLIC_FACEBOOK_DOMAIN_VERIFICATION;
+const env = (import.meta as unknown as { env: Record<string, string> }).env;
+const facebookVerification = env.PUBLIC_FACEBOOK_DOMAIN_VERIFICATION;
+const siteUrl = env.PUBLIC_SITE_URL;
 
 import './reset.css';
+import './footer.css';
 ---
 
 <!doctype html>
@@ -28,35 +31,11 @@ import './reset.css';
     <slot />
     <footer class="site-footer">
       <nav>
-        <a href="https://migudev.com/privacy/">Privacy Policy</a>
+        <a href={`${siteUrl}/privacy/`}>Privacy Policy</a>
         <span class="footer-separator">·</span>
-        <a href="https://migudev.com/terms/">Terms of Service</a>
+        <a href={`${siteUrl}/terms/`}>Terms of Service</a>
       </nav>
       <p>&copy; {new Date().getFullYear()} Miguel Angel Gutierrez Maya</p>
     </footer>
   </body>
 </html>
-
-<style is:global>
-  .site-footer {
-    background-color: #020202;
-    padding: 12px 16px;
-    text-align: center;
-    font-size: 12px;
-    color: #666;
-  }
-  .site-footer nav {
-    margin-bottom: 4px;
-  }
-  .site-footer a {
-    color: #999;
-    text-decoration: none;
-  }
-  .site-footer a:hover {
-    color: #b81d33;
-  }
-  .footer-separator {
-    color: #444;
-    margin: 0 8px;
-  }
-</style>
