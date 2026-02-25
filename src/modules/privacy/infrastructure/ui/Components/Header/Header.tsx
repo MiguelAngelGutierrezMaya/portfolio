@@ -8,12 +8,6 @@ import React from 'react';
 //
 import MainImage from '@shared/infrastructure/ui/Components/MainImage/MainImage';
 import IconGroup from '@shared/infrastructure/ui/Components/Icon/IconGroup';
-import SectionLink from '@shared/infrastructure/ui/Components/SectionLink/SectionLink';
-
-//
-// Hooks
-//
-import { navigate } from 'astro:transitions/client';
 
 const Header: React.FC = () => {
   return (
@@ -23,11 +17,9 @@ const Header: React.FC = () => {
       <IconGroup />
 
       <div className={'md:ml-auto lg:ml-auto flex flex-row gap-4'}>
-        <SectionLink
-          className={'text-white hover:text-white/90'}
-          title={'Principal'}
-          onClick={() => navigate('/')}
-        />
+        <a className={'font-poppins cursor-pointer text-white hover:text-white/90'} href="/">
+          Principal
+        </a>
       </div>
     </header>
   );
