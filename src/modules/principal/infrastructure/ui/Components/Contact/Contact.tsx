@@ -17,7 +17,7 @@ const Contact: React.FC<ContactProps> = () => {
     <div
       id={'contact'}
       ref={divElement}
-      className={`${isIntersecting ? 'animate-fade-left' : ''} w-full mt-14 mb-6 pl-6 pr-6`}
+      className={`${isIntersecting ? 'animate-fade-left' : ''} w-full mt-14 mb-20 pl-6 pr-6`}
     >
       <div className="relative px-4 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-2xl lg:max-w-5xl">
