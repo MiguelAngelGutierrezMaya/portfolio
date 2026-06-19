@@ -20,7 +20,7 @@ export const useIconGroupLogic = () => {
     },
     {
       name: 'Instagram',
-      url: 'https://www.instagram.com/gutierrezmayamiguelangel/',
+      url: 'https://www.instagram.com/gutierrezmayamiguel/',
       icon: 'instagram',
     },
   ];
