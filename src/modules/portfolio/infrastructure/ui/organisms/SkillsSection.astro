@@ -1,0 +1,37 @@
+---
+import type { SkillGroup } from '@portfolio/domain/models/Portfolio';
+import SectionHeading from '@portfolio/infrastructure/ui/atoms/SectionHeading.astro';
+import SkillGroupCard from '@portfolio/infrastructure/ui/molecules/SkillGroupCard.astro';
+
+interface Props {
+  skillGroups: SkillGroup[];
+}
+
+const { skillGroups } = Astro.props;
+const marqueeSkills = skillGroups.flatMap(group => group.skills);
+---
+
+<section class="content-section skills-section" aria-labelledby="skills-title">
+  <div class="section-shell">
+    <SectionHeading
+      eyebrow="Technology"
+      title="Tools change. Strong engineering principles travel."
+      description="A broad toolkit applied with clean boundaries, measurable performance and maintainable delivery practices."
+    />
+  </div>
+  <div class="skills-marquee" aria-hidden="true">
+    <div class="skills-marquee__track">
+      {
+        [...marqueeSkills, ...marqueeSkills].map(skill => (
+          <span>
+            {skill}
+            <i />
+          </span>
+        ))
+      }
+    </div>
+  </div>
+  <div id="skills-title" class="skill-grid section-shell">
+    {skillGroups.map(group => <SkillGroupCard group={group} />)}
+  </div>
+</section>

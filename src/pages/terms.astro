@@ -1,15 +1,16 @@
 ---
-//
-// Layout
-//
 import Layout from '@layouts/Layout.astro';
+import { GetLegalDocument } from '@legal/application/use-cases/GetLegalDocument';
+import { StaticLegalRepository } from '@legal/infrastructure/repositories/StaticLegalRepository';
+import LegalPage from '@legal/infrastructure/ui/templates/LegalPage.astro';
 
-//
-// React components
-//
-import TermsComponent from '@terms/infrastructure/ui/Terms/Terms';
+const document = GetLegalDocument.execute(new StaticLegalRepository(), 'terms');
 ---
 
-<Layout title="Terms of Service">
-  <TermsComponent client:load />
+<Layout
+  title={`${document.title} — Miguel Gutierrez`}
+  description={document.description}
+  pathname="/terms/"
+>
+  <LegalPage document={document} />
 </Layout>

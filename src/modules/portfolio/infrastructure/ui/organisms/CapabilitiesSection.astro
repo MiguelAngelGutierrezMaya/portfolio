@@ -1,0 +1,32 @@
+---
+import CapabilityCard from '@portfolio/infrastructure/ui/molecules/CapabilityCard.astro';
+import SectionHeading from '@portfolio/infrastructure/ui/atoms/SectionHeading.astro';
+---
+
+<section class="content-section section-shell" aria-labelledby="capabilities-title">
+  <SectionHeading
+    eyebrow="What I bring"
+    title="One product mindset, across the entire stack."
+    description="I connect interaction design, software architecture and business context to ship experiences that are easier to use and maintain."
+  />
+  <div class="capability-grid" id="capabilities-title">
+    <CapabilityCard
+      index="01"
+      title="Product interfaces"
+      description="Accessible design systems and responsive product experiences with purposeful motion."
+      keywords={['React', 'Vue', 'Astro', 'TypeScript']}
+    />
+    <CapabilityCard
+      index="02"
+      title="Scalable services"
+      description="APIs and event-driven services designed around clear domain boundaries and real operations."
+      keywords={['Node.js', 'Python', 'AWS', 'Databases']}
+    />
+    <CapabilityCard
+      index="03"
+      title="Mobile products"
+      description="Native and cross-platform flows that turn complex processes into focused mobile experiences."
+      keywords={['Swift', 'SwiftUI', 'Flutter', 'Firebase']}
+    />
+  </div>
+</section>

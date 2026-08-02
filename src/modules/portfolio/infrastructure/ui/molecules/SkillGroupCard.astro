@@ -1,0 +1,19 @@
+---
+import type { SkillGroup } from '@portfolio/domain/models/Portfolio';
+
+interface Props {
+  group: SkillGroup;
+}
+
+const { group } = Astro.props;
+---
+
+<article class="skill-group reveal">
+  <div>
+    <h3>{group.title}</h3>
+    <p>{group.description}</p>
+  </div>
+  <ul aria-label={`${group.title} technologies`}>
+    {group.skills.map(skill => <li>{skill}</li>)}
+  </ul>
+</article>

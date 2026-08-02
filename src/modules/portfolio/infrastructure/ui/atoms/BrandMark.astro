@@ -1,0 +1,19 @@
+---
+interface Props {
+  compact?: boolean;
+}
+
+const { compact = false } = Astro.props;
+---
+
+<a class="brand" href="/" aria-label="Miguel Gutierrez — Home">
+  <span class="brand__mark" aria-hidden="true">MG</span>
+  {
+    !compact && (
+      <span class="brand__copy">
+        <strong>Miguel Gutierrez</strong>
+        <small>Fullstack product engineer</small>
+      </span>
+    )
+  }
+</a>

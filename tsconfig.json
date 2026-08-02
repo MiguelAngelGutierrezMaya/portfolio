@@ -1,18 +1,17 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
+    "baseUrl": ".",
     "jsx": "react-jsx",
     "jsxImportSource": "react",
-    "baseUrl": ".",
+    "noUncheckedIndexedAccess": true,
     "paths": {
       "@/*": ["src/*"],
-      "@modules/*": ["src/modules/*"],
+      "@contact/*": ["src/modules/contact/*"],
       "@layouts/*": ["src/layouts/*"],
-      "@pages/*": ["src/pages/*"],
-      "@shared/*": ["src/modules/shared/*"],
-      "@principal/*": ["src/modules/principal/*"],
-      "@privacy/*": ["src/modules/privacy/*"],
-      "@terms/*": ["src/modules/terms/*"]
+      "@legal/*": ["src/modules/legal/*"],
+      "@portfolio/*": ["src/modules/portfolio/*"],
+      "@styles/*": ["src/styles/*"]
     }
   }
 }

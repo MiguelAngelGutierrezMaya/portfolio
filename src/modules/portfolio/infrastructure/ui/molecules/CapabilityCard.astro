@@ -1,0 +1,21 @@
+---
+interface Props {
+  index: string;
+  title: string;
+  description: string;
+  keywords: string[];
+}
+
+const { index, title, description, keywords } = Astro.props;
+---
+
+<article class="capability-card reveal">
+  <span class="capability-card__index">{index}</span>
+  <div>
+    <h3>{title}</h3>
+    <p>{description}</p>
+  </div>
+  <ul aria-label={`${title} capabilities`}>
+    {keywords.map(keyword => <li>{keyword}</li>)}
+  </ul>
+</article>

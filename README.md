@@ -1,106 +1,65 @@
-# Personal Portfolio
+# Miguel Gutierrez — Portfolio
 
-A modern, responsive portfolio website built with Astro, React, Three.js, and TailwindCSS. This portfolio showcases my projects, skills, and professional experience with interactive 3D elements and smooth animations.
+A content-first personal portfolio built with Astro and focused React islands. The project combines hexagonal architecture for business boundaries with Atomic Design for scalable interface composition.
 
-## 🚀 Technologies
+## Stack
 
-- **[Astro](https://astro.build/)**: Core framework providing optimal performance
-- **[React](https://reactjs.org/)**: For interactive UI components
-- **[Three.js](https://threejs.org/)** & **[@react-three/fiber](https://github.com/pmndrs/react-three-fiber)**: For 3D visualizations
-- **[TailwindCSS](https://tailwindcss.com/)**: For styling
-- **[Framer Motion](https://www.framer.com/motion/)**: For animations
-- **[TypeScript](https://www.typescriptlang.org/)**: For type safety
+- Astro 7 for static rendering, routing and SEO
+- React 19 for the project explorer and contact form
+- Framer Motion for stateful project transitions
+- TypeScript with strict and unchecked-index validation
+- Plain CSS design tokens and component layers
+- Vitest for application-level tests
 
-## 📁 Project Structure
-
-This project follows a hexagonal architecture pattern:
+## Architecture
 
 ```text
-/
-├── public/                # Static assets
-├── src/
-│   ├── modules/
-│   │   ├── principal/     # Main portfolio features
-│   │   │   ├── models/    # Domain models
-│   │   │   └── infrastructure/
-│   │   │       └── ui/    # UI components
-│   │   └── shared/        # Shared code
-│   ├── pages/             # Astro pages
-│   ├── layouts/           # Layout components
-│   └── env.d.ts           # TypeScript environment declarations
-└── package.json
+src/
+├── layouts/                         # Shared document shell and metadata
+├── modules/
+│   ├── contact/
+│   │   ├── domain/                  # Contact models
+│   │   ├── application/             # Ports and use cases
+│   │   └── infrastructure/          # HTTP adapter and UI organism
+│   ├── legal/                       # Legal content port, repository and template
+│   └── portfolio/
+│       ├── domain/                  # Portfolio entities
+│       ├── application/             # Repository port and content use case
+│       └── infrastructure/
+│           ├── repositories/        # Static content adapter
+│           └── ui/                  # Atomic Design: atoms → templates
+├── pages/                           # Astro route composition
+└── styles/                          # Tokens, base, components and motion
 ```
 
-## 🛠️ Development Setup
+Astro renders the complete content to HTML. React hydrates only the project filtering/search experience and the contact form when they approach the viewport.
 
-### Prerequisites
+## Development
 
-- Node.js (v18 or later)
-- pnpm (v8 or later)
+```bash
+pnpm install
+pnpm dev
+```
 
-### Installation
+Copy `.env.example` to `.env` and provide the relevant public contact-service values.
 
-1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd portfolio
-   ```
+## Quality commands
 
-2. Install dependencies:
-   ```bash
-   pnpm install
-   ```
+```bash
+pnpm build
+pnpm lint
+pnpm format:check
+pnpm test
+pnpm audit --prod
+```
 
-3. Start the development server:
-   ```bash
-   pnpm dev
-   ```
-   This will start the server at `http://localhost:4321`
+## Routes
 
-## 📋 Available Commands
+- `/` — portfolio
+- `/privacy/` — privacy policy
+- `/terms/` — terms of use
+- `/robots.txt` and `/sitemap.xml` — crawl metadata
 
-| Command | Description |
-| :------ | :---------- |
-| `pnpm dev` | Start development server |
-| `pnpm build` | Build for production |
-| `pnpm preview` | Preview production build |
-| `pnpm lint` | Run ESLint |
-| `pnpm lint:fix` | Fix ESLint issues |
-| `pnpm format` | Format code with Prettier |
-| `pnpm check` | Check formatting |
-| `pnpm code:fix` | Run formatter and linter together |
+## License
 
-## 🚢 Deployment
-
-This site is optimized for deployment on various platforms that support static site hosting:
-
-1. Build the project:
-   ```bash
-   pnpm build
-   ```
-
-2. The output in the `dist/` directory can be deployed to platforms like:
-   - Netlify
-   - Vercel
-   - GitHub Pages
-   - AWS S3
-   - Any static web server
-
-## 📝 Code Quality
-
-This project follows strict code quality standards:
-- TypeScript for type safety
-- ESLint for code linting
-- Prettier for code formatting
-- Path aliases for clean imports
-
-For detailed information on code quality standards, see [CODE_QUALITY.md](./CODE_QUALITY.md).
-
-## 📫 Contact
-
-- **Name**: Miguel Angel Gutierrez
-- **Email**: gutierrezmayamiguelangel@gmail.com
-
-## 📄 License
-
-[MIT](LICENSE)
+MIT © Miguel Angel Gutierrez Maya

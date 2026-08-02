@@ -1,41 +1,110 @@
 ---
+import '@styles/tokens.css';
+import '@styles/base.css';
+import '@styles/components.css';
+import '@styles/animations.css';
+
 interface Props {
   title: string;
+  description: string;
+  pathname?: string;
 }
 
-const { title } = Astro.props as Props;
-
-const env = (import.meta as unknown as { env: Record<string, string> }).env;
-const facebookVerification = env.PUBLIC_FACEBOOK_DOMAIN_VERIFICATION;
-const siteUrl = env.PUBLIC_SITE_URL;
-
-import './reset.css';
-import './footer.css';
+const { title, description, pathname = Astro.url.pathname } = Astro.props;
+const configuredSite = import.meta.env.PUBLIC_SITE_URL;
+const siteUrl = configuredSite?.startsWith('http') ? configuredSite : Astro.url.origin;
+const canonicalUrl = new URL(pathname, siteUrl).toString();
+const socialImage = new URL('/og.png', siteUrl).toString();
+const facebookVerification = import.meta.env.PUBLIC_FACEBOOK_DOMAIN_VERIFICATION;
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Miguel Angel Gutierrez Maya',
+  url: siteUrl,
+  jobTitle: 'Fullstack Product Engineer',
+  email: 'mailto:gutierrezmayamiguelangel@gmail.com',
+  sameAs: [
+    'https://github.com/MiguelAngelGutierrezMaya',
+    'https://www.linkedin.com/in/miguel-gutierrez-maya-918461164/',
+    'https://x.com/MiguelA20878385',
+  ],
+};
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="description"
-      content="Portfolio, technologies programming languages, software development"
-    />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#07090d" />
+    <meta name="color-scheme" content="dark" />
+    {
+      facebookVerification && (
+        <meta name="facebook-domain-verification" content={facebookVerification} />
+      )
+    }
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="facebook-domain-verification" content={facebookVerification} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
     <title>{title}</title>
   </head>
   <body>
     <slot />
-    <footer class="site-footer">
-      <nav>
-        <a href={`${siteUrl}/privacy/`}>Privacy Policy</a>
-        <span class="footer-separator">·</span>
-        <a href={`${siteUrl}/terms/`}>Terms of Service</a>
-      </nav>
-      <p>&copy; {new Date().getFullYear()} Miguel Angel Gutierrez Maya</p>
-    </footer>
+    <script>
+      const header = document.querySelector<HTMLElement>('[data-site-header]');
+      const revealElements = document.querySelectorAll<HTMLElement>('.reveal');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const updateHeader = () => {
+        if (header) header.dataset.scrolled = String(window.scrollY > 24);
+      };
+
+      updateHeader();
+      window.addEventListener('scroll', updateHeader, { passive: true });
+
+      if (reduceMotion || !('IntersectionObserver' in window)) {
+        revealElements.forEach(element => element.classList.add('is-visible'));
+      } else {
+        const observer = new IntersectionObserver(
+          entries => {
+            entries.forEach(entry => {
+              if (!entry.isIntersecting) return;
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            });
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+        );
+        revealElements.forEach(element => observer.observe(element));
+      }
+
+      document.querySelectorAll<HTMLAnchorElement>('.mobile-nav a').forEach(link => {
+        link.addEventListener('click', () => link.closest('details')?.removeAttribute('open'));
+      });
+
+      if (window.matchMedia('(pointer: fine)').matches) {
+        window.addEventListener(
+          'pointermove',
+          event => {
+            document.body.style.setProperty('--pointer-x', `${event.clientX}px`);
+            document.body.style.setProperty('--pointer-y', `${event.clientY}px`);
+          },
+          { passive: true }
+        );
+      }
+    </script>
   </body>
 </html>

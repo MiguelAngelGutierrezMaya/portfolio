@@ -1,113 +1,32 @@
-# Code Quality Documentation
+# Engineering standards
 
-This document outlines the code quality standards and tools implemented in this project.
+## Architecture
 
-## Tools and Configuration
+Business-facing modules follow a small hexagonal boundary:
 
-### ESLint
+1. `domain` defines stable models.
+2. `application` owns ports and use cases.
+3. `infrastructure` supplies adapters, static repositories and UI.
+4. Astro routes compose dependencies at the application edge.
 
-ESLint is configured to enforce code quality standards across the project. The configuration includes:
+UI code follows Atomic Design inside `infrastructure/ui`: atoms, molecules, organisms and templates. Components move upward only when their responsibility grows; domain code never imports UI code.
 
-- TypeScript support via `@typescript-eslint`
-- React-specific rules via `eslint-plugin-react` and `eslint-plugin-react-hooks`
-- Accessibility rules via `eslint-plugin-jsx-a11y`
-- Astro-specific rules via `eslint-plugin-astro`
-- Integration with Prettier via `eslint-config-prettier` and `eslint-plugin-prettier`
+## Rendering
 
-### Prettier
+- Content must remain visible in generated HTML.
+- Use Astro by default and React only for stateful interaction.
+- Hydrate non-critical React islands with `client:visible`.
+- Respect `prefers-reduced-motion` and preserve keyboard navigation.
+- Keep externally hosted media optional; primary content must not depend on it.
 
-Prettier is configured to enforce consistent code formatting across the project. The configuration includes:
+## Validation
 
-- Single quotes
-- 2-space indentation
-- 100 character line length
-- Trailing commas in ES5 syntax
-- Specific configuration for Astro files via `prettier-plugin-astro`
+- `pnpm build` performs Astro and TypeScript checks before generation.
+- `pnpm lint` covers TypeScript, React and Astro.
+- `pnpm format:check` checks all supported source files.
+- `pnpm test` validates application use cases and curated content invariants.
+- `pnpm audit --prod` checks the production dependency graph.
 
-## Path Aliases
+## Content
 
-Path aliases have been configured to eliminate relative path imports and improve code maintainability:
-
-- `@/*` - Points to the `src` directory
-- `@modules/*` - Points to the `src/modules` directory
-- `@layouts/*` - Points to the `src/layouts` directory
-- `@pages/*` - Points to the `src/pages` directory
-- `@shared/*` - Points to the `src/modules/shared` directory
-- `@principal/*` - Points to the `src/modules/principal` directory
-
-Path aliases are configured in both `tsconfig.json` and `astro.config.mjs` to ensure consistent behavior.
-
-## Hexagonal Architecture
-
-The project follows a hexagonal architecture pattern, also known as ports and adapters:
-
-### Structure
-
-```
-src/
-└── modules/
-    ├── principal/
-    │   ├── models/              # Domain models and interfaces
-    │   ├── application/         # Use cases and business logic
-    │   └── infrastructure/      # Implementation details
-    │       ├── controllers/     # API controllers
-    │       ├── repositories/    # Data access
-    │       └── ui/              # UI components
-    └── shared/
-        ├── models/              # Shared domain models
-        ├── application/         # Shared use cases
-        └── infrastructure/      # Shared implementation details
-```
-
-### Principles
-
-1. **Domain-Driven Design**: Core business logic is isolated in the domain and application layers.
-2. **Dependency Inversion**: High-level modules don't depend on low-level modules.
-3. **Separation of Concerns**: Each component has a single responsibility.
-4. **Testability**: Business logic is easy to test in isolation.
-
-## Commands
-
-### Linting
-
-```bash
-# Run ESLint
-pnpm lint
-
-# Fix ESLint issues automatically
-pnpm lint:fix
-```
-
-### Formatting
-
-```bash
-# Format code with Prettier
-pnpm format
-
-# Check if code is properly formatted
-pnpm check
-```
-
-### Development
-
-```bash
-# Start development server
-pnpm dev
-
-# Build for production
-pnpm build
-
-# Preview production build
-pnpm preview
-```
-
-## Documentation Standards
-
-All functions, classes, and interfaces in the codebase are documented using JSDoc comments, which include:
-
-- A brief description of the purpose
-- Parameter descriptions with types
-- Return value descriptions
-- Author information where applicable
-
-This documentation provides better IDE support and makes the codebase more maintainable. 
+Portfolio data lives in the static repository adapter rather than UI components. New data sources can implement the same repository port without changing the domain model or presentation template.

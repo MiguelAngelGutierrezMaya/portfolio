@@ -1,0 +1,22 @@
+---
+import type { Project } from '@portfolio/domain/models/Portfolio';
+import SectionHeading from '@portfolio/infrastructure/ui/atoms/SectionHeading.astro';
+import ProjectExplorer from '@portfolio/infrastructure/ui/organisms/ProjectExplorer/ProjectExplorer';
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+---
+
+<section id="work" class="content-section section-shell" aria-labelledby="work-title">
+  <SectionHeading
+    eyebrow="Selected work"
+    title="Products built for conversations, operations and everyday decisions."
+    description="Explore professional products and hands-on studies across frontend, backend and mobile development."
+  />
+  <div id="work-title">
+    <ProjectExplorer projects={projects} client:visible />
+  </div>
+</section>

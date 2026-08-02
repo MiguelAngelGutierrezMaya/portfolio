@@ -1,0 +1,26 @@
+---
+import type { Experience } from '@portfolio/domain/models/Portfolio';
+import SectionHeading from '@portfolio/infrastructure/ui/atoms/SectionHeading.astro';
+import ExperienceItem from '@portfolio/infrastructure/ui/molecules/ExperienceItem.astro';
+
+interface Props {
+  experiences: Experience[];
+}
+
+const { experiences } = Astro.props;
+---
+
+<section id="experience" class="content-section section-shell" aria-labelledby="experience-title">
+  <SectionHeading
+    eyebrow="Experience"
+    title="A career built close to users, teams and production."
+    description="From operational software to AI-centered communication products, each role strengthened both delivery and technical leadership."
+  />
+  <div id="experience-title" class="experience-list">
+    {
+      experiences.map((experience, index) => (
+        <ExperienceItem experience={experience} index={index} />
+      ))
+    }
+  </div>
+</section>

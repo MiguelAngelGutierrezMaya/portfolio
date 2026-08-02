@@ -12,11 +12,13 @@ For optimal caching of S3 resources, using CloudFront (AWS's CDN) provides bette
 4. Configure the following settings:
 
 #### Origin Settings:
+
 - Origin Path: Leave empty or specify a subfolder
 - Origin Access: Choose "Origin access control settings" for secure access
 - OAC Settings: Create a new OAC
 
 #### Cache Behavior Settings:
+
 - Path Pattern: Default (*)
 - Compress Objects: Yes
 - Cache Policy: Create a new policy with:
@@ -39,12 +41,12 @@ After creating the distribution, CloudFront provides a bucket policy that you ne
 2. Click on the "Behaviors" tab
 3. Add behaviors with different cache settings for each file type:
 
-| Path Pattern | Cache TTL | Example |
-|--------------|-----------|---------|
-| *.jpg, *.png, *.gif, *.webp, *.avif | 1 year | Minimum TTL: 31536000 |
-| *.js, *.css | 1 week | Minimum TTL: 604800 |
-| *.html | 1 hour | Minimum TTL: 3600 |
-| *.ttf, *.woff, *.woff2 | 1 year | Minimum TTL: 31536000 |
+| Path Pattern                        | Cache TTL | Example               |
+| ----------------------------------- | --------- | --------------------- |
+| *.jpg, *.png, *.gif, *.webp, *.avif | 1 year    | Minimum TTL: 31536000 |
+| *.js, *.css                         | 1 week    | Minimum TTL: 604800   |
+| *.html                              | 1 hour    | Minimum TTL: 3600     |
+| *.ttf, *.woff, *.woff2              | 1 year    | Minimum TTL: 31536000 |
 
 ### 4. Update Your Website URLs
 
@@ -68,4 +70,4 @@ Replace your S3 URLs with CloudFront URLs in your code:
 - HTTPS support with free certificates
 - Edge computing capabilities
 - DDoS protection
-- Reduced S3 costs (for data transfer) 
+- Reduced S3 costs (for data transfer)

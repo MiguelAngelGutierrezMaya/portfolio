@@ -1,15 +1,16 @@
 ---
-//
-// Layout
-//
 import Layout from '@layouts/Layout.astro';
+import { GetPortfolioContent } from '@portfolio/application/use-cases/GetPortfolioContent';
+import { StaticPortfolioRepository } from '@portfolio/infrastructure/repositories/StaticPortfolioRepository';
+import PortfolioPage from '@portfolio/infrastructure/ui/templates/PortfolioPage.astro';
 
-//
-// React components
-//
-import Principal from '@principal/infrastructure/ui/Principal/Principal';
+const content = GetPortfolioContent.execute(new StaticPortfolioRepository());
 ---
 
-<Layout title="Miguel Angel Gutierrez Maya">
-  <Principal client:only="react" />
+<Layout
+  title="Miguel Gutierrez — Fullstack Product Engineer"
+  description="Fullstack product engineer building clear, fast and scalable web, backend and mobile experiences. Explore selected work, experience and capabilities."
+  pathname="/"
+>
+  <PortfolioPage content={content} />
 </Layout>

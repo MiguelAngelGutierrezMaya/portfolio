@@ -1,0 +1,28 @@
+---
+import type { Experience } from '@portfolio/domain/models/Portfolio';
+
+interface Props {
+  experience: Experience;
+  index: number;
+}
+
+const { experience, index } = Astro.props;
+---
+
+<article class="experience-item reveal">
+  <div class="experience-item__number">{String(index + 1).padStart(2, '0')}</div>
+  <div class="experience-item__role">
+    <h3>{experience.role}</h3>
+    {
+      experience.website ? (
+        <a href={experience.website} target="_blank" rel="noreferrer">
+          {experience.company} <span aria-hidden="true">↗</span>
+        </a>
+      ) : (
+        <span>{experience.company}</span>
+      )
+    }
+  </div>
+  <p>{experience.summary}</p>
+  <time datetime={`${experience.startDate}/${experience.endDate}`}>{experience.period}</time>
+</article>

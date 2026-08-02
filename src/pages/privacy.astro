@@ -1,15 +1,16 @@
 ---
-//
-// Layout
-//
 import Layout from '@layouts/Layout.astro';
+import { GetLegalDocument } from '@legal/application/use-cases/GetLegalDocument';
+import { StaticLegalRepository } from '@legal/infrastructure/repositories/StaticLegalRepository';
+import LegalPage from '@legal/infrastructure/ui/templates/LegalPage.astro';
 
-//
-// React components
-//
-import Policies from '@privacy/infrastructure/ui/Policies/Policies';
+const document = GetLegalDocument.execute(new StaticLegalRepository(), 'privacy');
 ---
 
-<Layout title="Privacy Policy">
-  <Policies client:load />
+<Layout
+  title={`${document.title} — Miguel Gutierrez`}
+  description={document.description}
+  pathname="/privacy/"
+>
+  <LegalPage document={document} />
 </Layout>

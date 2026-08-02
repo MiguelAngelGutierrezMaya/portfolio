@@ -1,0 +1,29 @@
+---
+import type { PortfolioContent } from '@portfolio/domain/models/Portfolio';
+import CapabilitiesSection from '@portfolio/infrastructure/ui/organisms/CapabilitiesSection.astro';
+import ContactSection from '@portfolio/infrastructure/ui/organisms/ContactSection.astro';
+import ExperienceSection from '@portfolio/infrastructure/ui/organisms/ExperienceSection.astro';
+import HeroSection from '@portfolio/infrastructure/ui/organisms/HeroSection.astro';
+import LiquidHeader from '@portfolio/infrastructure/ui/organisms/LiquidHeader.astro';
+import ProjectsSection from '@portfolio/infrastructure/ui/organisms/ProjectsSection.astro';
+import SiteFooter from '@portfolio/infrastructure/ui/organisms/SiteFooter.astro';
+import SkillsSection from '@portfolio/infrastructure/ui/organisms/SkillsSection.astro';
+
+interface Props {
+  content: PortfolioContent;
+}
+
+const { content } = Astro.props;
+---
+
+<a class="skip-link" href="#main-content">Skip to content</a>
+<LiquidHeader />
+<main id="main-content">
+  <HeroSection />
+  <CapabilitiesSection />
+  <ProjectsSection projects={content.projects} />
+  <ExperienceSection experiences={content.experiences} />
+  <SkillsSection skillGroups={content.skillGroups} />
+  <ContactSection />
+</main>
+<SiteFooter />

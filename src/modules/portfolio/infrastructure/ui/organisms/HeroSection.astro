@@ -1,0 +1,44 @@
+---
+import ButtonLink from '@portfolio/infrastructure/ui/atoms/ButtonLink.astro';
+import Metric from '@portfolio/infrastructure/ui/molecules/Metric.astro';
+import SocialLinks from '@portfolio/infrastructure/ui/molecules/SocialLinks.astro';
+---
+
+<section id="about" class="hero section-shell" aria-labelledby="hero-title">
+  <div class="hero__ambient" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="hero__copy">
+    <span class="eyebrow hero__eyebrow"
+      ><span aria-hidden="true"></span>Medellín, Colombia · Working globally</span
+    >
+    <h1 id="hero-title">
+      I build digital products that feel
+      <span class="hero__accent">clear, fast and human.</span>
+    </h1>
+    <p>
+      Fullstack product engineer with 5+ years shaping web, backend and mobile experiences — from
+      thoughtful interfaces to scalable event-driven services.
+    </p>
+    <div class="hero__actions">
+      <ButtonLink href="#work" label="Explore selected work" />
+      <ButtonLink href="#contact" label="Start a conversation" variant="secondary" />
+    </div>
+  </div>
+
+  <div class="hero__side">
+    <div class="hero-orbit glass-panel" aria-hidden="true">
+      <span class="hero-orbit__core">MG</span>
+      <span class="hero-orbit__ring hero-orbit__ring--one"></span>
+      <span class="hero-orbit__ring hero-orbit__ring--two"></span>
+      <span class="hero-orbit__dot hero-orbit__dot--one"></span>
+      <span class="hero-orbit__dot hero-orbit__dot--two"></span>
+    </div>
+    <SocialLinks />
+  </div>
+
+  <div class="hero__metrics glass-panel reveal">
+    <Metric value="23" label="Products & learning projects" />
+    <Metric value="15+" label="Technologies across the stack" />
+    <Metric value="5+" label="Years delivering software" />
+    <Metric value="B2" label="Professional English" />
+  </div>
+</section>

@@ -1,0 +1,26 @@
+:root {
+  --color-bg: #07090d;
+  --color-bg-soft: #0d1016;
+  --color-surface: rgb(255 255 255 / 4%);
+  --color-surface-strong: rgb(255 255 255 / 9%);
+  --color-line: rgb(255 255 255 / 11%);
+  --color-line-strong: rgb(255 255 255 / 18%);
+  --color-text-strong: #f6f8fb;
+  --color-text: #d8dce5;
+  --color-text-muted: #9ca4b4;
+  --color-text-subtle: #707889;
+  --color-accent: #75dcff;
+  --color-accent-secondary: #bcb0ff;
+  --color-success: #78e0b6;
+  --font-sans:
+    Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI',
+    sans-serif;
+  --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  --radius-small: 0.8rem;
+  --radius-panel: 1.4rem;
+  --radius-card: 1.75rem;
+  --shadow-elevated: 0 26px 80px rgb(0 0 0 / 38%);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --page-gutter: clamp(1rem, 4vw, 3.5rem);
+  --page-width: 76rem;
+}

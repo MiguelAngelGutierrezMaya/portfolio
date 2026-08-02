@@ -1,0 +1,147 @@
+---
+import type { LegalDocument } from '@legal/domain/models/LegalDocument';
+import BrandMark from '@portfolio/infrastructure/ui/atoms/BrandMark.astro';
+import SiteFooter from '@portfolio/infrastructure/ui/organisms/SiteFooter.astro';
+
+interface Props {
+  document: LegalDocument;
+}
+
+const { document } = Astro.props;
+---
+
+<a class="skip-link" href="#legal-content">Skip to content</a>
+<header class="legal-header section-shell">
+  <BrandMark />
+  <a href="/">Back to portfolio <span aria-hidden="true">↗</span></a>
+</header>
+
+<main id="legal-content" class="legal-page section-shell">
+  <header class="legal-hero">
+    <span class="eyebrow"><span aria-hidden="true"></span>Legal</span>
+    <h1>{document.title}</h1>
+    <p>{document.introduction}</p>
+    <time datetime="2026-08-02">Last updated {document.lastUpdated}</time>
+  </header>
+
+  <div class="legal-sections">
+    {
+      document.sections.map((section, index) => (
+        <section class="legal-section reveal">
+          <span>{String(index + 1).padStart(2, '0')}</span>
+          <div>
+            <h2>{section.title}</h2>
+            {section.paragraphs.map(paragraph => (
+              <p>{paragraph}</p>
+            ))}
+            {section.items && (
+              <ul>
+                {section.items.map(item => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </section>
+      ))
+    }
+  </div>
+</main>
+<SiteFooter />
+
+<style>
+  .legal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.4rem;
+  }
+
+  .legal-header > a {
+    color: var(--color-text-muted);
+    font-size: 0.76rem;
+    text-decoration: none;
+  }
+
+  .legal-page {
+    padding-top: clamp(6rem, 12vw, 10rem);
+    padding-bottom: 5rem;
+  }
+
+  .legal-hero {
+    display: grid;
+    gap: 1.2rem;
+    max-width: 52rem;
+  }
+
+  .legal-hero h1 {
+    margin: 0;
+    color: var(--color-text-strong);
+    font-size: clamp(3.2rem, 8vw, 7rem);
+    font-weight: 560;
+    letter-spacing: -0.075em;
+    line-height: 0.95;
+  }
+
+  .legal-hero p {
+    max-width: 44rem;
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: clamp(1rem, 1.7vw, 1.18rem);
+    line-height: 1.7;
+  }
+
+  .legal-hero time {
+    color: var(--color-text-subtle);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+  }
+
+  .legal-sections {
+    margin-top: 5rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .legal-section {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 0.45fr 2fr;
+    border-bottom: 1px solid var(--color-line);
+    padding-block: 2rem;
+  }
+
+  .legal-section > span {
+    color: var(--color-text-subtle);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+  }
+
+  .legal-section h2 {
+    margin: 0 0 1rem;
+    color: var(--color-text-strong);
+    font-size: clamp(1.45rem, 2.5vw, 2rem);
+    letter-spacing: -0.04em;
+  }
+
+  .legal-section p,
+  .legal-section li {
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+    line-height: 1.75;
+  }
+
+  .legal-section p {
+    margin: 0 0 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .legal-header .brand__copy {
+      display: none;
+    }
+
+    .legal-section {
+      gap: 0.8rem;
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

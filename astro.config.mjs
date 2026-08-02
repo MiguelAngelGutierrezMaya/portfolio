@@ -1,24 +1,28 @@
-import { defineConfig } from 'astro/config';
-import react from "@astrojs/react";
-import tailwind from "@astrojs/tailwind";
-import path from 'path';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-// https://astro.build/config
+import react from '@astrojs/react';
+import { defineConfig } from 'astro/config';
+
+const projectRoot = path.dirname(fileURLToPath(import.meta.url));
+
 export default defineConfig({
-  integrations: [react(), tailwind()],
+  integrations: [react()],
+  output: 'static',
+  compressHTML: true,
   vite: {
     build: {
-      sourcemap: true,
+      sourcemap: false,
     },
     resolve: {
       alias: {
-        '@': path.resolve('./src'),
-        '@modules': path.resolve('./src/modules'),
-        '@layouts': path.resolve('./src/layouts'),
-        '@pages': path.resolve('./src/pages'),
-        '@shared': path.resolve('./src/modules/shared'),
-        '@principal': path.resolve('./src/modules/principal')
-      }
-    }
-  }
+        '@': path.resolve(projectRoot, 'src'),
+        '@contact': path.resolve(projectRoot, 'src/modules/contact'),
+        '@layouts': path.resolve(projectRoot, 'src/layouts'),
+        '@legal': path.resolve(projectRoot, 'src/modules/legal'),
+        '@portfolio': path.resolve(projectRoot, 'src/modules/portfolio'),
+        '@styles': path.resolve(projectRoot, 'src/styles'),
+      },
+    },
+  },
 });

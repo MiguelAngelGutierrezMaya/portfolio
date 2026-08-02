@@ -1,0 +1,28 @@
+---
+import BrandMark from '@portfolio/infrastructure/ui/atoms/BrandMark.astro';
+---
+
+<header class="site-header" data-site-header>
+  <div class="site-header__glass">
+    <BrandMark />
+    <nav class="desktop-nav" aria-label="Primary navigation">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="availability" href="#contact">
+      <span aria-hidden="true"></span>
+      Available for opportunities
+    </a>
+    <details class="mobile-nav">
+      <summary aria-label="Open navigation"><span></span><span></span></summary>
+      <nav aria-label="Mobile navigation">
+        <a href="#about">About</a>
+        <a href="#work">Work</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </details>
+  </div>
+</header>
