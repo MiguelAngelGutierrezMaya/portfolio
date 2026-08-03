@@ -13,6 +13,7 @@ const signerFunction = process.env.CONTENT_SIGNER_FUNCTION;
 const manifestKey = process.env.CONTENT_MANIFEST_KEY ?? 'content/manifest.json';
 const syncRequired = process.env.CONTENT_SYNC_REQUIRED === 'true';
 const urlLifetimeSeconds = 300;
+let awsCliMajorPromise;
 
 const managedFiles = {
   portfolio: {
@@ -51,14 +52,23 @@ async function createPresignedUrl(key) {
   const responseFile = path.join(tmpdir(), `migudev-presign-${randomUUID()}.json`);
 
   try {
-    const encodedPayload = Buffer.from(JSON.stringify({ key })).toString('base64');
+    awsCliMajorPromise ??= execFileAsync('aws', ['--version']).then(({ stdout, stderr }) => {
+      const match = `${stdout} ${stderr}`.match(/aws-cli\/(\d+)\./);
+      if (!match) throw new Error('Unable to determine the AWS CLI major version');
+      return Number(match[1]);
+    });
+    const awsCliMajor = await awsCliMajorPromise;
+    const rawPayload = JSON.stringify({ key });
+    const payloadArguments =
+      awsCliMajor >= 2
+        ? ['--payload', rawPayload, '--cli-binary-format', 'raw-in-base64-out']
+        : ['--payload', rawPayload];
     const { stdout } = await execFileAsync('aws', [
       'lambda',
       'invoke',
       '--function-name',
       signerFunction,
-      '--payload',
-      encodedPayload,
+      ...payloadArguments,
       '--region',
       region,
       responseFile,
