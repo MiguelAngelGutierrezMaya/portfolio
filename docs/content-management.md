@@ -10,6 +10,7 @@ resulting Amplify CDN files; AWS credentials and S3 URLs never reach the browser
 - CloudFormation stack: `migudev-portfolio-content`
 - Region: `us-east-2`
 - Bucket: `migudev-portfolio-content-108703089452-us-east-2`
+- Amplify build region variable: `CONTENT_REGION=us-east-2`
 - Manifest: `content/manifest.json`
 - Editorial document: `content/portfolio.json`
 - Brand media: `media/brand/`
