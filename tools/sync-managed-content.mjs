@@ -51,15 +51,14 @@ async function createPresignedUrl(key) {
   const responseFile = path.join(tmpdir(), `migudev-presign-${randomUUID()}.json`);
 
   try {
+    const encodedPayload = Buffer.from(JSON.stringify({ key })).toString('base64');
     const { stdout } = await execFileAsync('aws', [
       'lambda',
       'invoke',
       '--function-name',
       signerFunction,
       '--payload',
-      JSON.stringify({ key }),
-      '--cli-binary-format',
-      'raw-in-base64-out',
+      encodedPayload,
       '--region',
       region,
       responseFile,
