@@ -1,9 +1,10 @@
 # Managed portfolio content
 
 Production content is built from a private S3 bucket. Amplify assumes a short-lived, app-scoped IAM
-role during each build, creates five-minute presigned downloads, verifies every managed file with
-SHA-256 and then lets Astro generate static HTML and optimized assets. Visitors receive only the
-resulting Amplify CDN files; AWS credentials and S3 URLs never reach the browser.
+role during each build and invokes a private Lambda that creates five-minute presigned downloads for
+allowlisted keys. The build verifies every managed file with SHA-256 and then lets Astro generate
+static HTML and optimized assets. Visitors receive only the resulting Amplify CDN files; AWS
+credentials and S3 URLs never reach the browser.
 
 ## Resources
 
@@ -11,6 +12,7 @@ resulting Amplify CDN files; AWS credentials and S3 URLs never reach the browser
 - Region: `us-east-2`
 - Bucket: `migudev-portfolio-content-108703089452-us-east-2`
 - Amplify build region variable: `CONTENT_REGION=us-east-2`
+- Private signer: `migudev-portfolio-content-presigner`
 - Manifest: `content/manifest.json`
 - Editorial document: `content/portfolio.json`
 - Brand media: `media/brand/`
@@ -20,7 +22,8 @@ resulting Amplify CDN files; AWS credentials and S3 URLs never reach the browser
 The stack in `infra/content-store.yaml` is the source of truth. It enables S3 Block Public Access,
 Bucket Owner Enforced ownership, versioning, KMS encryption with annual key rotation, S3 Bucket Key,
 TLS-only access and no CORS policy. The IAM trust is restricted to the production account and this
-specific Amplify app.
+specific Amplify app. The Amplify role can only invoke the signer; only the signer execution role can
+read the managed S3 prefixes and decrypt those objects.
 
 ## Editorial contract
 

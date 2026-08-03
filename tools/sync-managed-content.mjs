@@ -1,6 +1,7 @@
 import { execFile } from 'node:child_process';
-import { createHash } from 'node:crypto';
-import { mkdir, rename, rm, writeFile } from 'node:fs/promises';
+import { createHash, randomUUID } from 'node:crypto';
+import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { promisify } from 'node:util';
 
@@ -8,6 +9,7 @@ const execFileAsync = promisify(execFile);
 const projectRoot = path.resolve(import.meta.dirname, '..');
 const bucket = process.env.CONTENT_BUCKET;
 const region = process.env.CONTENT_REGION;
+const signerFunction = process.env.CONTENT_SIGNER_FUNCTION;
 const manifestKey = process.env.CONTENT_MANIFEST_KEY ?? 'content/manifest.json';
 const syncRequired = process.env.CONTENT_SYNC_REQUIRED === 'true';
 const urlLifetimeSeconds = 300;
@@ -46,17 +48,43 @@ function assertManagedKey(key, prefix, label) {
 }
 
 async function createPresignedUrl(key) {
-  const { stdout } = await execFileAsync('aws', [
-    's3',
-    'presign',
-    `s3://${bucket}/${key}`,
-    '--expires-in',
-    String(urlLifetimeSeconds),
-    '--region',
-    region,
-  ]);
+  const responseFile = path.join(tmpdir(), `migudev-presign-${randomUUID()}.json`);
 
-  return stdout.trim();
+  try {
+    const { stdout } = await execFileAsync('aws', [
+      'lambda',
+      'invoke',
+      '--function-name',
+      signerFunction,
+      '--payload',
+      JSON.stringify({ key }),
+      '--cli-binary-format',
+      'raw-in-base64-out',
+      '--region',
+      region,
+      responseFile,
+    ]);
+    const invocation = JSON.parse(stdout);
+    if (invocation.FunctionError) throw new Error(`Content signer failed for ${key}`);
+
+    const payload = JSON.parse(await readFile(responseFile, 'utf8'));
+    if (payload.expiresIn !== urlLifetimeSeconds || typeof payload.url !== 'string') {
+      throw new Error(`Content signer returned an invalid response for ${key}`);
+    }
+
+    const signedUrl = new URL(payload.url);
+    const allowedHosts = new Set([
+      `${bucket}.s3.${region}.amazonaws.com`,
+      `${bucket}.s3.amazonaws.com`,
+    ]);
+    if (signedUrl.protocol !== 'https:' || !allowedHosts.has(signedUrl.hostname)) {
+      throw new Error(`Content signer returned an unexpected host for ${key}`);
+    }
+
+    return signedUrl.toString();
+  } finally {
+    await rm(responseFile, { force: true });
+  }
 }
 
 function assertDescriptor(descriptor, label) {
@@ -132,6 +160,10 @@ if (!bucket) {
 
 if (!region) {
   throw new Error('CONTENT_REGION is required when CONTENT_BUCKET is configured');
+}
+
+if (!signerFunction) {
+  throw new Error('CONTENT_SIGNER_FUNCTION is required when CONTENT_BUCKET is configured');
 }
 
 assertManagedKey(manifestKey, 'content/', 'CONTENT_MANIFEST_KEY');

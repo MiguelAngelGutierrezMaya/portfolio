@@ -124,19 +124,34 @@ Resources:
               StringEquals:
                 aws:SourceAccount: !Ref AWS::AccountId
       Policies:
-        - PolicyName: ReadVersionedPortfolioContent
+        - PolicyName: RequestPortfolioContentDownloads
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
-              - Sid: ListManagedPrefixes
+              - Sid: InvokePrivateContentPresigner
                 Effect: Allow
-                Action: s3:ListBucket
-                Resource: !GetAtt ContentBucket.Arn
-                Condition:
-                  StringLike:
-                    s3:prefix:
-                      - content/*
-                      - media/*
+                Action: lambda:InvokeFunction
+                Resource: !GetAtt ContentPresigner.Arn
+      Tags:
+        - Key: Project
+          Value: migudev-portfolio
+
+  ContentPresignerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: MigudevPortfolioContentPresignerRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: PresignVersionedPortfolioContent
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
               - Sid: ReadManagedObjects
                 Effect: Allow
                 Action:
@@ -147,15 +162,84 @@ Resources:
                   - !Sub ${ContentBucket.Arn}/media/*
               - Sid: DecryptManagedObjects
                 Effect: Allow
-                Action:
-                  - kms:Decrypt
-                  - kms:DescribeKey
+                Action: kms:Decrypt
                 Resource: !GetAtt ContentKey.Arn
                 Condition:
                   StringEquals:
                     kms:ViaService: !Sub s3.${AWS::Region}.${AWS::URLSuffix}
                   StringLike:
-                    kms:EncryptionContext:aws:s3:arn: !Sub ${ContentBucket.Arn}/*
+                    kms:EncryptionContext:aws:s3:arn:
+                      - !GetAtt ContentBucket.Arn
+                      - !Sub ${ContentBucket.Arn}/*
+              - Sid: CreateLogGroup
+                Effect: Allow
+                Action: logs:CreateLogGroup
+                Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:*
+              - Sid: WriteFunctionLogs
+                Effect: Allow
+                Action:
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/migudev-portfolio-content-presigner:*
+      Tags:
+        - Key: Project
+          Value: migudev-portfolio
+
+  ContentPresigner:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: migudev-portfolio-content-presigner
+      Description: Creates five-minute downloads for allowlisted private portfolio content.
+      Architectures:
+        - arm64
+      Runtime: python3.13
+      Handler: index.handler
+      MemorySize: 128
+      Timeout: 10
+      Role: !GetAtt ContentPresignerRole.Arn
+      Environment:
+        Variables:
+          CONTENT_BUCKET: !Ref ContentBucket
+      Code:
+        ZipFile: |
+          import os
+          import boto3
+          from botocore.config import Config
+
+          bucket = os.environ["CONTENT_BUCKET"]
+          region = os.environ["AWS_REGION"]
+          s3 = boto3.client(
+              "s3",
+              region_name=region,
+              endpoint_url=f"https://s3.{region}.amazonaws.com",
+              config=Config(
+                  signature_version="s3v4",
+                  s3={"addressing_style": "virtual"},
+              ),
+          )
+          allowed_prefixes = (
+              "content/",
+              "media/brand/",
+              "media/profile/",
+              "media/projects/",
+          )
+
+          def handler(event, _context):
+              key = event.get("key") if isinstance(event, dict) else None
+              if not isinstance(key, str) or ".." in key:
+                  raise ValueError("Invalid content key")
+              if not any(key.startswith(prefix) for prefix in allowed_prefixes):
+                  raise ValueError("Content key is outside the managed prefixes")
+
+              return {
+                  "url": s3.generate_presigned_url(
+                      "get_object",
+                      Params={"Bucket": bucket, "Key": key},
+                      ExpiresIn=300,
+                      HttpMethod="GET",
+                  ),
+                  "expiresIn": 300,
+              }
       Tags:
         - Key: Project
           Value: migudev-portfolio
@@ -167,3 +251,5 @@ Outputs:
     Value: !GetAtt ContentKey.Arn
   AmplifyContentRoleArn:
     Value: !GetAtt AmplifyContentRole.Arn
+  ContentPresignerFunctionName:
+    Value: !Ref ContentPresigner
