@@ -21,7 +21,10 @@ UI code follows Atomic Design inside `infrastructure/ui`: atoms, molecules, orga
 
 ## Validation
 
-- `pnpm build` performs Astro and TypeScript checks before generation.
+- `pnpm typecheck` validates application TypeScript and TSX with TypeScript 7.
+- `pnpm check:astro` validates Astro components through the isolated compiler-API compatibility
+  workspace.
+- `pnpm build` runs both type-checking layers before static generation.
 - `pnpm lint` covers TypeScript, React and Astro.
 - `pnpm format:check` checks all supported source files.
 - `pnpm test` validates domain policies, use cases, adapters and React behavior.
@@ -33,7 +36,15 @@ UI code follows Atomic Design inside `infrastructure/ui`: atoms, molecules, orga
   LCP ≤ 2.5s, CLS ≤ 0.1 and total blocking time ≤ 200ms.
 - `pnpm audit` checks the complete dependency graph, including development tooling.
 - `pnpm audit:prod` is available when only the production dependency graph is relevant.
+- `pnpm check:all` executes the local gate, browser suite and Lighthouse budgets.
 - `.github/workflows/quality.yml` executes the complete gate for pushes and pull requests.
+
+## TypeScript compatibility boundary
+
+The application compiler is TypeScript 7. Astro Check and the TypeScript ESLint parser currently
+require the programmatic compiler API that TypeScript 7 no longer ships. Their exact TypeScript 6
+runtime is isolated in `tools/quality-compat`; application dependencies never resolve it. This
+boundary preserves Astro and lint diagnostics while keeping source compilation on TypeScript 7.
 
 ## Content
 

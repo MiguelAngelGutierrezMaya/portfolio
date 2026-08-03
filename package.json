@@ -10,9 +10,11 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "pnpm typecheck && pnpm check:astro && astro build",
+    "typecheck": "tsc --noEmit",
+    "check:astro": "pnpm --dir tools/quality-compat check:astro",
     "preview": "astro preview",
-    "lint": "eslint .",
+    "lint": "pnpm --dir tools/quality-compat lint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "vitest run",
@@ -23,7 +25,9 @@
     "test:performance": "lhci autorun",
     "audit": "pnpm audit",
     "audit:prod": "pnpm audit --prod",
-    "check": "pnpm format:check && pnpm lint && pnpm test:coverage && pnpm build && pnpm audit"
+    "check:peers": "pnpm peers check",
+    "check": "pnpm format:check && pnpm lint && pnpm test:coverage && pnpm build && pnpm check:peers && pnpm audit",
+    "check:all": "pnpm check && pnpm test:e2e && pnpm test:performance"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.2",
@@ -36,10 +40,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@astrojs/check": "^0.9.10",
     "@axe-core/playwright": "^4.12.1",
-    "@eslint-react/eslint-plugin": "^5.18.1",
-    "@eslint/js": "^10.0.1",
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.62.1",
     "@testing-library/jest-dom": "^7.0.0",
@@ -48,19 +49,11 @@
     "@types/node": "^26.1.2",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
-    "@typescript-eslint/parser": "^8.66.0",
     "@vitest/coverage-v8": "^4.1.10",
-    "eslint": "^10.8.0",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-astro": "^3.1.0",
-    "eslint-plugin-jsx-a11y": "^6.10.2",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "globals": "^17.9.0",
     "jsdom": "^30.0.1",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
-    "typescript": "^6.0.3",
-    "typescript-eslint": "^8.66.0",
+    "typescript": "^7.0.2",
     "vitest": "^4.1.10"
   }
 }

@@ -5,12 +5,12 @@
     "jsxImportSource": "react",
     "noUncheckedIndexedAccess": true,
     "paths": {
-      "@/*": ["src/*"],
-      "@contact/*": ["src/modules/contact/*"],
-      "@layouts/*": ["src/layouts/*"],
-      "@legal/*": ["src/modules/legal/*"],
-      "@portfolio/*": ["src/modules/portfolio/*"],
-      "@styles/*": ["src/styles/*"]
+      "@/*": ["./src/*"],
+      "@contact/*": ["./src/modules/contact/*"],
+      "@layouts/*": ["./src/layouts/*"],
+      "@legal/*": ["./src/modules/legal/*"],
+      "@portfolio/*": ["./src/modules/portfolio/*"],
+      "@styles/*": ["./src/styles/*"]
     }
   },
   "exclude": [".lighthouseci", "coverage", "dist", "playwright-report", "test-results"]

@@ -7,7 +7,7 @@ A content-first personal portfolio built with Astro and focused React islands. T
 - Astro 7 for static rendering, routing and SEO
 - React 19 for the project explorer and contact form
 - Framer Motion for stateful project transitions
-- TypeScript with strict and unchecked-index validation
+- TypeScript 7 with strict and unchecked-index validation
 - Plain CSS design tokens and component layers
 - Zod-validated JSON content with a replaceable repository adapter
 - Vitest and Testing Library for unit and component tests
@@ -36,6 +36,8 @@ src/
 │           └── ui/                  # Atomic Design: atoms → templates
 ├── pages/                           # Astro route composition
 └── styles/                          # Tokens, base, components and motion
+tools/
+└── quality-compat/                  # Isolated Astro/ESLint compiler compatibility
 ```
 
 Astro renders the complete content to HTML. React hydrates only the project filtering/search experience and the contact form when they approach the viewport.
@@ -68,6 +70,7 @@ pnpm test:e2e
 pnpm test:a11y
 pnpm test:performance
 pnpm check
+pnpm check:all
 pnpm audit
 pnpm audit:prod
 ```
@@ -75,6 +78,11 @@ pnpm audit:prod
 `pnpm check` is the local equivalent of the core CI gate. GitHub Actions additionally runs the
 desktop/mobile browser suite and the Lighthouse performance budgets. Dependabot groups production
 and development dependency updates on a weekly schedule.
+
+The application is compiled directly with TypeScript 7. Astro Check and the current ESLint parser
+still depend on the compiler API removed from TypeScript 7, so `tools/quality-compat` isolates their
+TypeScript 6 runtime without downgrading the application compiler. Remove this compatibility
+workspace once those upstream tools publish native TypeScript 7 support.
 
 The runtime records CLS, INP and LCP in `window.__PORTFOLIO_WEB_VITALS__`. Set
 `PUBLIC_WEB_VITALS_ENDPOINT` only when a telemetry collector is available; visitors with Do Not
