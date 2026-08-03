@@ -7,6 +7,7 @@ import { promisify } from 'node:util';
 const execFileAsync = promisify(execFile);
 const projectRoot = path.resolve(import.meta.dirname, '..');
 const bucket = process.env.CONTENT_BUCKET;
+const region = process.env.CONTENT_REGION;
 const manifestKey = process.env.CONTENT_MANIFEST_KEY ?? 'content/manifest.json';
 const syncRequired = process.env.CONTENT_SYNC_REQUIRED === 'true';
 const urlLifetimeSeconds = 300;
@@ -51,6 +52,8 @@ async function createPresignedUrl(key) {
     `s3://${bucket}/${key}`,
     '--expires-in',
     String(urlLifetimeSeconds),
+    '--region',
+    region,
   ]);
 
   return stdout.trim();
@@ -125,6 +128,10 @@ if (!bucket) {
   }
   process.stdout.write('Managed content sync skipped: CONTENT_BUCKET is not configured.\n');
   process.exit(0);
+}
+
+if (!region) {
+  throw new Error('CONTENT_REGION is required when CONTENT_BUCKET is configured');
 }
 
 assertManagedKey(manifestKey, 'content/', 'CONTENT_MANIFEST_KEY');
