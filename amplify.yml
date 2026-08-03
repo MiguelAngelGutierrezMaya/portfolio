@@ -1,0 +1,22 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - nvm install 24.19.0
+        - nvm use 24.19.0
+        - corepack enable
+        - corepack prepare pnpm@11.1.1 --activate
+        - pnpm config set --location=project --json allowBuilds '{"esbuild":true,"sharp":true}'
+        - pnpm install --frozen-lockfile
+    build:
+      commands:
+        - pnpm sync:content
+        - pnpm run build
+  artifacts:
+    baseDirectory: dist
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*

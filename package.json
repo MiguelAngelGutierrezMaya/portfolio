@@ -10,6 +10,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
+    "sync:content": "node tools/sync-managed-content.mjs",
     "build": "pnpm typecheck && pnpm check:astro && astro build",
     "typecheck": "tsc --noEmit",
     "check:astro": "pnpm --dir tools/quality-compat check:astro",

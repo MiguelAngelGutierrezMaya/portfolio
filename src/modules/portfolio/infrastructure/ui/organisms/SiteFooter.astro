@@ -1,19 +1,26 @@
 ---
 import BrandMark from '@portfolio/infrastructure/ui/atoms/BrandMark.astro';
 import SocialLinks from '@portfolio/infrastructure/ui/molecules/SocialLinks.astro';
+import type { FooterContent, Profile } from '@portfolio/domain/models/Portfolio';
+
+interface Props {
+  profile: Profile;
+  footer: FooterContent;
+}
+
+const { profile, footer } = Astro.props;
 ---
 
 <footer class="site-footer section-shell">
   <div class="site-footer__top">
-    <BrandMark compact />
-    <p>Engineering digital products with clarity, curiosity and care.</p>
-    <SocialLinks label="Footer social profiles" />
+    <BrandMark profile={profile} compact />
+    <p>{footer.tagline}</p>
+    <SocialLinks label="Footer social profiles" links={profile.socialLinks} />
   </div>
   <div class="site-footer__bottom">
-    <span>© {new Date().getFullYear()} Miguel Angel Gutierrez Maya</span>
+    <span>© {new Date().getFullYear()} {profile.name}</span>
     <nav aria-label="Legal">
-      <a href="/privacy/">Privacy</a>
-      <a href="/terms/">Terms</a>
+      {footer.legalLinks.map(link => <a href={link.href}>{link.label}</a>)}
     </nav>
   </div>
 </footer>

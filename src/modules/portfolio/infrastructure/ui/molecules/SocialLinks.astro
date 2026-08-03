@@ -1,24 +1,20 @@
 ---
+import type { SocialLink } from '@portfolio/domain/models/Portfolio';
+
 interface Props {
   label: string;
+  links: readonly SocialLink[];
 }
 
-const { label } = Astro.props;
+const { label, links } = Astro.props;
 ---
 
 <nav class="social-links" aria-label={label}>
-  <a href="https://github.com/MiguelAngelGutierrezMaya" target="_blank" rel="noreferrer"
-    >GitHub <span aria-hidden="true">↗</span></a
-  >
-  <a
-    href="https://www.linkedin.com/in/miguel-gutierrez-maya-918461164/"
-    target="_blank"
-    rel="noreferrer">LinkedIn <span aria-hidden="true">↗</span></a
-  >
-  <a href="https://x.com/MiguelA20878385" target="_blank" rel="noreferrer"
-    >X <span aria-hidden="true">↗</span></a
-  >
-  <a href="https://www.instagram.com/gutierrezmayamiguel/" target="_blank" rel="noreferrer"
-    >Instagram <span aria-hidden="true">↗</span></a
-  >
+  {
+    links.map(link => (
+      <a href={link.href} target="_blank" rel="noreferrer">
+        {link.label} <span aria-hidden="true">↗</span>
+      </a>
+    ))
+  }
 </nav>

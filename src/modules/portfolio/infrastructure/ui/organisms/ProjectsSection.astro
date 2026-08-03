@@ -1,21 +1,22 @@
 ---
-import type { Project } from '@portfolio/domain/models/Portfolio';
+import type { Project, SectionCopy } from '@portfolio/domain/models/Portfolio';
 import SectionHeading from '@portfolio/infrastructure/ui/atoms/SectionHeading.astro';
 import ProjectExplorer from '@portfolio/infrastructure/ui/organisms/ProjectExplorer/ProjectExplorer';
 
 interface Props {
   projects: readonly Project[];
+  heading: SectionCopy;
 }
 
-const { projects } = Astro.props;
+const { projects, heading } = Astro.props;
 ---
 
 <section id="work" class="content-section section-shell" aria-labelledby="work-title">
   <SectionHeading
     headingId="work-title"
-    eyebrow="Selected work"
-    title="Products built for conversations, operations and everyday decisions."
-    description="Explore professional products and hands-on studies across frontend, backend and mobile development."
+    eyebrow={heading.eyebrow}
+    title={heading.title}
+    description={heading.description}
   />
   <div>
     <ProjectExplorer projects={projects} client:visible />

@@ -1,21 +1,22 @@
 ---
-import type { Experience } from '@portfolio/domain/models/Portfolio';
+import type { Experience, SectionCopy } from '@portfolio/domain/models/Portfolio';
 import SectionHeading from '@portfolio/infrastructure/ui/atoms/SectionHeading.astro';
 import ExperienceItem from '@portfolio/infrastructure/ui/molecules/ExperienceItem.astro';
 
 interface Props {
   experiences: readonly Experience[];
+  heading: SectionCopy;
 }
 
-const { experiences } = Astro.props;
+const { experiences, heading } = Astro.props;
 ---
 
 <section id="experience" class="content-section section-shell" aria-labelledby="experience-title">
   <SectionHeading
     headingId="experience-title"
-    eyebrow="Experience"
-    title="A career built close to users, teams and production."
-    description="From operational software to AI-centered communication products, each role strengthened both delivery and technical leadership."
+    eyebrow={heading.eyebrow}
+    title={heading.title}
+    description={heading.description}
   />
   <div class="experience-list">
     {

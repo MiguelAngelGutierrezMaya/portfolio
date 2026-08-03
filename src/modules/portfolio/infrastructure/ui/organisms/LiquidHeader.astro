@@ -1,27 +1,29 @@
 ---
 import BrandMark from '@portfolio/infrastructure/ui/atoms/BrandMark.astro';
+import type { Link, Profile } from '@portfolio/domain/models/Portfolio';
+
+interface Props {
+  profile: Profile;
+  navigation: readonly Link[];
+}
+
+const { profile, navigation } = Astro.props;
 ---
 
 <header class="site-header" data-site-header>
   <div class="site-header__glass">
-    <BrandMark />
+    <BrandMark profile={profile} />
     <nav class="desktop-nav" aria-label="Primary navigation">
-      <a href="#about">About</a>
-      <a href="#work">Work</a>
-      <a href="#experience">Experience</a>
-      <a href="#contact">Contact</a>
+      {navigation.map(link => <a href={link.href}>{link.label}</a>)}
     </nav>
     <a class="availability" href="#contact">
       <span aria-hidden="true"></span>
-      Available for opportunities
+      {profile.availability}
     </a>
     <details class="mobile-nav">
       <summary aria-label="Open navigation"><span></span><span></span></summary>
       <nav aria-label="Mobile navigation">
-        <a href="#about">About</a>
-        <a href="#work">Work</a>
-        <a href="#experience">Experience</a>
-        <a href="#contact">Contact</a>
+        {navigation.map(link => <a href={link.href}>{link.label}</a>)}
       </nav>
     </details>
   </div>
