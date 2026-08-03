@@ -5,12 +5,73 @@ import { ContentFilePortfolioRepository } from '@portfolio/infrastructure/reposi
 import PortfolioPage from '@portfolio/infrastructure/ui/templates/PortfolioPage.astro';
 
 const content = GetPortfolioContent.execute(new ContentFilePortfolioRepository());
+const configuredSite =
+  import.meta.env.PUBLIC_SITE_URL || Astro.site?.toString() || Astro.url.origin;
+const siteUrl = new URL('/', configuredSite).toString();
+const personId = new URL('/#person', siteUrl).toString();
+const profilePageId = new URL('/#profile-page', siteUrl).toString();
+const websiteId = new URL('/#website', siteUrl).toString();
+const socialImage = new URL('/og.png', siteUrl).toString();
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': websiteId,
+      url: siteUrl,
+      name: content.profile.brandName,
+      alternateName: `${content.profile.name} portfolio`,
+      inLanguage: 'en',
+      publisher: { '@id': personId },
+    },
+    {
+      '@type': 'ProfilePage',
+      '@id': profilePageId,
+      url: siteUrl,
+      name: `${content.profile.name} — ${content.profile.jobTitle}`,
+      description: content.profile.introduction,
+      isPartOf: { '@id': websiteId },
+      mainEntity: { '@id': personId },
+      primaryImageOfPage: {
+        '@type': 'ImageObject',
+        url: socialImage,
+        caption: content.profile.portrait.alt,
+      },
+      hasPart: content.projects.map((project, index) => ({
+        '@type': 'CreativeWork',
+        position: index + 1,
+        name: project.title,
+        description: project.summary,
+        url: project.repositoryUrl ?? `${siteUrl}#work`,
+        keywords: project.technologies.join(', '),
+        creator: { '@id': personId },
+      })),
+    },
+    {
+      '@type': 'Person',
+      '@id': personId,
+      name: content.profile.name,
+      alternateName: content.profile.brandName,
+      url: siteUrl,
+      image: socialImage,
+      jobTitle: content.profile.jobTitle,
+      email: `mailto:${content.profile.email}`,
+      homeLocation: {
+        '@type': 'Place',
+        name: 'Medellín, Colombia',
+      },
+      sameAs: content.profile.socialLinks.map(link => link.profileUrl),
+      knowsAbout: [...new Set(content.skillGroups.flatMap(group => group.skills))],
+    },
+  ],
+};
 ---
 
 <Layout
   title="Miguel Gutierrez — Fullstack Product Engineer"
   description="Fullstack product engineer building clear, fast and scalable web, backend and mobile experiences. Explore selected work, experience and capabilities."
   pathname="/"
+  structuredData={structuredData}
 >
   <PortfolioPage content={content} />
 </Layout>

@@ -11,6 +11,9 @@ describe('GetPortfolioContent', () => {
     expect(content.projects).toHaveLength(23);
     expect(content.experiences).toHaveLength(5);
     expect(content.skillGroups).toHaveLength(3);
+    expect(content.capabilities).toHaveLength(3);
+    expect(content.profile.brandName).toBe('Migudev');
+    expect(content.navigation).toHaveLength(4);
   });
 
   it('keeps project identifiers unique', () => {

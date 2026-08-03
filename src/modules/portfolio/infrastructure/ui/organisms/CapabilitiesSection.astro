@@ -1,33 +1,33 @@
 ---
 import CapabilityCard from '@portfolio/infrastructure/ui/molecules/CapabilityCard.astro';
 import SectionHeading from '@portfolio/infrastructure/ui/atoms/SectionHeading.astro';
+import type { Capability, SectionCopy } from '@portfolio/domain/models/Portfolio';
+
+interface Props {
+  heading: SectionCopy;
+  capabilities: readonly Capability[];
+}
+
+const { heading, capabilities } = Astro.props;
 ---
 
 <section class="content-section section-shell" aria-labelledby="capabilities-title">
   <SectionHeading
     headingId="capabilities-title"
-    eyebrow="What I bring"
-    title="One product mindset, across the entire stack."
-    description="I connect interaction design, software architecture and business context to ship experiences that are easier to use and maintain."
+    eyebrow={heading.eyebrow}
+    title={heading.title}
+    description={heading.description}
   />
   <div class="capability-grid">
-    <CapabilityCard
-      index="01"
-      title="Product interfaces"
-      description="Accessible design systems and responsive product experiences with purposeful motion."
-      keywords={['React', 'Vue', 'Astro', 'TypeScript']}
-    />
-    <CapabilityCard
-      index="02"
-      title="Scalable services"
-      description="APIs and event-driven services designed around clear domain boundaries and real operations."
-      keywords={['Node.js', 'Python', 'AWS', 'Databases']}
-    />
-    <CapabilityCard
-      index="03"
-      title="Mobile products"
-      description="Native and cross-platform flows that turn complex processes into focused mobile experiences."
-      keywords={['Swift', 'SwiftUI', 'Flutter', 'Firebase']}
-    />
+    {
+      capabilities.map((capability, index) => (
+        <CapabilityCard
+          index={String(index + 1).padStart(2, '0')}
+          title={capability.title}
+          description={capability.description}
+          keywords={capability.keywords}
+        />
+      ))
+    }
   </div>
 </section>

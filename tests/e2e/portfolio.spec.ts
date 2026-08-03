@@ -35,6 +35,34 @@ test('supports keyboard navigation and accessible form feedback', async ({ page 
   await expect(page.getByRole('textbox', { name: 'Name' })).toHaveAttribute('aria-invalid', 'true');
 });
 
+test('publishes canonical search and LLM discovery metadata', async ({ page, request }) => {
+  await page.goto('/');
+
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /^https?:\/\/.+\/$/);
+  const structuredData = JSON.parse(
+    (await page.locator('script[type="application/ld+json"]').textContent()) ?? '{}'
+  );
+  expect(structuredData['@graph']).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({ '@type': 'ProfilePage' }),
+      expect.objectContaining({ '@type': 'Person', name: 'Miguel Angel Gutierrez Maya' }),
+    ])
+  );
+
+  const robots = await request.get('/robots.txt');
+  expect(await robots.text()).toContain('User-agent: OAI-SearchBot');
+
+  const llms = await request.get('/llms.txt');
+  expect(llms.headers()['content-type']).toContain('text/plain');
+  expect(await llms.text()).toContain('# Migudev');
+
+  const fullContext = await request.get('/llms-full.txt');
+  expect(await fullContext.text()).toContain('## Projects');
+
+  const manifest = await request.get('/manifest.webmanifest');
+  expect(await manifest.json()).toEqual(expect.objectContaining({ short_name: 'Migudev' }));
+});
+
 for (const route of ['/', '/privacy/', '/terms/']) {
   test(`@a11y has no detectable accessibility violations on ${route}`, async ({ page }) => {
     await page.goto(route);

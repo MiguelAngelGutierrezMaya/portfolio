@@ -84,6 +84,18 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
                   <span className="project-card__category">{project.category}</span>
                 </div>
 
+                {project.preview ? (
+                  <img
+                    className="project-card__preview"
+                    src={project.preview.src}
+                    alt={project.preview.alt}
+                    width={project.preview.width}
+                    height={project.preview.height}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : null}
+
                 <div>
                   {project.featured ? (
                     <span className="project-card__featured">Selected work</span>

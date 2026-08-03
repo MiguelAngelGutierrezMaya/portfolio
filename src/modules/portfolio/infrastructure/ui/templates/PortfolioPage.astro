@@ -17,13 +17,20 @@ const { content } = Astro.props;
 ---
 
 <a class="skip-link" href="#main-content">Skip to content</a>
-<LiquidHeader />
+<LiquidHeader profile={content.profile} navigation={content.navigation} />
 <main id="main-content" tabindex="-1">
-  <HeroSection />
-  <CapabilitiesSection />
-  <ProjectsSection projects={content.projects} />
-  <ExperienceSection experiences={content.experiences} />
-  <SkillsSection skillGroups={content.skillGroups} />
-  <ContactSection />
+  <HeroSection profile={content.profile} />
+  <CapabilitiesSection
+    heading={content.sections.capabilities}
+    capabilities={content.capabilities}
+  />
+  <ProjectsSection heading={content.sections.projects} projects={content.projects} />
+  <ExperienceSection heading={content.sections.experience} experiences={content.experiences} />
+  <SkillsSection heading={content.sections.skills} skillGroups={content.skillGroups} />
+  <ContactSection
+    heading={content.sections.contact}
+    contact={content.contact}
+    profile={content.profile}
+  />
 </main>
-<SiteFooter />
+<SiteFooter profile={content.profile} footer={content.footer} />

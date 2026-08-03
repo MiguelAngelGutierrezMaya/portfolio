@@ -1,5 +1,7 @@
 ---
 import type { LegalDocument } from '@legal/domain/models/LegalDocument';
+import { GetPortfolioContent } from '@portfolio/application/use-cases/GetPortfolioContent';
+import { ContentFilePortfolioRepository } from '@portfolio/infrastructure/repositories/ContentFilePortfolioRepository';
 import BrandMark from '@portfolio/infrastructure/ui/atoms/BrandMark.astro';
 import SiteFooter from '@portfolio/infrastructure/ui/organisms/SiteFooter.astro';
 
@@ -8,11 +10,12 @@ interface Props {
 }
 
 const { document } = Astro.props;
+const portfolioContent = GetPortfolioContent.execute(new ContentFilePortfolioRepository());
 ---
 
 <a class="skip-link" href="#legal-content">Skip to content</a>
 <header class="legal-header section-shell">
-  <BrandMark />
+  <BrandMark profile={portfolioContent.profile} />
   <a href="/">Back to portfolio <span aria-hidden="true">↗</span></a>
 </header>
 
@@ -47,7 +50,7 @@ const { document } = Astro.props;
     }
   </div>
 </main>
-<SiteFooter />
+<SiteFooter profile={portfolioContent.profile} footer={portfolioContent.footer} />
 
 <style>
   .legal-header {

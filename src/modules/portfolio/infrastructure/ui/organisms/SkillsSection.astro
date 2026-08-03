@@ -1,13 +1,14 @@
 ---
-import type { SkillGroup } from '@portfolio/domain/models/Portfolio';
+import type { SectionCopy, SkillGroup } from '@portfolio/domain/models/Portfolio';
 import SectionHeading from '@portfolio/infrastructure/ui/atoms/SectionHeading.astro';
 import SkillGroupCard from '@portfolio/infrastructure/ui/molecules/SkillGroupCard.astro';
 
 interface Props {
   skillGroups: readonly SkillGroup[];
+  heading: SectionCopy;
 }
 
-const { skillGroups } = Astro.props;
+const { skillGroups, heading } = Astro.props;
 const marqueeSkills = skillGroups.flatMap(group => group.skills);
 ---
 
@@ -15,9 +16,9 @@ const marqueeSkills = skillGroups.flatMap(group => group.skills);
   <div class="section-shell">
     <SectionHeading
       headingId="skills-title"
-      eyebrow="Technology"
-      title="Tools change. Strong engineering principles travel."
-      description="A broad toolkit applied with clean boundaries, measurable performance and maintainable delivery practices."
+      eyebrow={heading.eyebrow}
+      title={heading.title}
+      description={heading.description}
     />
   </div>
   <div class="skills-marquee" aria-hidden="true">

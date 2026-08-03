@@ -2,23 +2,25 @@
 import { Image } from 'astro:assets';
 
 import logo from '@/assets/migudev-logo.webp';
+import type { Profile } from '@portfolio/domain/models/Portfolio';
 
 interface Props {
+  profile: Profile;
   compact?: boolean;
 }
 
-const { compact = false } = Astro.props;
+const { profile, compact = false } = Astro.props;
 ---
 
-<a class="brand" href="/" aria-label={compact ? 'Migudev home' : undefined}>
+<a class="brand" href="/" aria-label={compact ? `${profile.brandName} home` : undefined}>
   <span class="brand__mark" aria-hidden="true">
     <Image class="brand__logo" src={logo} alt="" width={92} height={92} quality={88} />
   </span>
   {
     !compact && (
       <span class="brand__copy">
-        <strong>Miguel Gutierrez</strong>
-        <small>Fullstack product engineer</small>
+        <strong>{profile.name}</strong>
+        <small>{profile.jobTitle}</small>
       </span>
     )
   }

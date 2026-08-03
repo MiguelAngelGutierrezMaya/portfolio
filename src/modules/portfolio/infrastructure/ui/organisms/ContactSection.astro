@@ -1,6 +1,15 @@
 ---
 import ContactForm from '@contact/infrastructure/ui/organisms/ContactForm';
 import SectionHeading from '@portfolio/infrastructure/ui/atoms/SectionHeading.astro';
+import type { ContactContent, Profile, SectionCopy } from '@portfolio/domain/models/Portfolio';
+
+interface Props {
+  heading: SectionCopy;
+  contact: ContactContent;
+  profile: Profile;
+}
+
+const { heading, contact, profile } = Astro.props;
 ---
 
 <section id="contact" class="content-section section-shell" aria-labelledby="contact-title">
@@ -8,13 +17,13 @@ import SectionHeading from '@portfolio/infrastructure/ui/atoms/SectionHeading.as
     <div class="contact-panel__intro">
       <SectionHeading
         headingId="contact-title"
-        eyebrow="Let’s build"
-        title="Have a meaningful product challenge?"
-        description="Tell me about the product, the team and the outcome you are pursuing. I am open to full-time roles and focused collaborations."
+        eyebrow={heading.eyebrow}
+        title={heading.title}
+        description={heading.description}
       />
       <div class="contact-panel__direct">
-        <span>Prefer email?</span>
-        <a href="mailto:gutierrezmayamiguelangel@gmail.com">gutierrezmayamiguelangel@gmail.com</a>
+        <span>{contact.emailPrompt}</span>
+        <a href={`mailto:${profile.email}`}>{profile.email}</a>
       </div>
     </div>
     <div class="contact-panel__form glass-panel">

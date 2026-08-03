@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "content": {
+    "portfolio": {
+      "key": "content/portfolio.json",
+      "sha256": "65b1bcbb5edc0fa8d0935f9e7bc468ee587f003068c059f86b091231a1ec388f"
+    }
+  },
+  "assets": {
+    "brandLogo": {
+      "key": "media/brand/migudev-logo.webp",
+      "sha256": "5acd759b35972c085aac07c5cbc4adfb0eeae85aef9b1449cf6ae6ca361eedf2"
+    },
+    "profilePortrait": {
+      "key": "media/profile/miguel-gutierrez-portrait.png",
+      "sha256": "0270c1defdb4a699587eaf6cb7d5337a5ff1d61a36b6ce4f951c0b8bbcdca088"
+    }
+  },
+  "projectPreviews": []
+}

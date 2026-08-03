@@ -9,7 +9,7 @@ A content-first personal portfolio built with Astro and focused React islands. T
 - Framer Motion for stateful project transitions
 - TypeScript 7 with strict and unchecked-index validation
 - Plain CSS design tokens and component layers
-- Zod-validated JSON content with a replaceable repository adapter
+- Zod-validated, privately managed S3 content with a replaceable repository adapter
 - Vitest and Testing Library for unit and component tests
 - Playwright and Axe for browser, keyboard and accessibility tests
 - Lighthouse CI and `web-vitals` for performance budgets and field telemetry
@@ -17,6 +17,8 @@ A content-first personal portfolio built with Astro and focused React islands. T
 ## Architecture
 
 ```text
+infra/
+└── content-store.yaml               # Private S3, KMS, lifecycle and Amplify IAM role
 src/
 ├── layouts/                         # Shared document shell and metadata
 ├── content/                         # Versioned editorial content
@@ -54,9 +56,11 @@ pnpm dev
 
 Copy `.env.example` to `.env` and provide the relevant public contact-service values.
 
-Portfolio projects, experience and skill groups live in `src/content/portfolio.json`. The
-repository validates this file before exposing it to the application, so a future CMS or API can
-replace the file adapter without changing the UI.
+The complete editorial model lives in `src/content/portfolio.json`. Production builds replace it and
+the managed images from a private, versioned S3 source before Astro compiles the site. The repository
+validates the file before exposing it to the application, so a future CMS or API can replace the file
+adapter without changing the UI. See `docs/content-management.md` for the security model, publishing
+workflow, lifecycle and recovery process.
 
 ## Quality commands
 
@@ -94,6 +98,8 @@ Track enabled are never reported.
 - `/privacy/` — privacy policy
 - `/terms/` — terms of use
 - `/robots.txt` and `/sitemap.xml` — crawl metadata
+- `/llms.txt` and `/llms-full.txt` — concise and complete LLM-readable context
+- `/manifest.webmanifest` — install and brand metadata
 
 ## License
 

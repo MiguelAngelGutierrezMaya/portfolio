@@ -2,13 +2,20 @@
 import { Image } from 'astro:assets';
 
 import portrait from '@/assets/miguel-gutierrez-portrait.png';
+import type { Profile } from '@portfolio/domain/models/Portfolio';
+
+interface Props {
+  portraitContent: Profile['portrait'];
+}
+
+const { portraitContent } = Astro.props;
 ---
 
 <figure class="profile-portrait glass-panel">
   <div class="profile-portrait__media">
     <Image
       src={portrait}
-      alt="Professional portrait of Miguel Gutierrez"
+      alt={portraitContent.alt}
       widths={[320, 480, 640]}
       sizes="(max-width: 520px) 84vw, (max-width: 780px) 16rem, 20rem"
       format="webp"
@@ -19,7 +26,7 @@ import portrait from '@/assets/miguel-gutierrez-portrait.png';
     />
   </div>
   <figcaption class="profile-portrait__caption">
-    <span>Fullstack · Mobile</span>
-    <strong>Product engineer</strong>
+    <span>{portraitContent.eyebrow}</span>
+    <strong>{portraitContent.label}</strong>
   </figcaption>
 </figure>

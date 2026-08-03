@@ -8,8 +8,6 @@ export class ContentFilePortfolioRepository implements PortfolioRepository {
   constructor(private readonly source: unknown = portfolioSource) {}
 
   getContent(): PortfolioContent {
-    const { projects, experiences, skillGroups } = portfolioContentSchema.parse(this.source);
-
-    return { projects, experiences, skillGroups };
+    return portfolioContentSchema.parse(this.source);
   }
 }

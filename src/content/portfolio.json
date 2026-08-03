@@ -1,5 +1,111 @@
 {
   "schemaVersion": 1,
+  "profile": {
+    "name": "Miguel Angel Gutierrez Maya",
+    "brandName": "Migudev",
+    "jobTitle": "Fullstack Product Engineer",
+    "location": "Medellín, Colombia · Working globally",
+    "email": "gutierrezmayamiguelangel@gmail.com",
+    "availability": "Available for opportunities",
+    "headline": {
+      "lead": "I build digital products that feel",
+      "accent": "clear, fast and human."
+    },
+    "introduction": "Fullstack product engineer with 5+ years shaping web, backend and mobile experiences — from thoughtful interfaces to scalable event-driven services.",
+    "primaryAction": { "label": "Explore selected work", "href": "#work" },
+    "secondaryAction": { "label": "Start a conversation", "href": "#contact" },
+    "portrait": {
+      "alt": "Professional portrait of Miguel Gutierrez",
+      "eyebrow": "Fullstack · Mobile",
+      "label": "Product engineer"
+    },
+    "metrics": [
+      { "value": "23", "label": "Products & learning projects" },
+      { "value": "15+", "label": "Technologies across the stack" },
+      { "value": "5+", "label": "Years delivering software" },
+      { "value": "B2", "label": "Professional English" }
+    ],
+    "socialLinks": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/MiguelAngelGutierrezMaya",
+        "profileUrl": "https://github.com/MiguelAngelGutierrezMaya"
+      },
+      {
+        "label": "LinkedIn",
+        "href": "https://www.linkedin.com/in/miguel-gutierrez-maya-918461164/",
+        "profileUrl": "https://www.linkedin.com/in/miguel-gutierrez-maya-918461164/"
+      },
+      {
+        "label": "X",
+        "href": "https://x.com/MiguelA20878385",
+        "profileUrl": "https://x.com/MiguelA20878385"
+      },
+      {
+        "label": "Instagram",
+        "href": "https://www.instagram.com/gutierrezmayamiguel/",
+        "profileUrl": "https://www.instagram.com/gutierrezmayamiguel/"
+      }
+    ]
+  },
+  "navigation": [
+    { "label": "About", "href": "#about" },
+    { "label": "Work", "href": "#work" },
+    { "label": "Experience", "href": "#experience" },
+    { "label": "Contact", "href": "#contact" }
+  ],
+  "sections": {
+    "capabilities": {
+      "eyebrow": "What I bring",
+      "title": "One product mindset, across the entire stack.",
+      "description": "I connect interaction design, software architecture and business context to ship experiences that are easier to use and maintain."
+    },
+    "projects": {
+      "eyebrow": "Selected work",
+      "title": "Products built for conversations, operations and everyday decisions.",
+      "description": "Explore professional products and hands-on studies across frontend, backend and mobile development."
+    },
+    "experience": {
+      "eyebrow": "Experience",
+      "title": "A career built close to users, teams and production.",
+      "description": "From operational software to AI-centered communication products, each role strengthened both delivery and technical leadership."
+    },
+    "skills": {
+      "eyebrow": "Technology",
+      "title": "Tools change. Strong engineering principles travel.",
+      "description": "A broad toolkit applied with clean boundaries, measurable performance and maintainable delivery practices."
+    },
+    "contact": {
+      "eyebrow": "Let’s build",
+      "title": "Have a meaningful product challenge?",
+      "description": "Tell me about the product, the team and the outcome you are pursuing. I am open to full-time roles and focused collaborations."
+    }
+  },
+  "capabilities": [
+    {
+      "title": "Product interfaces",
+      "description": "Accessible design systems and responsive product experiences with purposeful motion.",
+      "keywords": ["React", "Vue", "Astro", "TypeScript"]
+    },
+    {
+      "title": "Scalable services",
+      "description": "APIs and event-driven services designed around clear domain boundaries and real operations.",
+      "keywords": ["Node.js", "Python", "AWS", "Databases"]
+    },
+    {
+      "title": "Mobile products",
+      "description": "Native and cross-platform flows that turn complex processes into focused mobile experiences.",
+      "keywords": ["Swift", "SwiftUI", "Flutter", "Firebase"]
+    }
+  ],
+  "contact": { "emailPrompt": "Prefer email?" },
+  "footer": {
+    "tagline": "Engineering digital products with clarity, curiosity and care.",
+    "legalLinks": [
+      { "label": "Privacy", "href": "/privacy/" },
+      { "label": "Terms", "href": "/terms/" }
+    ]
+  },
   "projects": [
     {
       "id": "keybe-v6",

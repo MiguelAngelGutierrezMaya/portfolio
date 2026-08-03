@@ -3,7 +3,7 @@ interface Props {
   index: string;
   title: string;
   description: string;
-  keywords: string[];
+  keywords: readonly string[];
 }
 
 const { index, title, description, keywords } = Astro.props;

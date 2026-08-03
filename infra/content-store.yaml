@@ -1,0 +1,169 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Private, versioned content store consumed by the Migudev Amplify build.
+
+Parameters:
+  AmplifyAppId:
+    Type: String
+    Default: d33vi6wxgzyqpm
+  ContentBucketName:
+    Type: String
+    Default: migudev-portfolio-content-108703089452-us-east-2
+
+Resources:
+  ContentKey:
+    Type: AWS::KMS::Key
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      Description: Encrypts private Migudev portfolio content and media.
+      EnableKeyRotation: true
+      KeyPolicy:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: EnableAccountAdministration
+            Effect: Allow
+            Principal:
+              AWS: !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:root
+            Action: kms:*
+            Resource: '*'
+      Tags:
+        - Key: Project
+          Value: migudev-portfolio
+
+  ContentKeyAlias:
+    Type: AWS::KMS::Alias
+    Properties:
+      AliasName: alias/migudev-portfolio-content
+      TargetKeyId: !Ref ContentKey
+
+  ContentBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: !Ref ContentBucketName
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - BucketKeyEnabled: true
+            ServerSideEncryptionByDefault:
+              KMSMasterKeyID: !GetAtt ContentKey.Arn
+              SSEAlgorithm: aws:kms
+      LifecycleConfiguration:
+        Rules:
+          - Id: AbortIncompleteUploads
+            Status: Enabled
+            AbortIncompleteMultipartUpload:
+              DaysAfterInitiation: 7
+          - Id: RetainContentHistory
+            Status: Enabled
+            Prefix: content/
+            NoncurrentVersionExpiration:
+              NewerNoncurrentVersions: 10
+              NoncurrentDays: 365
+          - Id: ArchiveMediaHistory
+            Status: Enabled
+            Prefix: media/
+            NoncurrentVersionTransitions:
+              - StorageClass: STANDARD_IA
+                TransitionInDays: 30
+              - StorageClass: GLACIER
+                TransitionInDays: 90
+              - StorageClass: DEEP_ARCHIVE
+                TransitionInDays: 180
+            NoncurrentVersionExpiration:
+              NewerNoncurrentVersions: 3
+              NoncurrentDays: 730
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: Project
+          Value: migudev-portfolio
+        - Key: DataClassification
+          Value: private-editorial-content
+
+  ContentBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref ContentBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: DenyInsecureTransport
+            Effect: Deny
+            Principal: '*'
+            Action: s3:*
+            Resource:
+              - !GetAtt ContentBucket.Arn
+              - !Sub ${ContentBucket.Arn}/*
+            Condition:
+              Bool:
+                aws:SecureTransport: false
+
+  AmplifyContentRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: MigudevPortfolioAmplifyContentRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: amplify.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              ArnLike:
+                aws:SourceArn: !Sub arn:${AWS::Partition}:amplify:${AWS::Region}:${AWS::AccountId}:apps/${AmplifyAppId}*
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+      Policies:
+        - PolicyName: ReadVersionedPortfolioContent
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: ListManagedPrefixes
+                Effect: Allow
+                Action: s3:ListBucket
+                Resource: !GetAtt ContentBucket.Arn
+                Condition:
+                  StringLike:
+                    s3:prefix:
+                      - content/*
+                      - media/*
+              - Sid: ReadManagedObjects
+                Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:GetObjectVersion
+                Resource:
+                  - !Sub ${ContentBucket.Arn}/content/*
+                  - !Sub ${ContentBucket.Arn}/media/*
+              - Sid: DecryptManagedObjects
+                Effect: Allow
+                Action:
+                  - kms:Decrypt
+                  - kms:DescribeKey
+                Resource: !GetAtt ContentKey.Arn
+                Condition:
+                  StringEquals:
+                    kms:ViaService: !Sub s3.${AWS::Region}.${AWS::URLSuffix}
+                  StringLike:
+                    kms:EncryptionContext:aws:s3:arn: !Sub ${ContentBucket.Arn}/*
+      Tags:
+        - Key: Project
+          Value: migudev-portfolio
+
+Outputs:
+  BucketName:
+    Value: !Ref ContentBucket
+  ContentKeyArn:
+    Value: !GetAtt ContentKey.Arn
+  AmplifyContentRoleArn:
+    Value: !GetAtt AmplifyContentRole.Arn
