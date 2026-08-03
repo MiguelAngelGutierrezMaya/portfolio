@@ -51,6 +51,8 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
           <span className="sr-only">Search projects</span>
           <span aria-hidden="true">⌕</span>
           <input
+            id="project-search"
+            name="project-search"
             type="search"
             value={query}
             onChange={event => setQuery(event.target.value)}
