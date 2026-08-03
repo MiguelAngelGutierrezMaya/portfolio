@@ -8,13 +8,32 @@ const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   resolve: {
     alias: {
+      '@': path.resolve(projectRoot, 'src'),
       '@contact': path.resolve(projectRoot, 'src/modules/contact'),
       '@legal': path.resolve(projectRoot, 'src/modules/legal'),
       '@portfolio': path.resolve(projectRoot, 'src/modules/portfolio'),
     },
   },
   test: {
-    environment: 'node',
-    include: ['src/**/*.test.ts'],
+    environment: 'jsdom',
+    include: ['src/**/*.test.{ts,tsx}'],
+    setupFiles: ['./src/test/setup.ts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json-summary', 'html'],
+      include: [
+        'src/modules/**/application/**/*.ts',
+        'src/modules/**/domain/**/*.ts',
+        'src/modules/**/infrastructure/gateways/**/*.ts',
+        'src/modules/**/infrastructure/repositories/**/*.ts',
+      ],
+      exclude: ['src/**/*.test.{ts,tsx}'],
+      thresholds: {
+        lines: 80,
+        functions: 80,
+        statements: 80,
+        branches: 70,
+      },
+    },
   },
 });

@@ -1,0 +1,25 @@
+---
+import { Image } from 'astro:assets';
+
+import portrait from '@/assets/miguel-gutierrez-portrait.png';
+---
+
+<figure class="profile-portrait glass-panel">
+  <div class="profile-portrait__media">
+    <Image
+      src={portrait}
+      alt="Professional portrait of Miguel Gutierrez"
+      widths={[320, 480, 640]}
+      sizes="(max-width: 520px) 84vw, (max-width: 780px) 16rem, 20rem"
+      format="webp"
+      quality={84}
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
+  </div>
+  <figcaption class="profile-portrait__caption">
+    <span>Fullstack · Mobile</span>
+    <strong>Product engineer</strong>
+  </figcaption>
+</figure>

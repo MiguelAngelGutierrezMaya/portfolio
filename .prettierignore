@@ -2,6 +2,7 @@ node_modules
 dist
 .astro
 .git
+.nvmrc
 .vscode
 public
-pnpm-lock.yaml 
+pnpm-lock.yaml

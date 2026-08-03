@@ -1,6 +1,7 @@
 ---
 import ButtonLink from '@portfolio/infrastructure/ui/atoms/ButtonLink.astro';
 import Metric from '@portfolio/infrastructure/ui/molecules/Metric.astro';
+import ProfilePortrait from '@portfolio/infrastructure/ui/molecules/ProfilePortrait.astro';
 import SocialLinks from '@portfolio/infrastructure/ui/molecules/SocialLinks.astro';
 ---
 
@@ -25,14 +26,8 @@ import SocialLinks from '@portfolio/infrastructure/ui/molecules/SocialLinks.astr
   </div>
 
   <div class="hero__side">
-    <div class="hero-orbit glass-panel" aria-hidden="true">
-      <span class="hero-orbit__core">MG</span>
-      <span class="hero-orbit__ring hero-orbit__ring--one"></span>
-      <span class="hero-orbit__ring hero-orbit__ring--two"></span>
-      <span class="hero-orbit__dot hero-orbit__dot--one"></span>
-      <span class="hero-orbit__dot hero-orbit__dot--two"></span>
-    </div>
-    <SocialLinks />
+    <ProfilePortrait />
+    <SocialLinks label="Hero social profiles" />
   </div>
 
   <div class="hero__metrics glass-panel reveal">

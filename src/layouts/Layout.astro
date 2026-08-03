@@ -64,6 +64,10 @@ const structuredData = {
   <body>
     <slot />
     <script>
+      import { registerWebVitals } from '@/modules/observability/infrastructure/browser/registerWebVitals';
+
+      registerWebVitals();
+
       const header = document.querySelector<HTMLElement>('[data-site-header]');
       const revealElements = document.querySelectorAll<HTMLElement>('.reveal');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

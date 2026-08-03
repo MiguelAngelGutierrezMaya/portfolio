@@ -4,7 +4,7 @@ import SectionHeading from '@portfolio/infrastructure/ui/atoms/SectionHeading.as
 import ProjectExplorer from '@portfolio/infrastructure/ui/organisms/ProjectExplorer/ProjectExplorer';
 
 interface Props {
-  projects: Project[];
+  projects: readonly Project[];
 }
 
 const { projects } = Astro.props;
@@ -12,11 +12,12 @@ const { projects } = Astro.props;
 
 <section id="work" class="content-section section-shell" aria-labelledby="work-title">
   <SectionHeading
+    headingId="work-title"
     eyebrow="Selected work"
     title="Products built for conversations, operations and everyday decisions."
     description="Explore professional products and hands-on studies across frontend, backend and mobile development."
   />
-  <div id="work-title">
+  <div>
     <ProjectExplorer projects={projects} client:visible />
   </div>
 </section>

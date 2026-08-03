@@ -1,10 +1,10 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import { GetPortfolioContent } from '@portfolio/application/use-cases/GetPortfolioContent';
-import { StaticPortfolioRepository } from '@portfolio/infrastructure/repositories/StaticPortfolioRepository';
+import { ContentFilePortfolioRepository } from '@portfolio/infrastructure/repositories/ContentFilePortfolioRepository';
 import PortfolioPage from '@portfolio/infrastructure/ui/templates/PortfolioPage.astro';
 
-const content = GetPortfolioContent.execute(new StaticPortfolioRepository());
+const content = GetPortfolioContent.execute(new ContentFilePortfolioRepository());
 ---
 
 <Layout

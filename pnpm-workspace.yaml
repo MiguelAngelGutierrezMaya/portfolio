@@ -1,12 +1,18 @@
 allowBuilds:
   esbuild: true
+peerDependencyRules:
+  allowedVersions:
+    # eslint-plugin-astro 3 requires both ESLint 10 and jsx-a11y 6.10.2.
+    'eslint-plugin-jsx-a11y>eslint': '10'
 overrides:
   '@babel/core@<7.29.1': 7.29.7
   'ajv@>=8.0.0 <8.18.0': 8.18.0
-  'brace-expansion@<1.1.17': 1.1.17
+  'brace-expansion@<1.1.18': 1.1.18
   'fast-uri@<3.1.4': 3.1.4
   'flatted@<3.4.2': 3.4.2
   'minimatch@>=3.0.0 <3.1.4': 3.1.4
   'mdast-util-to-hast@>=13.0.0 <13.2.1': 13.2.1
   'picomatch@<2.3.2': 2.3.2
   'picomatch@>=4.0.0 <4.0.5': 4.0.5
+  'tmp@<0.2.7': 0.2.7
+  'uuid@<11.1.1': 11.1.1

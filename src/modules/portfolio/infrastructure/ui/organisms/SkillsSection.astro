@@ -4,7 +4,7 @@ import SectionHeading from '@portfolio/infrastructure/ui/atoms/SectionHeading.as
 import SkillGroupCard from '@portfolio/infrastructure/ui/molecules/SkillGroupCard.astro';
 
 interface Props {
-  skillGroups: SkillGroup[];
+  skillGroups: readonly SkillGroup[];
 }
 
 const { skillGroups } = Astro.props;
@@ -14,6 +14,7 @@ const marqueeSkills = skillGroups.flatMap(group => group.skills);
 <section class="content-section skills-section" aria-labelledby="skills-title">
   <div class="section-shell">
     <SectionHeading
+      headingId="skills-title"
       eyebrow="Technology"
       title="Tools change. Strong engineering principles travel."
       description="A broad toolkit applied with clean boundaries, measurable performance and maintainable delivery practices."
@@ -31,7 +32,7 @@ const marqueeSkills = skillGroups.flatMap(group => group.skills);
       }
     </div>
   </div>
-  <div id="skills-title" class="skill-grid section-shell">
+  <div class="skill-grid section-shell">
     {skillGroups.map(group => <SkillGroupCard group={group} />)}
   </div>
 </section>

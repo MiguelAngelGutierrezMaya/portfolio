@@ -1,33 +1,33 @@
 export type ProjectCategory = 'Frontend' | 'Backend' | 'Mobile';
 
 export interface Project {
-  id: string;
-  title: string;
-  summary: string;
-  category: ProjectCategory;
-  technologies: string[];
-  repositoryUrl?: string;
-  featured?: boolean;
+  readonly id: string;
+  readonly title: string;
+  readonly summary: string;
+  readonly category: ProjectCategory;
+  readonly technologies: readonly string[];
+  readonly repositoryUrl?: string;
+  readonly featured?: boolean;
 }
 
 export interface Experience {
-  company: string;
-  role: string;
-  period: string;
-  startDate: string;
-  endDate: string;
-  summary: string;
-  website?: string;
+  readonly company: string;
+  readonly role: string;
+  readonly period: string;
+  readonly startDate: string;
+  readonly endDate: string;
+  readonly summary: string;
+  readonly website?: string;
 }
 
 export interface SkillGroup {
-  title: string;
-  description: string;
-  skills: string[];
+  readonly title: string;
+  readonly description: string;
+  readonly skills: readonly string[];
 }
 
 export interface PortfolioContent {
-  projects: Project[];
-  experiences: Experience[];
-  skillGroups: SkillGroup[];
+  readonly projects: readonly Project[];
+  readonly experiences: readonly Experience[];
+  readonly skillGroups: readonly SkillGroup[];
 }

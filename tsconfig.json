@@ -1,7 +1,6 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "baseUrl": ".",
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "noUncheckedIndexedAccess": true,
@@ -13,5 +12,6 @@
       "@portfolio/*": ["src/modules/portfolio/*"],
       "@styles/*": ["src/styles/*"]
     }
-  }
+  },
+  "exclude": [".lighthouseci", "coverage", "dist", "playwright-report", "test-results"]
 }

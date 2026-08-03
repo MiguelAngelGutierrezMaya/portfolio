@@ -18,7 +18,7 @@ const { content } = Astro.props;
 
 <a class="skip-link" href="#main-content">Skip to content</a>
 <LiquidHeader />
-<main id="main-content">
+<main id="main-content" tabindex="-1">
   <HeroSection />
   <CapabilitiesSection />
   <ProjectsSection projects={content.projects} />

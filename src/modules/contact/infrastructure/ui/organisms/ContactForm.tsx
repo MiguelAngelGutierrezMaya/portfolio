@@ -1,33 +1,30 @@
-import { useRef, useState, type SubmitEvent } from 'react';
+import { useEffect, useRef, useState, type SubmitEvent } from 'react';
 
+import type { ContactGateway } from '@contact/application/ports/ContactGateway';
 import { SendContactMessage } from '@contact/application/use-cases/SendContactMessage';
-import { createHttpContactGateway } from '@contact/infrastructure/gateways/HttpContactGateway';
 import type { ContactMessage } from '@contact/domain/models/ContactMessage';
+import {
+  validateContactMessage,
+  type ContactValidationErrors,
+} from '@contact/domain/services/validateContactMessage';
+import { createHttpContactGateway } from '@contact/infrastructure/gateways/HttpContactGateway';
 
 import './ContactForm.css';
 
-type FormErrors = Partial<Record<keyof ContactMessage, string>>;
+interface ContactFormProps {
+  gateway?: ContactGateway;
+}
 
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const gateway = createHttpContactGateway();
+const defaultGateway = createHttpContactGateway();
 
-const validate = (values: ContactMessage): FormErrors => {
-  const errors: FormErrors = {};
-
-  if (values.name.trim().length < 2) errors.name = 'Please enter at least two characters.';
-  if (!emailPattern.test(values.email.trim())) errors.email = 'Please enter a valid email address.';
-  if (values.message.trim().length < 20)
-    errors.message = 'Tell me a little more — at least 20 characters.';
-
-  return errors;
-};
-
-const ContactForm = () => {
+const ContactForm = ({ gateway = defaultGateway }: ContactFormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const abortRef = useRef<AbortController | null>(null);
-  const [errors, setErrors] = useState<FormErrors>({});
+  const [errors, setErrors] = useState<ContactValidationErrors>({});
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [feedback, setFeedback] = useState('');
+
+  useEffect(() => () => abortRef.current?.abort(), []);
 
   const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -40,7 +37,7 @@ const ContactForm = () => {
       email: String(formData.get('email') ?? ''),
       message: String(formData.get('message') ?? ''),
     };
-    const validationErrors = validate(values);
+    const validationErrors = validateContactMessage(values);
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length > 0) {
@@ -50,11 +47,14 @@ const ContactForm = () => {
     }
 
     abortRef.current?.abort();
-    abortRef.current = new AbortController();
+    const controller = new AbortController();
+    abortRef.current = controller;
     setStatus('sending');
     setFeedback('Sending your message…');
 
-    const result = await SendContactMessage.execute(gateway, values, abortRef.current.signal);
+    const result = await SendContactMessage.execute(gateway, values, controller.signal);
+    if (controller.signal.aborted || abortRef.current !== controller) return;
+
     setStatus(result.success ? 'success' : 'error');
     setFeedback(result.message);
 

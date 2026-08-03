@@ -1,4 +1,12 @@
-<nav class="social-links" aria-label="Social profiles">
+---
+interface Props {
+  label: string;
+}
+
+const { label } = Astro.props;
+---
+
+<nav class="social-links" aria-label={label}>
   <a href="https://github.com/MiguelAngelGutierrezMaya" target="_blank" rel="noreferrer"
     >GitHub <span aria-hidden="true">↗</span></a
   >
