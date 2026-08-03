@@ -1,16 +1,20 @@
 :root {
-  --color-bg: #07090d;
-  --color-bg-soft: #0d1016;
+  --color-bg: #090b0f;
+  --color-bg-soft: #111318;
   --color-surface: rgb(255 255 255 / 4%);
   --color-surface-strong: rgb(255 255 255 / 9%);
   --color-line: rgb(255 255 255 / 11%);
   --color-line-strong: rgb(255 255 255 / 18%);
-  --color-text-strong: #f6f8fb;
-  --color-text: #d8dce5;
-  --color-text-muted: #9ca4b4;
-  --color-text-subtle: #707889;
-  --color-accent: #75dcff;
-  --color-accent-secondary: #bcb0ff;
+  --color-text-strong: #fbfbfb;
+  --color-text: #dfe1e5;
+  --color-text-muted: #abb0ba;
+  --color-text-subtle: #858b96;
+  --color-brand: #d94a48;
+  --color-brand-rgb: 217 74 72;
+  --color-accent: #f06461;
+  --color-accent-rgb: 240 100 97;
+  --color-accent-secondary: #ff9a91;
+  --color-accent-secondary-rgb: 255 154 145;
   --color-success: #78e0b6;
   --font-sans:
     Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI',

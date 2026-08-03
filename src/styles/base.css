@@ -20,10 +20,10 @@ body {
   background:
     radial-gradient(
       circle at var(--pointer-x, 70%) var(--pointer-y, 10%),
-      rgb(72 202 255 / 8%),
+      rgb(var(--color-brand-rgb) / 10%),
       transparent 24rem
     ),
-    linear-gradient(180deg, #080a0f 0%, var(--color-bg) 42%, #090b10 100%);
+    linear-gradient(180deg, #0d0f14 0%, var(--color-bg) 42%, #0b0d12 100%);
   color: var(--color-text);
   text-rendering: optimizeLegibility;
 }
@@ -40,7 +40,7 @@ body::before {
 }
 
 ::selection {
-  background: rgb(117 220 255 / 30%);
+  background: rgb(var(--color-accent-rgb) / 32%);
   color: var(--color-text-strong);
 }
 
@@ -212,12 +212,12 @@ textarea {
 .button--primary {
   background: var(--color-text-strong);
   color: #080a0f;
-  box-shadow: 0 10px 30px rgb(160 225 255 / 12%);
+  box-shadow: 0 10px 30px rgb(var(--color-brand-rgb) / 14%);
 }
 
 .button--primary:hover {
   background: #fff;
-  box-shadow: 0 14px 38px rgb(160 225 255 / 20%);
+  box-shadow: 0 14px 38px rgb(var(--color-brand-rgb) / 22%);
 }
 
 .button--secondary {
@@ -227,7 +227,7 @@ textarea {
 }
 
 .button--secondary:hover {
-  border-color: rgb(117 220 255 / 35%);
+  border-color: rgb(var(--color-accent-rgb) / 42%);
   background: rgb(255 255 255 / 7%);
 }
 

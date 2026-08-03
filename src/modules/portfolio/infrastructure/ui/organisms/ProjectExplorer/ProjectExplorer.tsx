@@ -99,12 +99,8 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
                     ))}
                   </ul>
                   {project.repositoryUrl ? (
-                    <a
-                      href={project.repositoryUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={`Open ${project.title} repository`}
-                    >
+                    <a href={project.repositoryUrl} target="_blank" rel="noreferrer">
+                      <span className="sr-only">{project.title}: </span>
                       View repository <span aria-hidden="true">↗</span>
                     </a>
                   ) : (

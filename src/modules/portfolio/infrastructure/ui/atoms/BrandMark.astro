@@ -1,4 +1,8 @@
 ---
+import { Image } from 'astro:assets';
+
+import logo from '@/assets/migudev-logo.webp';
+
 interface Props {
   compact?: boolean;
 }
@@ -6,8 +10,10 @@ interface Props {
 const { compact = false } = Astro.props;
 ---
 
-<a class="brand" href="/" aria-label="Miguel Gutierrez — Home">
-  <span class="brand__mark" aria-hidden="true">MG</span>
+<a class="brand" href="/" aria-label={compact ? 'Migudev home' : undefined}>
+  <span class="brand__mark" aria-hidden="true">
+    <Image class="brand__logo" src={logo} alt="" width={92} height={92} quality={88} />
+  </span>
   {
     !compact && (
       <span class="brand__copy">

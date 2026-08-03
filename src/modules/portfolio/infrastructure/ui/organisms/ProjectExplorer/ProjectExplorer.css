@@ -70,7 +70,7 @@
 }
 
 .project-search:focus-within {
-  border-color: rgb(115 220 255 / 45%);
+  border-color: rgb(var(--color-accent-rgb) / 48%);
   background: rgb(255 255 255 / 4%);
 }
 
@@ -113,7 +113,8 @@
   border: 1px solid var(--color-line);
   border-radius: var(--radius-card);
   background:
-    radial-gradient(circle at 100% 0%, rgb(70 195 255 / 12%), transparent 34%), var(--color-surface);
+    radial-gradient(circle at 100% 0%, rgb(var(--color-brand-rgb) / 14%), transparent 34%),
+    var(--color-surface);
   padding: 1.35rem;
   position: relative;
   transition:
@@ -136,7 +137,7 @@
 }
 
 .project-card:hover {
-  border-color: rgb(125 218 255 / 38%);
+  border-color: rgb(var(--color-accent-rgb) / 42%);
   box-shadow: 0 30px 70px rgb(0 0 0 / 24%);
   transform: translateY(-5px);
 }
