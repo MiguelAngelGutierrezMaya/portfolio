@@ -196,6 +196,9 @@ await Promise.all([
   download(manifest.assets.profilePortrait, managedFiles.profilePortrait),
   ...manifest.projectPreviews.map(preview => {
     assertObject(preview, 'project preview');
-    return download(preview, projectPreviewOptions(preview.filename));
+    assertDescriptor(preview, `project preview ${preview.filename}`);
+    projectPreviewOptions(preview.filename);
+    assertManagedKey(preview.key, 'media/projects/', `project preview ${preview.filename}`);
+    return Promise.resolve();
   }),
 ]);

@@ -5,8 +5,8 @@ import { ContentFilePortfolioRepository } from '@portfolio/infrastructure/reposi
 import { GetPortfolioContent } from './GetPortfolioContent';
 
 describe('GetPortfolioContent', () => {
-  it('returns the complete curated portfolio', () => {
-    const content = GetPortfolioContent.execute(new ContentFilePortfolioRepository());
+  it('returns the complete curated portfolio', async () => {
+    const content = await GetPortfolioContent.execute(new ContentFilePortfolioRepository());
 
     expect(content.projects).toHaveLength(23);
     expect(content.experiences).toHaveLength(5);
@@ -16,14 +16,14 @@ describe('GetPortfolioContent', () => {
     expect(content.navigation).toHaveLength(4);
   });
 
-  it('keeps project identifiers unique', () => {
-    const { projects } = GetPortfolioContent.execute(new ContentFilePortfolioRepository());
+  it('keeps project identifiers unique', async () => {
+    const { projects } = await GetPortfolioContent.execute(new ContentFilePortfolioRepository());
     const ids = projects.map(project => project.id);
 
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it('rejects malformed content at the infrastructure boundary', () => {
+  it('rejects malformed content at the infrastructure boundary', async () => {
     const repository = new ContentFilePortfolioRepository({
       schemaVersion: 1,
       projects: [],
@@ -31,6 +31,6 @@ describe('GetPortfolioContent', () => {
       skillGroups: [],
     });
 
-    expect(() => GetPortfolioContent.execute(repository)).toThrow();
+    await expect(GetPortfolioContent.execute(repository)).rejects.toThrow();
   });
 });

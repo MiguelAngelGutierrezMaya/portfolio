@@ -10,7 +10,7 @@ interface Props {
 }
 
 const { document } = Astro.props;
-const portfolioContent = GetPortfolioContent.execute(new ContentFilePortfolioRepository());
+const portfolioContent = await GetPortfolioContent.execute(new ContentFilePortfolioRepository());
 ---
 
 <a class="skip-link" href="#legal-content">Skip to content</a>

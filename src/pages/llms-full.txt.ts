@@ -1,12 +1,12 @@
 import type { APIRoute } from 'astro';
 
 import { GetPortfolioContent } from '@portfolio/application/use-cases/GetPortfolioContent';
-import { ContentFilePortfolioRepository } from '@portfolio/infrastructure/repositories/ContentFilePortfolioRepository';
+import { getRuntimePortfolioRepository } from '@portfolio/infrastructure/repositories/runtimePortfolioRepository';
 
-export const prerender = true;
+export const prerender = false;
 
-export const GET: APIRoute = () => {
-  const content = GetPortfolioContent.execute(new ContentFilePortfolioRepository());
+export const GET: APIRoute = async () => {
+  const content = await GetPortfolioContent.execute(getRuntimePortfolioRepository());
   const lines = [
     `# ${content.profile.name} — ${content.profile.jobTitle}`,
     '',

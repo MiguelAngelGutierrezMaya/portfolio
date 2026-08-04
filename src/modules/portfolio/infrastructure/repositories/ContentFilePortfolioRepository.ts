@@ -7,7 +7,7 @@ import { portfolioContentSchema } from '@portfolio/infrastructure/content/Portfo
 export class ContentFilePortfolioRepository implements PortfolioRepository {
   constructor(private readonly source: unknown = portfolioSource) {}
 
-  getContent(): PortfolioContent {
+  async getContent(): Promise<PortfolioContent> {
     return portfolioContentSchema.parse(this.source);
   }
 }

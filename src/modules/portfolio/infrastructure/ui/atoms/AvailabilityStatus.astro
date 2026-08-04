@@ -1,0 +1,11 @@
+---
+import { GetPortfolioContent } from '@portfolio/application/use-cases/GetPortfolioContent';
+import { getRuntimePortfolioRepository } from '@portfolio/infrastructure/repositories/runtimePortfolioRepository';
+
+const content = await GetPortfolioContent.execute(getRuntimePortfolioRepository());
+---
+
+<a class="availability" href="#contact" aria-live="polite">
+  <span aria-hidden="true"></span>
+  {content.profile.availability}
+</a>

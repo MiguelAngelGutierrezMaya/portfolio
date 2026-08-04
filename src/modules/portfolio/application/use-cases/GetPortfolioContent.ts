@@ -2,7 +2,7 @@ import type { PortfolioRepository } from '@portfolio/application/ports/Portfolio
 import type { PortfolioContent } from '@portfolio/domain/models/Portfolio';
 
 export class GetPortfolioContent {
-  static execute(repository: PortfolioRepository): PortfolioContent {
+  static execute(repository: PortfolioRepository): Promise<PortfolioContent> {
     return repository.getContent();
   }
 }

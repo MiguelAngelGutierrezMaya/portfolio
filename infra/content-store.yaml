@@ -1,5 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Private, versioned content store consumed by the Migudev Amplify build.
+Transform: AWS::Serverless-2016-10-31
+Description: Private, versioned content store consumed by the Migudev Amplify runtime.
 
 Parameters:
   AmplifyAppId:
@@ -132,6 +133,56 @@ Resources:
                 Effect: Allow
                 Action: lambda:InvokeFunction
                 Resource: !GetAtt ContentPresigner.Arn
+              - Sid: ApplyAmplifyRoutingRules
+                Effect: Allow
+                Action:
+                  - amplify:GetApp
+                  - amplify:UpdateApp
+                Resource: !Sub arn:${AWS::Partition}:amplify:${AWS::Region}:${AWS::AccountId}:apps/${AmplifyAppId}
+      Tags:
+        - Key: Project
+          Value: migudev-portfolio
+
+  AmplifyContentComputeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: MigudevPortfolioAmplifyComputeRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: amplify.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              ArnLike:
+                aws:SourceArn: !Sub arn:${AWS::Partition}:amplify:${AWS::Region}:${AWS::AccountId}:apps/${AmplifyAppId}*
+              StringEquals:
+                aws:SourceAccount: !Ref AWS::AccountId
+      Policies:
+        - PolicyName: ReadRuntimePortfolioContent
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: ReadManagedObjects
+                Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:GetObjectVersion
+                Resource:
+                  - !Sub ${ContentBucket.Arn}/content/*
+                  - !Sub ${ContentBucket.Arn}/media/projects/*
+              - Sid: DecryptManagedObjects
+                Effect: Allow
+                Action: kms:Decrypt
+                Resource: !GetAtt ContentKey.Arn
+                Condition:
+                  StringEquals:
+                    kms:ViaService: !Sub s3.${AWS::Region}.${AWS::URLSuffix}
+                  StringLike:
+                    kms:EncryptionContext:aws:s3:arn:
+                      - !Sub ${ContentBucket.Arn}/content/*
+                      - !Sub ${ContentBucket.Arn}/media/projects/*
       Tags:
         - Key: Project
           Value: migudev-portfolio
@@ -186,63 +237,32 @@ Resources:
           Value: migudev-portfolio
 
   ContentPresigner:
-    Type: AWS::Lambda::Function
+    Type: AWS::Serverless::Function
     Properties:
       FunctionName: migudev-portfolio-content-presigner
       Description: Creates five-minute downloads for allowlisted private portfolio content.
       Architectures:
         - arm64
-      Runtime: python3.13
-      Handler: index.handler
+      Runtime: nodejs24.x
+      Handler: handler.handler
       MemorySize: 128
       Timeout: 10
       Role: !GetAtt ContentPresignerRole.Arn
       Environment:
         Variables:
           CONTENT_BUCKET: !Ref ContentBucket
-      Code:
-        ZipFile: |
-          import os
-          import boto3
-          from botocore.config import Config
-
-          bucket = os.environ["CONTENT_BUCKET"]
-          region = os.environ["AWS_REGION"]
-          s3 = boto3.client(
-              "s3",
-              region_name=region,
-              endpoint_url=f"https://s3.{region}.amazonaws.com",
-              config=Config(
-                  signature_version="s3v4",
-                  s3={"addressing_style": "virtual"},
-              ),
-          )
-          allowed_prefixes = (
-              "content/",
-              "media/brand/",
-              "media/profile/",
-              "media/projects/",
-          )
-
-          def handler(event, _context):
-              key = event.get("key") if isinstance(event, dict) else None
-              if not isinstance(key, str) or ".." in key:
-                  raise ValueError("Invalid content key")
-              if not any(key.startswith(prefix) for prefix in allowed_prefixes):
-                  raise ValueError("Content key is outside the managed prefixes")
-
-              return {
-                  "url": s3.generate_presigned_url(
-                      "get_object",
-                      Params={"Bucket": bucket, "Key": key},
-                      ExpiresIn=300,
-                      HttpMethod="GET",
-                  ),
-                  "expiresIn": 300,
-              }
+      CodeUri: functions/content-presigner/
       Tags:
-        - Key: Project
-          Value: migudev-portfolio
+        Project: migudev-portfolio
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - handler.ts
+        Format: cjs
+        Minify: true
+        Sourcemap: false
+        Target: es2022
 
 Outputs:
   BucketName:
@@ -251,5 +271,7 @@ Outputs:
     Value: !GetAtt ContentKey.Arn
   AmplifyContentRoleArn:
     Value: !GetAtt AmplifyContentRole.Arn
+  AmplifyContentComputeRoleArn:
+    Value: !GetAtt AmplifyContentComputeRole.Arn
   ContentPresignerFunctionName:
     Value: !Ref ContentPresigner

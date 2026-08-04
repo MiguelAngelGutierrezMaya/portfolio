@@ -16,7 +16,7 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
-    include: ['src/**/*.test.{ts,tsx}'],
+    include: ['src/**/*.test.{ts,tsx}', 'infra/**/*.test.ts'],
     setupFiles: ['./src/test/setup.ts'],
     coverage: {
       provider: 'v8',
@@ -26,6 +26,8 @@ export default defineConfig({
         'src/modules/**/domain/**/*.ts',
         'src/modules/**/infrastructure/gateways/**/*.ts',
         'src/modules/**/infrastructure/repositories/**/*.ts',
+        'src/modules/**/infrastructure/media/**/*.ts',
+        'infra/functions/**/*.ts',
       ],
       exclude: ['src/**/*.test.{ts,tsx}'],
       thresholds: {

@@ -1,5 +1,8 @@
 # build output
 dist/
+.amplify-hosting/
+.artifacts/
+.aws-sam/
 
 # generated types
 .astro/

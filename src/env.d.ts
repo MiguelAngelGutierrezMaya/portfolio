@@ -1,6 +1,10 @@
 /// <reference types="astro/client" />
 
 interface ImportMetaEnv {
+  readonly CONTENT_BUCKET?: string;
+  readonly CONTENT_MANIFEST_KEY?: string;
+  readonly CONTENT_REGION?: string;
+  readonly CONTENT_RUNTIME_CACHE_TTL_SECONDS?: string;
   readonly PUBLIC_EMAIL_SERVICE_ID?: string;
   readonly PUBLIC_EMAIL_TEMPLATE_ID?: string;
   readonly PUBLIC_EMAIL_URL?: string;

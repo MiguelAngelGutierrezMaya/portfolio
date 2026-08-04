@@ -13,8 +13,13 @@ frontend:
       commands:
         - pnpm sync:content
         - pnpm run build
+    postBuild:
+      commands:
+        - test -n "${AMPLIFY_TARGET_APP_ID:-}"
+        - test -f .amplify-hosting/customRules.json
+        - aws amplify update-app --app-id "${AMPLIFY_TARGET_APP_ID}" --custom-rules "$(<.amplify-hosting/customRules.json)"
   artifacts:
-    baseDirectory: dist
+    baseDirectory: .amplify-hosting
     files:
       - '**/*'
   cache:

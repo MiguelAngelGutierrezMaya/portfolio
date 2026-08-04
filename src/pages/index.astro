@@ -1,10 +1,17 @@
 ---
 import Layout from '@layouts/Layout.astro';
 import { GetPortfolioContent } from '@portfolio/application/use-cases/GetPortfolioContent';
-import { ContentFilePortfolioRepository } from '@portfolio/infrastructure/repositories/ContentFilePortfolioRepository';
+import { getRuntimePortfolioRepository } from '@portfolio/infrastructure/repositories/runtimePortfolioRepository';
 import PortfolioPage from '@portfolio/infrastructure/ui/templates/PortfolioPage.astro';
 
-const content = GetPortfolioContent.execute(new ContentFilePortfolioRepository());
+export const prerender = false;
+
+Astro.response.headers.set(
+  'Cache-Control',
+  'public, max-age=0, s-maxage=60, stale-while-revalidate=86400'
+);
+
+const content = await GetPortfolioContent.execute(getRuntimePortfolioRepository());
 const configuredSite =
   import.meta.env.PUBLIC_SITE_URL || Astro.site?.toString() || Astro.url.origin;
 const siteUrl = new URL('/', configuredSite).toString();

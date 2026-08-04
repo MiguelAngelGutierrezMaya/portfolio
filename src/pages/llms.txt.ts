@@ -1,12 +1,12 @@
 import type { APIRoute } from 'astro';
 
 import { GetPortfolioContent } from '@portfolio/application/use-cases/GetPortfolioContent';
-import { ContentFilePortfolioRepository } from '@portfolio/infrastructure/repositories/ContentFilePortfolioRepository';
+import { getRuntimePortfolioRepository } from '@portfolio/infrastructure/repositories/runtimePortfolioRepository';
 
-export const prerender = true;
+export const prerender = false;
 
-export const GET: APIRoute = ({ site }) => {
-  const content = GetPortfolioContent.execute(new ContentFilePortfolioRepository());
+export const GET: APIRoute = async ({ site }) => {
+  const content = await GetPortfolioContent.execute(getRuntimePortfolioRepository());
   const baseUrl = import.meta.env.PUBLIC_SITE_URL || site?.toString() || 'https://migudev.com';
   const homeUrl = new URL('/', baseUrl).toString();
   const response = [

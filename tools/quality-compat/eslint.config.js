@@ -10,7 +10,16 @@ import tseslint from 'typescript-eslint';
 
 export default defineConfig(
   {
-    ignores: ['dist/**', '.astro/**', 'node_modules/**', 'public/**'],
+    ignores: [
+      'dist/**',
+      '.astro/**',
+      '.amplify-hosting/**',
+      '.artifacts/**',
+      '.aws-sam/**',
+      'coverage/**',
+      'node_modules/**',
+      'public/**',
+    ],
   },
   js.configs.recommended,
   tseslint.configs.recommended,

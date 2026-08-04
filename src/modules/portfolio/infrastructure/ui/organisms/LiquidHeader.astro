@@ -1,5 +1,6 @@
 ---
 import BrandMark from '@portfolio/infrastructure/ui/atoms/BrandMark.astro';
+import AvailabilityStatus from '@portfolio/infrastructure/ui/atoms/AvailabilityStatus.astro';
 import type { Link, Profile } from '@portfolio/domain/models/Portfolio';
 
 interface Props {
@@ -16,10 +17,12 @@ const { profile, navigation } = Astro.props;
     <nav class="desktop-nav" aria-label="Primary navigation">
       {navigation.map(link => <a href={link.href}>{link.label}</a>)}
     </nav>
-    <a class="availability" href="#contact">
-      <span aria-hidden="true"></span>
-      {profile.availability}
-    </a>
+    <AvailabilityStatus server:defer>
+      <a class="availability" href="#contact" aria-busy="true" slot="fallback">
+        <span aria-hidden="true"></span>
+        {profile.availability}
+      </a>
+    </AvailabilityStatus>
     <details class="mobile-nav">
       <summary aria-label="Open navigation"><span></span><span></span></summary>
       <nav aria-label="Mobile navigation">

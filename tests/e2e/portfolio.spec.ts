@@ -8,6 +8,7 @@ test('renders the complete portfolio and supports project discovery', async ({ p
     page.getByRole('heading', { level: 1, name: /i build digital products that feel/i })
   ).toBeVisible();
   await expect(page.locator('[data-site-header]')).toBeVisible();
+  await expect(page.locator('.availability')).not.toHaveAttribute('aria-busy', 'true');
 
   const projectIsland = page.locator('astro-island[component-url*="ProjectExplorer"]');
   await projectIsland.scrollIntoViewIfNeeded();
@@ -63,7 +64,7 @@ test('publishes canonical search and LLM discovery metadata', async ({ page, req
   expect(await manifest.json()).toEqual(expect.objectContaining({ short_name: 'Migudev' }));
 });
 
-for (const route of ['/', '/privacy/', '/terms/']) {
+for (const route of ['/', '/privacy/index.html', '/terms/index.html']) {
   test(`@a11y has no detectable accessibility violations on ${route}`, async ({ page }) => {
     await page.goto(route);
     await page.waitForLoadState('networkidle');

@@ -4,6 +4,8 @@ import { GetLegalDocument } from '@legal/application/use-cases/GetLegalDocument'
 import { StaticLegalRepository } from '@legal/infrastructure/repositories/StaticLegalRepository';
 import LegalPage from '@legal/infrastructure/ui/templates/LegalPage.astro';
 
+export const prerender = true;
+
 const document = GetLegalDocument.execute(new StaticLegalRepository(), 'privacy');
 ---
 
