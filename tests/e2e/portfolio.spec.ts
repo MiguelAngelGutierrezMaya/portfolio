@@ -20,6 +20,34 @@ test('renders the complete portfolio and supports project discovery', async ({ p
   await expect(page.getByRole('heading', { name: 'Expense Tracker' })).toBeVisible();
 });
 
+test('serves optimized managed images without runtime transformations', async ({ page }) => {
+  const failedImages = new Set<string>();
+  page.on('response', response => {
+    if (response.request().resourceType() === 'image' && !response.ok()) {
+      failedImages.add(`${response.status()} ${response.url()}`);
+    }
+  });
+
+  await page.goto('/', { waitUntil: 'networkidle' });
+
+  const portrait = page.getByRole('img', { name: /miguel/i });
+  const logo = page.locator('.brand__logo').first();
+  await expect(portrait).toBeVisible();
+  await expect(logo).toBeVisible();
+  await expect(portrait).toHaveJSProperty('complete', true);
+  await expect(logo).toHaveJSProperty('complete', true);
+  expect(
+    await portrait.evaluate(image => (image as HTMLImageElement).naturalWidth)
+  ).toBeGreaterThan(0);
+  expect(await logo.evaluate(image => (image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+  expect(
+    await page
+      .locator('img')
+      .evaluateAll(images => images.map(image => (image as HTMLImageElement).currentSrc))
+  ).not.toEqual(expect.arrayContaining([expect.stringContaining('/_image/')]));
+  expect([...failedImages]).toEqual([]);
+});
+
 test('supports keyboard navigation and accessible form feedback', async ({ page }) => {
   await page.goto('/', { waitUntil: 'networkidle' });
 

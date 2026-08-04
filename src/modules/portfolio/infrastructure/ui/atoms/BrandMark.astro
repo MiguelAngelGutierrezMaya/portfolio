@@ -1,7 +1,4 @@
 ---
-import { Image } from 'astro:assets';
-
-import logo from '@/assets/migudev-logo.webp';
 import type { Profile } from '@portfolio/domain/models/Portfolio';
 
 interface Props {
@@ -14,7 +11,16 @@ const { profile, compact = false } = Astro.props;
 
 <a class="brand" href="/" aria-label={compact ? `${profile.brandName} home` : undefined}>
   <span class="brand__mark" aria-hidden="true">
-    <Image class="brand__logo" src={logo} alt="" width={92} height={92} quality={88} />
+    <img
+      class="brand__logo"
+      src="/media/brand/migudev-logo-92.webp"
+      srcset="/media/brand/migudev-logo-92.webp 1x, /media/brand/migudev-logo-184.webp 2x"
+      alt=""
+      width="92"
+      height="92"
+      loading="eager"
+      decoding="async"
+    />
   </span>
   {
     !compact && (

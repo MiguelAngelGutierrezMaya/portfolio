@@ -10,6 +10,8 @@ coverage/
 playwright-report/
 test-results/
 .lighthouseci/
+public/media/brand/
+public/media/profile/
 
 # dependencies
 node_modules/

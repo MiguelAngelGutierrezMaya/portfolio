@@ -1,7 +1,4 @@
 ---
-import { Image } from 'astro:assets';
-
-import portrait from '@/assets/miguel-gutierrez-portrait.png';
 import type { Profile } from '@portfolio/domain/models/Portfolio';
 
 interface Props {
@@ -13,17 +10,29 @@ const { portraitContent } = Astro.props;
 
 <figure class="profile-portrait glass-panel">
   <div class="profile-portrait__media">
-    <Image
-      src={portrait}
-      alt={portraitContent.alt}
-      widths={[320, 480, 640]}
-      sizes="(max-width: 520px) 84vw, (max-width: 780px) 16rem, 20rem"
-      format="webp"
-      quality={84}
-      loading="eager"
-      fetchpriority="high"
-      decoding="async"
-    />
+    <picture>
+      <source
+        type="image/avif"
+        srcset="/media/profile/miguel-gutierrez-portrait-320.avif 320w, /media/profile/miguel-gutierrez-portrait-480.avif 480w, /media/profile/miguel-gutierrez-portrait-640.avif 640w"
+        sizes="(max-width: 520px) 84vw, (max-width: 780px) 16rem, 20rem"
+      />
+      <source
+        type="image/webp"
+        srcset="/media/profile/miguel-gutierrez-portrait-320.webp 320w, /media/profile/miguel-gutierrez-portrait-480.webp 480w, /media/profile/miguel-gutierrez-portrait-640.webp 640w"
+        sizes="(max-width: 520px) 84vw, (max-width: 780px) 16rem, 20rem"
+      />
+      <img
+        src="/media/profile/miguel-gutierrez-portrait-640.webp"
+        srcset="/media/profile/miguel-gutierrez-portrait-320.webp 320w, /media/profile/miguel-gutierrez-portrait-480.webp 480w, /media/profile/miguel-gutierrez-portrait-640.webp 640w"
+        sizes="(max-width: 520px) 84vw, (max-width: 780px) 16rem, 20rem"
+        alt={portraitContent.alt}
+        width="640"
+        height="800"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
   </div>
   <figcaption class="profile-portrait__caption">
     <span>{portraitContent.eyebrow}</span>

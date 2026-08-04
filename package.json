@@ -8,13 +8,14 @@
     "node": ">=24.16.0 <25"
   },
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
+    "dev": "pnpm prepare:media && astro dev",
+    "start": "pnpm prepare:media && astro dev",
     "sync:content": "node tools/sync-managed-content.mjs",
+    "prepare:media": "node tools/optimize-managed-media.mjs",
     "build:lambda": "esbuild infra/functions/content-presigner/handler.ts --bundle --platform=node --target=node24 --format=cjs --sourcemap --outfile=.artifacts/content-presigner/index.cjs",
     "build:infra": "SAM_CLI_TELEMETRY=0 sam build --template-file infra/content-store.yaml --build-dir .aws-sam/build",
     "validate:infra": "SAM_CLI_TELEMETRY=0 sam validate --lint --template-file infra/content-store.yaml",
-    "build": "pnpm typecheck && pnpm check:astro && astro build",
+    "build": "pnpm typecheck && pnpm check:astro && pnpm prepare:media && astro build",
     "typecheck": "tsc --noEmit",
     "check:astro": "pnpm --dir tools/quality-compat check:astro",
     "preview": "node .amplify-hosting/compute/default/entry.mjs",
