@@ -3,7 +3,7 @@
   "content": {
     "portfolio": {
       "key": "content/portfolio.json",
-      "sha256": "1175ade6492618197098e3acb0f98829dc6c635815f253db6c24c9195aacf433"
+      "sha256": "0c6882135c96023d51b7da8d4e3e92499b28028ee1797be704c9c4ccf0830bb0"
     }
   },
   "assets": {
@@ -16,5 +16,123 @@
       "sha256": "0270c1defdb4a699587eaf6cb7d5337a5ff1d61a36b6ce4f951c0b8bbcdca088"
     }
   },
-  "projectPreviews": []
+  "companyLogos": [
+    {
+      "filename": "colegium.avif",
+      "key": "media/companies/colegium.avif",
+      "sha256": "077442065d057ad52a08fe1f202a5273242ae8d0f9c5f21c57d3d10e7d8a0bf8"
+    },
+    {
+      "filename": "crealo-digital.avif",
+      "key": "media/companies/crealo-digital.avif",
+      "sha256": "04efedeae4d4efb0f2e4fe4047f07320c8b8b954578bcafe40ca32bc514c035c"
+    },
+    {
+      "filename": "jetset-viajes.avif",
+      "key": "media/companies/jetset-viajes.avif",
+      "sha256": "a1669f8ceb7dd354d0ec7b83b7eb4593454af75ad62855443ac99c1e2c4eca2a"
+    },
+    {
+      "filename": "keybe.avif",
+      "key": "media/companies/keybe.avif",
+      "sha256": "c8b4f57336b700d8ea8120ae2765d40c8c6b628ff5d7d5c42d85699ed9611b49"
+    },
+    {
+      "filename": "pca-ingenieria.avif",
+      "key": "media/companies/pca-ingenieria.avif",
+      "sha256": "4fe9a26b089e273739473d34e2c9ae0ec909528785cc9560b51ebf75c3a8da8b"
+    }
+  ],
+  "projectPreviews": [
+    {
+      "filename": "backend.webp",
+      "key": "media/projects/backend.webp",
+      "sha256": "f4a2ada70b678e2d7ac227580e9b12f73847a05b099bd95e45c6b2e76eed4913"
+    },
+    {
+      "filename": "biky.webp",
+      "key": "media/projects/biky.webp",
+      "sha256": "267d94e36f80a29fa7d49f34cdb819d99c7b6ced90440c6468e2c6360a63eec4"
+    },
+    {
+      "filename": "chat-app-ios.webp",
+      "key": "media/projects/chat-app-ios.webp",
+      "sha256": "b03c0107632be4144c108641f2c45645fd76ea3f14f7a0ef8346e902cb7f2f0e"
+    },
+    {
+      "filename": "cosechapp.webp",
+      "key": "media/projects/cosechapp.webp",
+      "sha256": "1dc75cddc90bf1fa992e357d9c8c42fbd41653b5d45781289855998d03474128"
+    },
+    {
+      "filename": "expense-tracker.webp",
+      "key": "media/projects/expense-tracker.webp",
+      "sha256": "56315e48fbb84817882e1f3ba367c3c4040a106d7085314b4da3bcca2caf6b94"
+    },
+    {
+      "filename": "keybe-app.webp",
+      "key": "media/projects/keybe-app.webp",
+      "sha256": "3c37b5a920ae6318653003ec08b8e443bf383cde8f13f4d0bafddbad1593352b"
+    },
+    {
+      "filename": "keybe-flows.webp",
+      "key": "media/projects/keybe-flows.webp",
+      "sha256": "15a736bb07f7057f3df0e3347d39a00eb64c2cb5e532e291f4145f153c40c10d"
+    },
+    {
+      "filename": "keybe-metrics.webp",
+      "key": "media/projects/keybe-metrics.webp",
+      "sha256": "51653dbddd015ee05bb62c8209b0ed7a47afc7613f9105a0c175c543a0f3580e"
+    },
+    {
+      "filename": "keybe-v6.webp",
+      "key": "media/projects/keybe-v6.webp",
+      "sha256": "4fcca1a87f2b9baf52d4626b28fbaeedf2c332c4ca834bd320a24774e9fcfe61"
+    },
+    {
+      "filename": "make-it-so.webp",
+      "key": "media/projects/make-it-so.webp",
+      "sha256": "f59bba63bb8980d0a70c4c3348fe1f0ed72f348837ffbebc283432f55e2dca89"
+    },
+    {
+      "filename": "messager.webp",
+      "key": "media/projects/messager.webp",
+      "sha256": "60130837db2289ad68cb7ad7f05f5c246ae6515e131c36cc09ee0074036780f4"
+    },
+    {
+      "filename": "netflix-ui.webp",
+      "key": "media/projects/netflix-ui.webp",
+      "sha256": "d3ee3b89304b0a672a77b5341a4bd803a15bb69f48a7db67028d7254fccb9e1d"
+    },
+    {
+      "filename": "platzi-tweets.webp",
+      "key": "media/projects/platzi-tweets.webp",
+      "sha256": "ca7f1aa42a4fcdbd8ce72f564bf5f8c19d922ff0c85bdb276292508ae95b55f8"
+    },
+    {
+      "filename": "rick-and-morty.webp",
+      "key": "media/projects/rick-and-morty.webp",
+      "sha256": "96692cf6e3df7b31f6a6128ed588068cdc231bc6eba0ac473b19694715afba6f"
+    },
+    {
+      "filename": "siellano-web.webp",
+      "key": "media/projects/siellano-web.webp",
+      "sha256": "28711840c5149e35f9773e1b2fff7b0f6fec9f11382859afe3566e3e8fee798b"
+    },
+    {
+      "filename": "speech-transcribing.webp",
+      "key": "media/projects/speech-transcribing.webp",
+      "sha256": "fc09f90d30d590b3ab432c7676cfcc1a78f26d596582be76c54a0d7c3d8fa1e2"
+    },
+    {
+      "filename": "syncrasy.webp",
+      "key": "media/projects/syncrasy.webp",
+      "sha256": "6848c9de9922229cd981d943735c140e59e7c383725e169a173807992880e05b"
+    },
+    {
+      "filename": "tip-top-web.webp",
+      "key": "media/projects/tip-top-web.webp",
+      "sha256": "83f17ad794b69197a75e81d474ddbf6b3a9b76e730c9ec6e74e61008161c13ea"
+    }
+  ]
 }

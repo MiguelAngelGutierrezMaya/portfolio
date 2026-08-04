@@ -143,20 +143,22 @@ async function download(descriptor, options) {
   process.stdout.write(`Synced ${key} -> ${options.destination}\n`);
 }
 
-function projectPreviewOptions(filename) {
+function assertRuntimeMedia(descriptor, prefix, label) {
+  assertObject(descriptor, label);
+  assertDescriptor(descriptor, label);
+  const { filename, key } = descriptor;
+
   if (
     typeof filename !== 'string' ||
     !/^[a-z0-9][a-z0-9._-]*\.(avif|webp|png|jpe?g)$/i.test(filename)
   ) {
-    throw new Error(`Invalid project preview filename: ${filename}`);
+    throw new Error(`Invalid ${label} filename: ${filename}`);
   }
 
-  return {
-    kind: 'image',
-    maxBytes: 4 * 1024 * 1024,
-    prefix: 'media/projects/',
-    destination: `public/media/projects/${filename}`,
-  };
+  assertManagedKey(key, prefix, label);
+  if (key !== `${prefix}${filename}`) {
+    throw new Error(`${label}.key must match its filename`);
+  }
 }
 
 if (!bucket) {
@@ -189,16 +191,18 @@ if (manifest.schemaVersion !== 1) throw new Error('Unsupported managed content m
 if (!Array.isArray(manifest.projectPreviews)) {
   throw new Error('manifest.projectPreviews must be an array');
 }
+if (!Array.isArray(manifest.companyLogos)) {
+  throw new Error('manifest.companyLogos must be an array');
+}
 
 await download(manifest.content.portfolio, managedFiles.portfolio);
 await Promise.all([
   download(manifest.assets.brandLogo, managedFiles.brandLogo),
   download(manifest.assets.profilePortrait, managedFiles.profilePortrait),
-  ...manifest.projectPreviews.map(preview => {
-    assertObject(preview, 'project preview');
-    assertDescriptor(preview, `project preview ${preview.filename}`);
-    projectPreviewOptions(preview.filename);
-    assertManagedKey(preview.key, 'media/projects/', `project preview ${preview.filename}`);
-    return Promise.resolve();
-  }),
+  ...manifest.projectPreviews.map((preview, index) =>
+    Promise.resolve(assertRuntimeMedia(preview, 'media/projects/', `project preview ${index + 1}`))
+  ),
+  ...manifest.companyLogos.map((logo, index) =>
+    Promise.resolve(assertRuntimeMedia(logo, 'media/companies/', `company logo ${index + 1}`))
+  ),
 ]);

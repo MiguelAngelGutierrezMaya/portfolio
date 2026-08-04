@@ -3,7 +3,13 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import type { Handler } from 'aws-lambda';
 
 const urlLifetimeSeconds = 300;
-const allowedPrefixes = ['content/', 'media/brand/', 'media/profile/', 'media/projects/'];
+const allowedPrefixes = [
+  'content/',
+  'media/brand/',
+  'media/companies/',
+  'media/profile/',
+  'media/projects/',
+];
 
 interface ContentPresignerEvent {
   readonly key?: unknown;

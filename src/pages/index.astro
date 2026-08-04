@@ -63,6 +63,12 @@ const structuredData = {
       image: socialImage,
       jobTitle: content.profile.jobTitle,
       email: `mailto:${content.profile.email}`,
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'professional inquiries',
+        url: content.profile.whatsapp.href,
+        availableLanguage: ['English', 'Spanish'],
+      },
       homeLocation: {
         '@type': 'Place',
         name: 'Cali, Colombia',

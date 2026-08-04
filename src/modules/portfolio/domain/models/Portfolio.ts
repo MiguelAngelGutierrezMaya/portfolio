@@ -21,6 +21,7 @@ export interface Profile {
   readonly jobTitle: string;
   readonly location: string;
   readonly email: string;
+  readonly whatsapp: Link;
   readonly availability: string;
   readonly headline: {
     readonly lead: string;
@@ -36,6 +37,13 @@ export interface Profile {
   };
   readonly metrics: readonly Metric[];
   readonly socialLinks: readonly SocialLink[];
+}
+
+export interface ManagedMediaAsset {
+  readonly src: string;
+  readonly alt: string;
+  readonly width: number;
+  readonly height: number;
 }
 
 export interface Metric {
@@ -73,12 +81,7 @@ export interface Project {
   readonly category: ProjectCategory;
   readonly technologies: readonly string[];
   readonly repositoryUrl?: string;
-  readonly preview?: {
-    readonly src: string;
-    readonly alt: string;
-    readonly width: number;
-    readonly height: number;
-  };
+  readonly preview?: ManagedMediaAsset;
   readonly featured?: boolean;
 }
 
@@ -90,6 +93,7 @@ export interface Experience {
   readonly endDate: string;
   readonly summary: string;
   readonly website?: string;
+  readonly logo?: ManagedMediaAsset;
 }
 
 export interface SkillGroup {

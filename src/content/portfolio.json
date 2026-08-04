@@ -6,6 +6,10 @@
     "jobTitle": "Fullstack Product Engineer",
     "location": "Cali, Colombia · Working globally",
     "email": "gutierrezmayamiguelangel@gmail.com",
+    "whatsapp": {
+      "label": "Write me on WhatsApp",
+      "href": "https://wa.me/573113230033"
+    },
     "availability": "Available for opportunities",
     "headline": {
       "lead": "I build digital products that feel",
@@ -113,6 +117,12 @@
       "summary": "Multi-channel workspace for AI-assisted conversations, CRM, campaigns and sales funnels.",
       "category": "Frontend",
       "technologies": ["Vue.js", "TypeScript", "Tailwind CSS", "SCSS"],
+      "preview": {
+        "src": "/media/projects/keybe-v6.webp",
+        "alt": "Keybe V6 conversation workspace interface",
+        "width": 960,
+        "height": 780
+      },
       "featured": true
     },
     {
@@ -121,6 +131,12 @@
       "summary": "Configuration platform for AI assistants, capabilities, personality and visual identity.",
       "category": "Frontend",
       "technologies": ["Vue.js", "TypeScript", "Tailwind CSS"],
+      "preview": {
+        "src": "/media/projects/biky.webp",
+        "alt": "Biky AI assistant configuration interface",
+        "width": 960,
+        "height": 509
+      },
       "featured": true
     },
     {
@@ -129,6 +145,12 @@
       "summary": "Visual automation builder for conversational flows and third-party integrations.",
       "category": "Frontend",
       "technologies": ["React", "TypeScript", "Tailwind CSS"],
+      "preview": {
+        "src": "/media/projects/keybe-flows.webp",
+        "alt": "Keybe Flows visual automation builder",
+        "width": 960,
+        "height": 675
+      },
       "featured": true
     },
     {
@@ -136,21 +158,39 @@
       "title": "Keybe Metrics",
       "summary": "Interactive sales, lead and team-performance analytics for customer operations.",
       "category": "Frontend",
-      "technologies": ["Vue.js", "TypeScript", "Data visualization"]
+      "technologies": ["Vue.js", "TypeScript", "Data visualization"],
+      "preview": {
+        "src": "/media/projects/keybe-metrics.webp",
+        "alt": "Keybe Metrics analytics dashboard",
+        "width": 960,
+        "height": 685
+      }
     },
     {
       "id": "cosechapp",
       "title": "4.0 Brands — Cosechapp",
       "summary": "Product, order and inventory management experience designed for agricultural teams.",
       "category": "Frontend",
-      "technologies": ["Vue.js", "JavaScript", "CSS"]
+      "technologies": ["Vue.js", "JavaScript", "CSS"],
+      "preview": {
+        "src": "/media/projects/cosechapp.webp",
+        "alt": "Cosechapp agricultural management interface",
+        "width": 960,
+        "height": 713
+      }
     },
     {
       "id": "syncrasy",
       "title": "Syncrasy Medcloud",
       "summary": "Medical information workspace focused on clear operational workflows.",
       "category": "Frontend",
-      "technologies": ["Angular", "TypeScript", "CSS"]
+      "technologies": ["Angular", "TypeScript", "CSS"],
+      "preview": {
+        "src": "/media/projects/syncrasy.webp",
+        "alt": "Syncrasy Medcloud medical workspace interface",
+        "width": 960,
+        "height": 671
+      }
     },
     {
       "id": "tip-top-web",
@@ -158,6 +198,12 @@
       "summary": "Course, materials, classes and meeting management for an English-learning service.",
       "category": "Frontend",
       "technologies": ["React", "JavaScript", "CSS"],
+      "preview": {
+        "src": "/media/projects/tip-top-web.webp",
+        "alt": "Tip Top English learning platform interface",
+        "width": 960,
+        "height": 699
+      },
       "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/tip-tip-front"
     },
     {
@@ -166,6 +212,12 @@
       "summary": "Medical appointments, patients and clinical-history management interface.",
       "category": "Frontend",
       "technologies": ["React", "TypeScript", "CSS"],
+      "preview": {
+        "src": "/media/projects/siellano-web.webp",
+        "alt": "Siellano medical management interface",
+        "width": 960,
+        "height": 565
+      },
       "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/medical-history-web"
     },
     {
@@ -174,6 +226,12 @@
       "summary": "Authentication and authorization microservice built as a hexagonal-architecture study.",
       "category": "Backend",
       "technologies": ["Node.js", "Express", "MongoDB", "Docker"],
+      "preview": {
+        "src": "/media/projects/backend.webp",
+        "alt": "Backend service architecture code preview",
+        "width": 805,
+        "height": 428
+      },
       "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/hex-architecture-node-js",
       "featured": true
     },
@@ -183,6 +241,12 @@
       "summary": "Event-driven services for orchestrating conversations across multiple customer channels.",
       "category": "Backend",
       "technologies": ["NestJS", "AWS Lambda", "SQS", "Redis", "MongoDB"],
+      "preview": {
+        "src": "/media/projects/backend.webp",
+        "alt": "Backend service architecture code preview",
+        "width": 805,
+        "height": 428
+      },
       "featured": true
     },
     {
@@ -190,14 +254,26 @@
       "title": "4.0 Brands Services",
       "summary": "Monorepo for agricultural products, orders, farmers and inventory operations.",
       "category": "Backend",
-      "technologies": ["PHP", "Laravel", "MySQL"]
+      "technologies": ["PHP", "Laravel", "MySQL"],
+      "preview": {
+        "src": "/media/projects/backend.webp",
+        "alt": "Backend service architecture code preview",
+        "width": 805,
+        "height": 428
+      }
     },
     {
       "id": "colegium-services",
       "title": "Colegium Microservices",
       "summary": "Education-domain services for data workflows and digital signatures.",
       "category": "Backend",
-      "technologies": ["Node.js", "PostgreSQL", "RabbitMQ"]
+      "technologies": ["Node.js", "PostgreSQL", "RabbitMQ"],
+      "preview": {
+        "src": "/media/projects/backend.webp",
+        "alt": "Backend service architecture code preview",
+        "width": 805,
+        "height": 428
+      }
     },
     {
       "id": "tip-top-api",
@@ -205,6 +281,12 @@
       "summary": "Backend for courses, classes, educational materials and scheduled meetings.",
       "category": "Backend",
       "technologies": ["Python", "Django", "PostgreSQL", "Docker"],
+      "preview": {
+        "src": "/media/projects/backend.webp",
+        "alt": "Backend service architecture code preview",
+        "width": 805,
+        "height": 428
+      },
       "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/tip-top-backend"
     },
     {
@@ -213,6 +295,12 @@
       "summary": "Clinical-domain API for appointments, professionals, patients and medical records.",
       "category": "Backend",
       "technologies": ["Python", "Django", "MongoDB", "Docker"],
+      "preview": {
+        "src": "/media/projects/backend.webp",
+        "alt": "Backend service architecture code preview",
+        "width": 805,
+        "height": 428
+      },
       "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/medical-history-backend"
     },
     {
@@ -221,6 +309,12 @@
       "summary": "Cross-platform mobile workspace for customer conversations, CRM and events.",
       "category": "Mobile",
       "technologies": ["Flutter", "Dart", "Firebase"],
+      "preview": {
+        "src": "/media/projects/keybe-app.webp",
+        "alt": "Keybe mobile conversation workspace",
+        "width": 540,
+        "height": 1170
+      },
       "featured": true
     },
     {
@@ -229,6 +323,12 @@
       "summary": "Native iOS social prototype with text, images and location-aware posts.",
       "category": "Mobile",
       "technologies": ["Swift", "UIKit", "Firebase"],
+      "preview": {
+        "src": "/media/projects/platzi-tweets.webp",
+        "alt": "Platzi Tweets native iOS interface",
+        "width": 399,
+        "height": 853
+      },
       "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/platzi-tweets"
     },
     {
@@ -237,6 +337,12 @@
       "summary": "SwiftUI finance companion for capturing and understanding personal expenses.",
       "category": "Mobile",
       "technologies": ["Swift", "SwiftUI", "Firebase"],
+      "preview": {
+        "src": "/media/projects/expense-tracker.webp",
+        "alt": "Expense Tracker SwiftUI application",
+        "width": 960,
+        "height": 701
+      },
       "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/ai-expense-tracker",
       "featured": true
     },
@@ -246,6 +352,12 @@
       "summary": "Native iOS real-time messaging study focused on UIKit architecture.",
       "category": "Mobile",
       "technologies": ["Swift", "UIKit", "Firebase"],
+      "preview": {
+        "src": "/media/projects/messager.webp",
+        "alt": "Messager native iOS chat interface",
+        "width": 960,
+        "height": 641
+      },
       "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/Messager"
     },
     {
@@ -254,6 +366,12 @@
       "summary": "Messaging application exploring native iOS patterns and Firebase integration.",
       "category": "Mobile",
       "technologies": ["Swift", "UIKit", "Firebase"],
+      "preview": {
+        "src": "/media/projects/chat-app-ios.webp",
+        "alt": "Chat App native iOS messaging interface",
+        "width": 960,
+        "height": 659
+      },
       "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/ChatAppIOS"
     },
     {
@@ -262,6 +380,12 @@
       "summary": "Clean SwiftUI task manager backed by Firebase services.",
       "category": "Mobile",
       "technologies": ["Swift", "SwiftUI", "Firebase"],
+      "preview": {
+        "src": "/media/projects/make-it-so.webp",
+        "alt": "Make It So SwiftUI task manager",
+        "width": 960,
+        "height": 704
+      },
       "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/make-it-so"
     },
     {
@@ -270,6 +394,12 @@
       "summary": "Motion and interface study inspired by profile-selection experiences.",
       "category": "Mobile",
       "technologies": ["Swift", "SwiftUI", "Motion"],
+      "preview": {
+        "src": "/media/projects/netflix-ui.webp",
+        "alt": "Netflix UI SwiftUI motion study",
+        "width": 960,
+        "height": 662
+      },
       "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/netflix-ui"
     },
     {
@@ -278,6 +408,12 @@
       "summary": "Meeting-oriented voice transcription prototype for iOS.",
       "category": "Mobile",
       "technologies": ["Swift", "SwiftUI", "Speech"],
+      "preview": {
+        "src": "/media/projects/speech-transcribing.webp",
+        "alt": "Speech to Text iOS transcription interface",
+        "width": 960,
+        "height": 639
+      },
       "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/specch-to-text-transcribing"
     },
     {
@@ -286,6 +422,12 @@
       "summary": "Native episodes and characters explorer built with clean architecture.",
       "category": "Mobile",
       "technologies": ["Swift", "UIKit", "Clean Architecture"],
+      "preview": {
+        "src": "/media/projects/rick-and-morty.webp",
+        "alt": "Rick and Morty native iOS explorer",
+        "width": 960,
+        "height": 711
+      },
       "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/rick-and-morty"
     }
   ],
@@ -297,7 +439,13 @@
       "startDate": "2021-09-13",
       "endDate": "2024-07-03",
       "summary": "Built web and mobile conversation products, led frontend delivery and introduced scalable practices for AI-centered customer experiences.",
-      "website": "https://keybe.us/"
+      "website": "https://keybe.us/",
+      "logo": {
+        "src": "/media/companies/keybe.avif",
+        "alt": "Keybe company logo",
+        "width": 361,
+        "height": 294
+      }
     },
     {
       "company": "Colegium",
@@ -306,7 +454,13 @@
       "startDate": "2021-01-01",
       "endDate": "2021-09-12",
       "summary": "Delivered capabilities and production support for cloud education products and proposed improvements across service operations.",
-      "website": "https://www.colegium.com/"
+      "website": "https://www.colegium.com/",
+      "logo": {
+        "src": "/media/companies/colegium.avif",
+        "alt": "Colegium company logo",
+        "width": 156,
+        "height": 157
+      }
     },
     {
       "company": "PCA Ingeniería",
@@ -315,7 +469,13 @@
       "startDate": "2019-06-18",
       "endDate": "2020-12-31",
       "summary": "Designed custom applications for multiple clients and modernized systems maintained across partner organizations.",
-      "website": "https://pcaingenieria.com/site/"
+      "website": "https://pcaingenieria.com/site/",
+      "logo": {
+        "src": "/media/companies/pca-ingenieria.avif",
+        "alt": "PCA Ingeniería company logo",
+        "width": 368,
+        "height": 139
+      }
     },
     {
       "company": "Créalo Digital",
@@ -324,7 +484,13 @@
       "startDate": "2019-03-02",
       "endDate": "2019-06-17",
       "summary": "Owned analysis, implementation, documentation, training and support for client-facing software initiatives.",
-      "website": "https://crealodigital.com/"
+      "website": "https://crealodigital.com/",
+      "logo": {
+        "src": "/media/companies/crealo-digital.avif",
+        "alt": "Créalo Digital company logo",
+        "width": 182,
+        "height": 178
+      }
     },
     {
       "company": "JetSet Viajes",
@@ -332,7 +498,13 @@
       "period": "Dec 2018 — Mar 2019",
       "startDate": "2018-12-01",
       "endDate": "2019-03-01",
-      "summary": "Maintained business systems, resolved production issues and developed new operational modules from user requirements."
+      "summary": "Maintained business systems, resolved production issues and developed new operational modules from user requirements.",
+      "logo": {
+        "src": "/media/companies/jetset-viajes.avif",
+        "alt": "JetSet Viajes company logo",
+        "width": 453,
+        "height": 511
+      }
     }
   ],
   "skillGroups": [

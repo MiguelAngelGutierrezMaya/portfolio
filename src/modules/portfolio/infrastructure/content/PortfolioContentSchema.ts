@@ -12,6 +12,19 @@ const socialLinkSchema = linkSchema.extend({
   profileUrl: z.url(),
 });
 
+const whatsappLinkSchema = z.object({
+  label: z.string().min(1),
+  href: z.string().regex(/^https:\/\/wa\.me\/[1-9]\d{7,14}$/),
+});
+
+const managedMediaSchema = (collection: 'projects' | 'companies') =>
+  z.object({
+    src: z.string().regex(new RegExp(`^/media/${collection}/[a-z0-9._-]+$`, 'i')),
+    alt: z.string().min(5),
+    width: z.number().int().positive().max(4000),
+    height: z.number().int().positive().max(4000),
+  });
+
 const sectionCopySchema = z.object({
   eyebrow: z.string().min(1),
   title: z.string().min(10),
@@ -24,6 +37,7 @@ const profileSchema = z.object({
   jobTitle: z.string().min(1),
   location: z.string().min(1),
   email: z.email(),
+  whatsapp: whatsappLinkSchema,
   availability: z.string().min(1),
   headline: z.object({
     lead: z.string().min(10),
@@ -54,14 +68,7 @@ const projectSchema = z.object({
   category: z.enum(['Frontend', 'Backend', 'Mobile']),
   technologies: z.array(z.string().min(1)).min(1),
   repositoryUrl: z.url().optional(),
-  preview: z
-    .object({
-      src: z.string().regex(/^\/media\/projects\/[a-z0-9._-]+$/i),
-      alt: z.string().min(10),
-      width: z.number().int().positive().max(4000),
-      height: z.number().int().positive().max(4000),
-    })
-    .optional(),
+  preview: managedMediaSchema('projects').optional(),
   featured: z.boolean().optional(),
 });
 
@@ -73,6 +80,7 @@ const experienceSchema = z.object({
   endDate: z.iso.date(),
   summary: z.string().min(20),
   website: z.url().optional(),
+  logo: managedMediaSchema('companies').optional(),
 });
 
 const skillGroupSchema = z.object({

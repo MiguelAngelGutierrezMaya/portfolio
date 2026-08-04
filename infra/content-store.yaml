@@ -166,6 +166,7 @@ Resources:
                   - s3:GetObjectVersion
                 Resource:
                   - !Sub ${ContentBucket.Arn}/content/*
+                  - !Sub ${ContentBucket.Arn}/media/companies/*
                   - !Sub ${ContentBucket.Arn}/media/projects/*
               - Sid: DecryptManagedObjects
                 Effect: Allow
@@ -177,6 +178,7 @@ Resources:
                   StringLike:
                     kms:EncryptionContext:aws:s3:arn:
                       - !Sub ${ContentBucket.Arn}/content/*
+                      - !Sub ${ContentBucket.Arn}/media/companies/*
                       - !Sub ${ContentBucket.Arn}/media/projects/*
       Tags:
         - Key: Project

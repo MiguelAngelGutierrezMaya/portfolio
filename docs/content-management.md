@@ -1,15 +1,15 @@
 # Managed portfolio content
 
 Production content is read on demand from a private S3 bucket by Astro SSR. Amplify Compute assumes
-a runtime-only IAM role with read access to the manifest, portfolio JSON and published project
-previews. The repository verifies the manifest SHA-256 and validates the JSON with Zod before
+a runtime-only IAM role with read access to the manifest, portfolio JSON and published company and
+project media. The repository verifies the manifest SHA-256 and validates the JSON with Zod before
 rendering. Responses are cached briefly and fall back to the bundled release snapshot if S3 or KMS
 is temporarily unavailable.
 
 The build has a separate IAM role. It invokes a tested TypeScript Lambda that creates five-minute
 presigned downloads for the JSON, logo and portrait, keeping the bundled snapshot and optimized
-brand assets deterministic. Project previews use stable application URLs and are presigned on demand
-only after the requested filename is found in validated portfolio content.
+brand assets deterministic. Company logos and project previews use stable application URLs and are
+presigned on demand only after the requested filename is found in validated portfolio content.
 
 ## Resources
 
@@ -23,6 +23,7 @@ only after the requested filename is found in validated portfolio content.
 - Editorial document: `content/portfolio.json`
 - Brand media: `media/brand/`
 - Profile media: `media/profile/`
+- Company logos: `media/companies/`
 - Optional project previews: `media/projects/`
 
 The stack in `infra/content-store.yaml` and the TypeScript handler in
@@ -31,7 +32,7 @@ Access, Bucket Owner Enforced ownership, versioning, KMS encryption with annual 
 Bucket Key, TLS-only access and no CORS policy. Build and SSR Compute use separate roles. The build
 role trust is restricted to the production account and this specific Amplify app; the Compute role
 uses the trust contract required by Amplify SSR and compensates with an identity policy limited to
-the published content and project preview prefixes. The build role can invoke the signer and apply
+the published content and runtime media prefixes. The build role can invoke the signer and apply
 declared routing rules.
 
 ## Managed content contract
@@ -52,9 +53,10 @@ SHA-256 digest. Project preview entries use this shape:
 ```
 
 The portfolio project can then reference the image with a `preview` object containing `src`, `alt`,
-`width` and `height`. Explicit dimensions prevent layout shifts. Filenames, prefixes, extensions and
-file sizes are allowlisted by `tools/sync-managed-content.mjs`. Runtime preview signing additionally
-requires the preview path to be referenced by the validated portfolio document.
+`width` and `height`. Experience logos follow the same contract under `media/companies/`. Explicit
+dimensions prevent layout shifts. Filenames, prefixes, extensions and file sizes are allowlisted by
+`tools/sync-managed-content.mjs`. Runtime signing additionally requires every media path to be
+referenced by the validated portfolio document.
 
 ## Publishing an update
 
@@ -64,7 +66,7 @@ requires the preview path to be referenced by the validated portfolio document.
 4. Upload changed objects first and the manifest last, preserving its role as the atomic release
    pointer.
 5. The SSR homepage and LLM endpoints observe the release after their short cache expires; no rebuild
-   is required for JSON or project preview changes.
+   is required for JSON, company logo or project preview changes.
 6. Commit the matching source and manifest so the fallback snapshot remains auditable.
 7. Push `main` when logo, portrait, application code or the bundled fallback must change.
 

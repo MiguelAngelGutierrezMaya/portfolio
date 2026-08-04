@@ -8,15 +8,17 @@ export const prerender = false;
 
 export const GET: APIRoute = async ({ params }) => {
   const filename = params.filename;
-  if (!filename) return new Response('Project preview not found', { status: 404 });
+  if (!filename) return new Response('Company logo not found', { status: 404 });
 
   try {
     const content = await GetPortfolioContent.execute(getRuntimePortfolioRepository());
-    const requestedPath = `/media/projects/${filename}`;
-    const isPublished = content.projects.some(project => project.preview?.src === requestedPath);
-    if (!isPublished) return new Response('Project preview not found', { status: 404 });
+    const requestedPath = `/media/companies/${filename}`;
+    const isPublished = content.experiences.some(
+      experience => experience.logo?.src === requestedPath
+    );
+    if (!isPublished) return new Response('Company logo not found', { status: 404 });
 
-    const url = await getRuntimeManagedMediaSigner('projects').createUrl(filename);
+    const url = await getRuntimeManagedMediaSigner('companies').createUrl(filename);
     return new Response(null, {
       status: 302,
       headers: {
@@ -26,8 +28,8 @@ export const GET: APIRoute = async ({ params }) => {
     });
   } catch (error: unknown) {
     if (error instanceof Error && error.message === 'Invalid managed media filename') {
-      return new Response('Invalid project preview filename', { status: 400 });
+      return new Response('Invalid company logo filename', { status: 400 });
     }
-    return new Response('Project preview temporarily unavailable', { status: 503 });
+    return new Response('Company logo temporarily unavailable', { status: 503 });
   }
 };

@@ -15,6 +15,7 @@ export const GET: APIRoute = async () => {
     `Location: ${content.profile.location}`,
     `Availability: ${content.profile.availability}`,
     `Contact: ${content.profile.email}`,
+    `WhatsApp: ${content.profile.whatsapp.href}`,
     '',
     '## Capabilities',
     '',

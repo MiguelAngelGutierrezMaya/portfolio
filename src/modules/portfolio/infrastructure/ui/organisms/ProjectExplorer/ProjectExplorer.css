@@ -165,7 +165,8 @@
 
 .project-card__preview {
   width: calc(100% + 0.7rem);
-  max-height: 12rem;
+  height: 10.5rem;
+  aspect-ratio: 16 / 10;
   border: 1px solid var(--color-line);
   border-radius: calc(var(--radius-card) - 0.55rem);
   object-fit: cover;

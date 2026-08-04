@@ -24,6 +24,15 @@ const { heading, contact, profile } = Astro.props;
       <div class="contact-panel__direct">
         <span>{contact.emailPrompt}</span>
         <a href={`mailto:${profile.email}`}>{profile.email}</a>
+        <a
+          class="contact-panel__whatsapp"
+          href={profile.whatsapp.href}
+          target="_blank"
+          rel="noreferrer"
+        >
+          {profile.whatsapp.label}
+          <span aria-hidden="true">↗</span>
+        </a>
       </div>
     </div>
     <div class="contact-panel__form glass-panel">

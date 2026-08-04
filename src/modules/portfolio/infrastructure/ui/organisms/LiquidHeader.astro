@@ -16,6 +16,14 @@ const { profile, navigation } = Astro.props;
     <BrandMark profile={profile} />
     <nav class="desktop-nav" aria-label="Primary navigation">
       {navigation.map(link => <a href={link.href}>{link.label}</a>)}
+      <a
+        class="desktop-nav__whatsapp"
+        href={profile.whatsapp.href}
+        target="_blank"
+        rel="noreferrer"
+      >
+        WhatsApp <span aria-hidden="true">↗</span>
+      </a>
     </nav>
     <AvailabilityStatus server:defer>
       <a class="availability" href="#contact" aria-busy="true" slot="fallback">
@@ -27,6 +35,10 @@ const { profile, navigation } = Astro.props;
       <summary aria-label="Open navigation"><span></span><span></span></summary>
       <nav aria-label="Mobile navigation">
         {navigation.map(link => <a href={link.href}>{link.label}</a>)}
+        <a href={profile.whatsapp.href} target="_blank" rel="noreferrer">
+          {profile.whatsapp.label}
+          <span aria-hidden="true">↗</span>
+        </a>
       </nav>
     </details>
   </div>

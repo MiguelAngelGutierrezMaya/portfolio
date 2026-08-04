@@ -8,6 +8,7 @@ describe('content presigner Lambda', () => {
     'content/manifest.json',
     'content/portfolio.json',
     'media/brand/logo.webp',
+    'media/companies/company.avif',
     'media/profile/portrait.png',
     'media/projects/example.webp',
   ])('creates a five-minute signed download for %s', async key => {

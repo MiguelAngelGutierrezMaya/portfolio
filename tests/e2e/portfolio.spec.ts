@@ -1,6 +1,16 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
+test.beforeEach(async ({ page }) => {
+  await page.route(/\/media\/(companies|projects)\//, route =>
+    route.fulfill({
+      status: 200,
+      contentType: 'image/svg+xml',
+      body: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="10" viewBox="0 0 16 10"><rect width="16" height="10" fill="#171a20"/></svg>',
+    })
+  );
+});
+
 test('renders the complete portfolio and supports project discovery', async ({ page }) => {
   await page.goto('/');
 
@@ -62,6 +72,32 @@ test('supports keyboard navigation and accessible form feedback', async ({ page 
   await page.getByRole('button', { name: /start a conversation/i }).click();
   await expect(page.getByRole('status')).toContainText('Review the highlighted fields');
   await expect(page.getByRole('textbox', { name: 'Name' })).toHaveAttribute('aria-invalid', 'true');
+});
+
+test('publishes direct WhatsApp contact and private portfolio media', async ({ page, request }) => {
+  await page.goto('/');
+
+  const whatsappLinks = page.getByRole('link', { name: /whatsapp/i });
+  await expect(whatsappLinks.first()).toHaveAttribute('href', 'https://wa.me/573113230033');
+
+  const firstProject = page.locator('.project-card').first();
+  await firstProject.scrollIntoViewIfNeeded();
+  const projectPreview = firstProject.locator('.project-card__preview');
+  await expect(projectPreview).toBeVisible();
+  await expect
+    .poll(() => projectPreview.evaluate(image => (image as HTMLImageElement).naturalWidth))
+    .toBeGreaterThan(0);
+
+  const firstExperience = page.locator('.experience-item').first();
+  await firstExperience.scrollIntoViewIfNeeded();
+  const companyLogo = firstExperience.locator('.experience-item__logo');
+  await expect(companyLogo).toBeVisible();
+  await expect
+    .poll(() => companyLogo.evaluate(image => (image as HTMLImageElement).naturalWidth))
+    .toBeGreaterThan(0);
+
+  const unpublishedCompany = await request.get('/media/companies/not-published.avif');
+  expect(unpublishedCompany.status()).toBe(404);
 });
 
 test('publishes canonical search and LLM discovery metadata', async ({ page, request }) => {
