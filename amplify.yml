@@ -17,7 +17,7 @@ frontend:
       commands:
         - test -n "${AMPLIFY_TARGET_APP_ID:-}"
         - test -f .amplify-hosting/customRules.json
-        - aws amplify update-app --app-id "${AMPLIFY_TARGET_APP_ID}" --custom-rules "$(<.amplify-hosting/customRules.json)"
+        - aws amplify update-app --app-id "${AMPLIFY_TARGET_APP_ID}" --custom-rules "$(<.amplify-hosting/customRules.json)" --query 'app.appId' --output text >/dev/null
   artifacts:
     baseDirectory: .amplify-hosting
     files:
