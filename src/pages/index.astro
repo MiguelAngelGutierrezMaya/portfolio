@@ -65,7 +65,7 @@ const structuredData = {
       email: `mailto:${content.profile.email}`,
       homeLocation: {
         '@type': 'Place',
-        name: 'Medellín, Colombia',
+        name: 'Cali, Colombia',
       },
       sameAs: content.profile.socialLinks.map(link => link.profileUrl),
       knowsAbout: [...new Set(content.skillGroups.flatMap(group => group.skills))],
