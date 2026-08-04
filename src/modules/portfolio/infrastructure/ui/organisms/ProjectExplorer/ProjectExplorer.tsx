@@ -2,6 +2,7 @@ import { AnimatePresence, LazyMotion, m } from 'framer-motion';
 import { useDeferredValue, useMemo, useState } from 'react';
 
 import type { Project, ProjectCategory } from '@portfolio/domain/models/Portfolio';
+import { createManagedMediaDeliveryPath } from '@portfolio/infrastructure/media/managedMediaPath';
 
 import './ProjectExplorer.css';
 
@@ -87,7 +88,7 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
                 {project.preview ? (
                   <img
                     className="project-card__preview"
-                    src={project.preview.src}
+                    src={createManagedMediaDeliveryPath(project.preview.src)}
                     alt={project.preview.alt}
                     width={project.preview.width}
                     height={project.preview.height}

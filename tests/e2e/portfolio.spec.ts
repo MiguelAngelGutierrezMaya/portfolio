@@ -96,7 +96,7 @@ test('publishes direct WhatsApp contact and private portfolio media', async ({ p
     .poll(() => companyLogo.evaluate(image => (image as HTMLImageElement).naturalWidth))
     .toBeGreaterThan(0);
 
-  const unpublishedCompany = await request.get('/media/companies/not-published.avif');
+  const unpublishedCompany = await request.get('/media/companies/not-published');
   expect(unpublishedCompany.status()).toBe(404);
 });
 

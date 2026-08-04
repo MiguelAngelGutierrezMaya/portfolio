@@ -7,11 +7,15 @@ import { getRuntimePortfolioRepository } from '@portfolio/infrastructure/reposit
 export const prerender = false;
 
 export const GET: APIRoute = async ({ params }) => {
-  const filename = params.filename;
-  if (!filename) return new Response('Project preview not found', { status: 404 });
+  const slug = params.filename;
+  if (!slug) return new Response('Project preview not found', { status: 404 });
+  if (!/^[a-z0-9][a-z0-9_-]*$/i.test(slug)) {
+    return new Response('Invalid project preview filename', { status: 400 });
+  }
 
   try {
     const content = await GetPortfolioContent.execute(getRuntimePortfolioRepository());
+    const filename = `${slug}.webp`;
     const requestedPath = `/media/projects/${filename}`;
     const isPublished = content.projects.some(project => project.preview?.src === requestedPath);
     if (!isPublished) return new Response('Project preview not found', { status: 404 });

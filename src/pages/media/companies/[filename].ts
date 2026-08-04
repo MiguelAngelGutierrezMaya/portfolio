@@ -7,11 +7,15 @@ import { getRuntimePortfolioRepository } from '@portfolio/infrastructure/reposit
 export const prerender = false;
 
 export const GET: APIRoute = async ({ params }) => {
-  const filename = params.filename;
-  if (!filename) return new Response('Company logo not found', { status: 404 });
+  const slug = params.filename;
+  if (!slug) return new Response('Company logo not found', { status: 404 });
+  if (!/^[a-z0-9][a-z0-9_-]*$/i.test(slug)) {
+    return new Response('Invalid company logo filename', { status: 400 });
+  }
 
   try {
     const content = await GetPortfolioContent.execute(getRuntimePortfolioRepository());
+    const filename = `${slug}.avif`;
     const requestedPath = `/media/companies/${filename}`;
     const isPublished = content.experiences.some(
       experience => experience.logo?.src === requestedPath

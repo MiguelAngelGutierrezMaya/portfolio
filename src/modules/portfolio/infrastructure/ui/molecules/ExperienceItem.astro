@@ -1,5 +1,6 @@
 ---
 import type { Experience } from '@portfolio/domain/models/Portfolio';
+import { createManagedMediaDeliveryPath } from '@portfolio/infrastructure/media/managedMediaPath';
 
 interface Props {
   experience: Experience;
@@ -16,7 +17,7 @@ const { experience, index } = Astro.props;
       experience.logo ? (
         <img
           class="experience-item__logo"
-          src={experience.logo.src}
+          src={createManagedMediaDeliveryPath(experience.logo.src)}
           alt={experience.logo.alt}
           width={experience.logo.width}
           height={experience.logo.height}

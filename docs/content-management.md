@@ -56,7 +56,8 @@ The portfolio project can then reference the image with a `preview` object conta
 `width` and `height`. Experience logos follow the same contract under `media/companies/`. Explicit
 dimensions prevent layout shifts. Filenames, prefixes, extensions and file sizes are allowlisted by
 `tools/sync-managed-content.mjs`. Runtime signing additionally requires every media path to be
-referenced by the validated portfolio document.
+referenced by the validated portfolio document. Browser-facing media routes intentionally omit the
+file extension so Amplify sends them to SSR Compute before issuing the short-lived S3 redirect.
 
 ## Publishing an update
 
