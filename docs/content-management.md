@@ -28,10 +28,11 @@ only after the requested filename is found in validated portfolio content.
 The stack in `infra/content-store.yaml` and the TypeScript handler in
 `infra/functions/content-presigner/handler.ts` are the source of truth. They enable S3 Block Public
 Access, Bucket Owner Enforced ownership, versioning, KMS encryption with annual key rotation, S3
-Bucket Key, TLS-only access and no CORS policy. The IAM trust is restricted to the production account
-and this specific Amplify app. Build and SSR Compute use separate roles. The build role can invoke
-the signer and apply declared routing rules; the Compute role can only read runtime content and
-project previews.
+Bucket Key, TLS-only access and no CORS policy. Build and SSR Compute use separate roles. The build
+role trust is restricted to the production account and this specific Amplify app; the Compute role
+uses the trust contract required by Amplify SSR and compensates with an identity policy limited to
+the published content and project preview prefixes. The build role can invoke the signer and apply
+declared routing rules.
 
 ## Managed content contract
 

@@ -154,11 +154,6 @@ Resources:
             Principal:
               Service: amplify.amazonaws.com
             Action: sts:AssumeRole
-            Condition:
-              ArnLike:
-                aws:SourceArn: !Sub arn:${AWS::Partition}:amplify:${AWS::Region}:${AWS::AccountId}:apps/${AmplifyAppId}*
-              StringEquals:
-                aws:SourceAccount: !Ref AWS::AccountId
       Policies:
         - PolicyName: ReadRuntimePortfolioContent
           PolicyDocument:

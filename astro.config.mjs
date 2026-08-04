@@ -38,6 +38,16 @@ export default defineConfig({
     build: {
       sourcemap: false,
     },
+    ssr: {
+      noExternal: [
+        '@aws-sdk/client-s3',
+        '@aws-sdk/s3-request-presigner',
+        'framer-motion',
+        'react',
+        'react-dom',
+        'zod',
+      ],
+    },
     resolve: {
       alias: {
         '@': path.resolve(projectRoot, 'src'),
