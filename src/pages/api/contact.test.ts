@@ -48,6 +48,20 @@ describe('POST /api/contact', () => {
     });
   });
 
+  it('accepts the configured canonical origin behind an Amplify reverse proxy', async () => {
+    const send = vi.fn().mockResolvedValue({ success: true, code: 'accepted', message: 'ok' });
+    const proxiedRequest = new Request('https://internal.compute.amazonaws.com/api/contact/', {
+      method: 'POST',
+      headers: createRequest().headers,
+      body: JSON.stringify(validBody),
+    });
+
+    const response = await handleContactRequest(proxiedRequest, { send }, 'https://migudev.com/');
+
+    expect(response.status).toBe(202);
+    expect(send).toHaveBeenCalledOnce();
+  });
+
   it.each([
     ['cross-origin request', { Origin: 'https://attacker.example' }],
     ['cross-site fetch', { 'Sec-Fetch-Site': 'cross-site' }],

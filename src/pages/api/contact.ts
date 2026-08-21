@@ -50,13 +50,24 @@ const readSourceIp = (request: Request): string => {
   return forwardedFor?.split(',').at(-1)?.trim() || 'unavailable';
 };
 
-const isTrustedBrowserRequest = (request: Request): boolean => {
+const readOrigin = (value: string | undefined): string | undefined => {
+  if (!value) return undefined;
+
+  try {
+    return new URL(value).origin;
+  } catch {
+    return undefined;
+  }
+};
+
+const isTrustedBrowserRequest = (request: Request, canonicalSiteUrl?: string): boolean => {
   const origin = request.headers.get('origin');
   const fetchSite = request.headers.get('sec-fetch-site');
   const requestedWith = request.headers.get('x-requested-with');
+  const allowedOrigins = new Set([new URL(request.url).origin, readOrigin(canonicalSiteUrl)]);
 
   return (
-    origin === new URL(request.url).origin &&
+    Boolean(origin && allowedOrigins.has(origin)) &&
     (!fetchSite || fetchSite === 'same-origin') &&
     requestedWith === 'MigudevContactForm'
   );
@@ -64,9 +75,10 @@ const isTrustedBrowserRequest = (request: Request): boolean => {
 
 export const handleContactRequest = async (
   request: Request,
-  gateway: ContactGateway
+  gateway: ContactGateway,
+  canonicalSiteUrl = import.meta.env.PUBLIC_SITE_URL
 ): Promise<Response> => {
-  if (!isTrustedBrowserRequest(request)) {
+  if (!isTrustedBrowserRequest(request, canonicalSiteUrl)) {
     return jsonResponse(403, {
       success: false,
       code: 'invalid',
