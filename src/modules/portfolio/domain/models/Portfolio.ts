@@ -46,6 +46,10 @@ export interface ManagedMediaAsset {
   readonly height: number;
 }
 
+export interface ProjectPreview extends ManagedMediaAsset {
+  readonly presentation?: 'showcase' | 'generic';
+}
+
 export interface Metric {
   readonly value: string;
   readonly label: string;
@@ -81,7 +85,7 @@ export interface Project {
   readonly category: ProjectCategory;
   readonly technologies: readonly string[];
   readonly repositoryUrl?: string;
-  readonly preview?: ManagedMediaAsset;
+  readonly preview?: ProjectPreview;
   readonly featured?: boolean;
 }
 

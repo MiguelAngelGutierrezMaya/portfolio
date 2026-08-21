@@ -25,6 +25,10 @@ const managedMediaSchema = (collection: 'projects' | 'companies') =>
     height: z.number().int().positive().max(4000),
   });
 
+const projectPreviewSchema = managedMediaSchema('projects').extend({
+  presentation: z.enum(['showcase', 'generic']).optional(),
+});
+
 const sectionCopySchema = z.object({
   eyebrow: z.string().min(1),
   title: z.string().min(10),
@@ -68,7 +72,7 @@ const projectSchema = z.object({
   category: z.enum(['Frontend', 'Backend', 'Mobile']),
   technologies: z.array(z.string().min(1)).min(1),
   repositoryUrl: z.url().optional(),
-  preview: managedMediaSchema('projects').optional(),
+  preview: projectPreviewSchema.optional(),
   featured: z.boolean().optional(),
 });
 

@@ -16,6 +16,10 @@ describe('GetPortfolioContent', () => {
     expect(content.experiences[0]?.company).toBe('Assignar');
     expect(content.experiences[0]?.endDate).toBeNull();
     expect(content.projects[21]?.id).toBe('biky-ai-native');
+    expect(
+      content.projects.filter(project => project.preview?.presentation === 'generic')
+    ).toHaveLength(8);
+    expect(content.projects[21]?.preview?.presentation).not.toBe('generic');
     expect(content.navigation).toHaveLength(4);
   });
 

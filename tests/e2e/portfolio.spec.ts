@@ -23,7 +23,7 @@ test('renders the complete portfolio and supports project discovery', async ({ p
   const projectIsland = page.locator('astro-island[component-url*="ProjectExplorer"]');
   await projectIsland.scrollIntoViewIfNeeded();
   await expect(projectIsland).not.toHaveAttribute('ssr', '');
-  await page.getByRole('button', { name: 'Mobile' }).click();
+  await page.getByRole('button', { name: 'Mobile', exact: true }).click();
   await expect(page.getByText('Showing 12 of 30 projects')).toBeVisible();
 
   await page.getByRole('searchbox').fill('React Native');
@@ -102,6 +102,39 @@ test('publishes direct WhatsApp contact and private portfolio media', async ({ p
 
   const unpublishedCompany = await request.get('/media/companies/not-published');
   expect(unpublishedCompany.status()).toBe(404);
+});
+
+test('opens project imagery in an accessible detail dialog', async ({ page }) => {
+  await page.goto('/');
+
+  const projectIsland = page.locator('astro-island[component-url*="ProjectExplorer"]');
+  await projectIsland.scrollIntoViewIfNeeded();
+  await expect(projectIsland).not.toHaveAttribute('ssr', '');
+
+  const trigger = page.getByRole('button', {
+    name: 'View Biky AI Native image in detail',
+  });
+  await trigger.scrollIntoViewIfNeeded();
+  await trigger.click();
+
+  const dialog = page.getByRole('dialog', { name: 'Biky AI Native' });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole('img', { name: /biky ai native/i })).toBeVisible();
+  await expect(dialog.getByText('SwiftUI')).toBeVisible();
+  await expect
+    .poll(() =>
+      dialog
+        .getByRole('img', { name: /biky ai native/i })
+        .evaluate(image => (image as HTMLImageElement).naturalWidth)
+    )
+    .toBeGreaterThan(0);
+
+  await page.keyboard.press('Escape');
+  await expect(dialog).not.toBeVisible();
+  await expect(trigger).toBeFocused();
+  await expect(
+    page.getByRole('button', { name: 'View Assignar Core API image in detail' })
+  ).toHaveCount(0);
 });
 
 test('publishes canonical search and LLM discovery metadata', async ({ page, request }) => {

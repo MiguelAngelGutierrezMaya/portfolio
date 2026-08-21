@@ -157,7 +157,8 @@
         "src": "/media/projects/backend.webp",
         "alt": "Backend service architecture code preview",
         "width": 805,
-        "height": 428
+        "height": 428,
+        "presentation": "generic"
       },
       "featured": true
     },
@@ -171,7 +172,8 @@
         "src": "/media/projects/backend.webp",
         "alt": "Backend service architecture code preview",
         "width": 805,
-        "height": 428
+        "height": 428,
+        "presentation": "generic"
       }
     },
     {
@@ -321,7 +323,8 @@
         "src": "/media/projects/backend.webp",
         "alt": "Backend service architecture code preview",
         "width": 805,
-        "height": 428
+        "height": 428,
+        "presentation": "generic"
       },
       "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/hex-architecture-node-js",
       "featured": true
@@ -336,7 +339,8 @@
         "src": "/media/projects/backend.webp",
         "alt": "Backend service architecture code preview",
         "width": 805,
-        "height": 428
+        "height": 428,
+        "presentation": "generic"
       },
       "featured": true
     },
@@ -350,7 +354,8 @@
         "src": "/media/projects/backend.webp",
         "alt": "Backend service architecture code preview",
         "width": 805,
-        "height": 428
+        "height": 428,
+        "presentation": "generic"
       }
     },
     {
@@ -363,7 +368,8 @@
         "src": "/media/projects/backend.webp",
         "alt": "Backend service architecture code preview",
         "width": 805,
-        "height": 428
+        "height": 428,
+        "presentation": "generic"
       }
     },
     {
@@ -376,7 +382,8 @@
         "src": "/media/projects/backend.webp",
         "alt": "Backend service architecture code preview",
         "width": 805,
-        "height": 428
+        "height": 428,
+        "presentation": "generic"
       },
       "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/tip-top-backend"
     },
@@ -390,7 +397,8 @@
         "src": "/media/projects/backend.webp",
         "alt": "Backend service architecture code preview",
         "width": 805,
-        "height": 428
+        "height": 428,
+        "presentation": "generic"
       },
       "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/medical-history-backend"
     },

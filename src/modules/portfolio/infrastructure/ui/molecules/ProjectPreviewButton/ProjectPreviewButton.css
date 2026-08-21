@@ -1,0 +1,92 @@
+.project-preview-button {
+  position: relative;
+  display: block;
+  border: 1px solid var(--color-line);
+  background: var(--color-bg-soft);
+  color: var(--color-text-strong);
+  cursor: zoom-in;
+  padding: 0;
+  text-align: left;
+}
+
+.project-preview-button::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 48%, rgb(3 6 10 / 78%));
+  content: '';
+  opacity: 0;
+  transition: opacity 240ms ease;
+  pointer-events: none;
+}
+
+.project-preview-button .project-card__preview {
+  transition:
+    filter 320ms ease,
+    transform 480ms var(--ease-out);
+}
+
+.project-preview-button__action {
+  position: absolute;
+  right: 0.75rem;
+  bottom: 0.7rem;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 999px;
+  background: rgb(9 11 15 / 76%);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 24%);
+  font-size: 0.68rem;
+  font-weight: 750;
+  opacity: 0;
+  padding: 0.45rem 0.65rem;
+  transform: translateY(0.45rem);
+  transition:
+    opacity 220ms ease,
+    transform 320ms var(--ease-out);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.project-preview-button:hover::after,
+.project-preview-button:focus-visible::after,
+.project-preview-button:hover .project-preview-button__action,
+.project-preview-button:focus-visible .project-preview-button__action {
+  opacity: 1;
+}
+
+.project-preview-button:hover .project-card__preview,
+.project-preview-button:focus-visible .project-card__preview {
+  filter: saturate(1.08) contrast(1.03);
+  transform: scale(1.035);
+}
+
+.project-preview-button:hover .project-preview-button__action,
+.project-preview-button:focus-visible .project-preview-button__action {
+  transform: translateY(0);
+}
+
+.project-preview-button:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+@media (hover: none) {
+  .project-preview-button::after,
+  .project-preview-button__action {
+    opacity: 1;
+  }
+
+  .project-preview-button__action {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-preview-button .project-card__preview,
+  .project-preview-button::after,
+  .project-preview-button__action {
+    transition: none;
+  }
+}

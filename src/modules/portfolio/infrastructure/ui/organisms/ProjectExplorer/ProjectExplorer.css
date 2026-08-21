@@ -163,12 +163,18 @@
   padding: 0.35rem 0.65rem;
 }
 
-.project-card__preview {
+.project-card__preview-frame {
   width: calc(100% + 0.7rem);
   height: 10.5rem;
   aspect-ratio: 16 / 10;
+  overflow: hidden;
   border: 1px solid var(--color-line);
   border-radius: calc(var(--radius-card) - 0.55rem);
+}
+
+.project-card__preview {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center;
 }

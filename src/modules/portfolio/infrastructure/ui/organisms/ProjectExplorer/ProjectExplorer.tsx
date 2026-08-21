@@ -1,8 +1,11 @@
 import { AnimatePresence, LazyMotion, m } from 'framer-motion';
-import { useDeferredValue, useMemo, useState } from 'react';
+import { useDeferredValue, useMemo, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 
 import type { Project, ProjectCategory } from '@portfolio/domain/models/Portfolio';
 import { createManagedMediaDeliveryPath } from '@portfolio/infrastructure/media/managedMediaPath';
+import ProjectPreviewButton from '@portfolio/infrastructure/ui/molecules/ProjectPreviewButton/ProjectPreviewButton';
+import ProjectPreviewDialog from '@portfolio/infrastructure/ui/organisms/ProjectPreviewDialog/ProjectPreviewDialog';
 
 import './ProjectExplorer.css';
 
@@ -14,10 +17,53 @@ type ProjectFilter = 'All' | ProjectCategory;
 
 const filters: ProjectFilter[] = ['All', 'Frontend', 'Backend', 'Mobile'];
 const loadMotionFeatures = () => import('./motionFeatures').then(module => module.default);
+const createTransitionName = (projectId: string) =>
+  `project-preview-${projectId.replaceAll(/[^a-z0-9-]/gi, '-')}`;
+
+interface PreviewViewTransition {
+  readonly finished: Promise<unknown>;
+}
+
+type PreviewTransitionDocument = Document & {
+  startViewTransition?: (update: () => void) => PreviewViewTransition;
+};
+
+const commitPreviewUpdate = (update: () => void) => {
+  // View Transitions must snapshot the DOM immediately before and after this state change.
+  // eslint-disable-next-line @eslint-react/dom-no-flush-sync
+  flushSync(update);
+};
+
+const updateWithPreviewTransition = async (update: () => void): Promise<void> => {
+  const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const transitionDocument = document as PreviewTransitionDocument;
+
+  if (prefersReducedMotion || typeof transitionDocument.startViewTransition !== 'function') {
+    commitPreviewUpdate(update);
+    return;
+  }
+
+  document.documentElement.dataset.projectPreviewTransition = 'true';
+  let didCommitUpdate = false;
+  try {
+    const transition = transitionDocument.startViewTransition(() => {
+      commitPreviewUpdate(update);
+      didCommitUpdate = true;
+    });
+    await transition.finished.catch(() => undefined);
+  } catch {
+    if (!didCommitUpdate) commitPreviewUpdate(update);
+  } finally {
+    delete document.documentElement.dataset.projectPreviewTransition;
+  }
+};
 
 const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
   const [activeFilter, setActiveFilter] = useState<ProjectFilter>('All');
   const [query, setQuery] = useState('');
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [transitionProjectId, setTransitionProjectId] = useState<string | null>(null);
+  const previewTriggerRef = useRef<HTMLButtonElement | null>(null);
   const deferredQuery = useDeferredValue(query.trim().toLowerCase());
 
   const visibleProjects = useMemo(
@@ -30,6 +76,20 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
       }),
     [activeFilter, deferredQuery, projects]
   );
+
+  const openProjectPreview = (project: Project, trigger: HTMLButtonElement) => {
+    previewTriggerRef.current = trigger;
+    commitPreviewUpdate(() => setTransitionProjectId(project.id));
+    void updateWithPreviewTransition(() => setSelectedProject(project));
+  };
+
+  const closeProjectPreview = () => {
+    const trigger = previewTriggerRef.current;
+    void updateWithPreviewTransition(() => setSelectedProject(null)).finally(() => {
+      commitPreviewUpdate(() => setTransitionProjectId(null));
+      trigger?.focus();
+    });
+  };
 
   return (
     <div className="project-explorer">
@@ -86,15 +146,31 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
                 </div>
 
                 {project.preview ? (
-                  <img
-                    className="project-card__preview"
-                    src={createManagedMediaDeliveryPath(project.preview.src)}
-                    alt={project.preview.alt}
-                    width={project.preview.width}
-                    height={project.preview.height}
-                    loading="lazy"
-                    decoding="async"
-                  />
+                  project.preview.presentation === 'generic' ? (
+                    <div className="project-card__preview-frame">
+                      <img
+                        className="project-card__preview"
+                        src={createManagedMediaDeliveryPath(project.preview.src)}
+                        alt={project.preview.alt}
+                        width={project.preview.width}
+                        height={project.preview.height}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  ) : (
+                    <ProjectPreviewButton
+                      projectTitle={project.title}
+                      preview={project.preview}
+                      src={createManagedMediaDeliveryPath(project.preview.src)}
+                      transitionName={
+                        transitionProjectId === project.id && selectedProject?.id !== project.id
+                          ? createTransitionName(project.id)
+                          : undefined
+                      }
+                      onOpen={trigger => openProjectPreview(project, trigger)}
+                    />
+                  )
                 ) : null}
 
                 <div>
@@ -133,6 +209,21 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
           <p>Try a different category or technology.</p>
         </div>
       ) : null}
+
+      <ProjectPreviewDialog
+        project={selectedProject}
+        src={
+          selectedProject?.preview
+            ? createManagedMediaDeliveryPath(selectedProject.preview.src)
+            : null
+        }
+        transitionName={
+          selectedProject && transitionProjectId === selectedProject.id
+            ? createTransitionName(selectedProject.id)
+            : undefined
+        }
+        onRequestClose={closeProjectPreview}
+      />
     </div>
   );
 };
