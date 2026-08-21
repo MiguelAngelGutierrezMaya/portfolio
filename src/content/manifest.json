@@ -3,7 +3,7 @@
   "content": {
     "portfolio": {
       "key": "content/portfolio.json",
-      "sha256": "126b99d97bbd9fa4b27c06af6a684e53b2416d190ce7f488888d39a1716d659a"
+      "sha256": "69870df1343edcda495559227ca5dcdf70f9e34edeb940a70566e02f6ce609c3"
     }
   },
   "assets": {
@@ -73,6 +73,11 @@
       "filename": "backend.webp",
       "key": "media/projects/backend.webp",
       "sha256": "f4a2ada70b678e2d7ac227580e9b12f73847a05b099bd95e45c6b2e76eed4913"
+    },
+    {
+      "filename": "biky-ai-native.webp",
+      "key": "media/projects/biky-ai-native.webp",
+      "sha256": "b01d6051ceac6c645b74b91695ed15be49443d44661fafbc8ed519f604a35e6d"
     },
     {
       "filename": "biky.webp",

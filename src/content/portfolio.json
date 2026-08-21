@@ -24,7 +24,7 @@
       "label": "Product engineer"
     },
     "metrics": [
-      { "value": "29", "label": "Products & learning projects" },
+      { "value": "30", "label": "Products & learning projects" },
       { "value": "15+", "label": "Technologies across the stack" },
       { "value": "7", "label": "Years delivering software" },
       { "value": "B2", "label": "Professional English" }
@@ -405,6 +405,28 @@
         "alt": "Keybe mobile conversation workspace",
         "width": 540,
         "height": 1170
+      },
+      "featured": true
+    },
+    {
+      "id": "biky-ai-native",
+      "title": "Biky AI Native",
+      "summary": "Native iOS and Android workspace for AI advisers, combining real-time conversations and offline-first customer workflows with shared business logic and platform-native experiences.",
+      "category": "Mobile",
+      "technologies": [
+        "Kotlin Multiplatform",
+        "Swift",
+        "SwiftUI",
+        "Kotlin",
+        "Jetpack Compose",
+        "Apollo GraphQL",
+        "SQLDelight"
+      ],
+      "preview": {
+        "src": "/media/projects/biky-ai-native.webp",
+        "alt": "Anonymized Biky AI native iOS conversation inbox",
+        "width": 960,
+        "height": 600
       },
       "featured": true
     },

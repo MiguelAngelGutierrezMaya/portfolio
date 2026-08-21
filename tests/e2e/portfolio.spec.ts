@@ -24,12 +24,13 @@ test('renders the complete portfolio and supports project discovery', async ({ p
   await projectIsland.scrollIntoViewIfNeeded();
   await expect(projectIsland).not.toHaveAttribute('ssr', '');
   await page.getByRole('button', { name: 'Mobile' }).click();
-  await expect(page.getByText('Showing 11 of 29 projects')).toBeVisible();
+  await expect(page.getByText('Showing 12 of 30 projects')).toBeVisible();
 
   await page.getByRole('searchbox').fill('React Native');
   await expect(page.getByRole('heading', { name: 'Assignar Pay Mobile' })).toBeVisible();
 
   await page.getByRole('searchbox').fill('SwiftUI');
+  await expect(page.getByRole('heading', { name: 'Biky AI Native' })).toBeVisible();
   await expect(page.getByRole('heading', { name: 'Expense Tracker' })).toBeVisible();
 });
 
