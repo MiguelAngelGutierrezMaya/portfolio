@@ -7,7 +7,7 @@ export const GET: APIRoute = () =>
     JSON.stringify({
       name: 'Migudev — Miguel Gutierrez',
       short_name: 'Migudev',
-      description: 'Portfolio of Miguel Gutierrez, Fullstack Product Engineer.',
+      description: 'Portfolio of Miguel Gutierrez, Product Engineer, Fullstack & Mobile.',
       start_url: '/',
       display: 'standalone',
       background_color: '#090b0f',

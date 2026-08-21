@@ -90,7 +90,7 @@ export interface Experience {
   readonly role: string;
   readonly period: string;
   readonly startDate: string;
-  readonly endDate: string;
+  readonly endDate: string | null;
   readonly summary: string;
   readonly website?: string;
   readonly logo?: ManagedMediaAsset;

@@ -77,7 +77,7 @@ const experienceSchema = z.object({
   role: z.string().min(1),
   period: z.string().min(1),
   startDate: z.iso.date(),
-  endDate: z.iso.date(),
+  endDate: z.iso.date().nullable(),
   summary: z.string().min(20),
   website: z.url().optional(),
   logo: managedMediaSchema('companies').optional(),
@@ -126,7 +126,7 @@ export const portfolioContentSchema = z
     });
 
     content.experiences.forEach((experience, index) => {
-      if (experience.startDate > experience.endDate) {
+      if (experience.endDate && experience.startDate > experience.endDate) {
         context.addIssue({
           code: 'custom',
           message: 'Experience startDate must be before endDate',

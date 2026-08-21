@@ -3,7 +3,7 @@
   "profile": {
     "name": "Miguel Angel Gutierrez Maya",
     "brandName": "Migudev",
-    "jobTitle": "Fullstack Product Engineer",
+    "jobTitle": "Product Engineer · Fullstack & Mobile",
     "location": "Cali, Colombia · Working globally",
     "email": "gutierrezmayamiguelangel@gmail.com",
     "whatsapp": {
@@ -15,7 +15,7 @@
       "lead": "I build digital products that feel",
       "accent": "clear, fast and human."
     },
-    "introduction": "Fullstack product engineer with 5+ years shaping web, backend and mobile experiences — from thoughtful interfaces to scalable event-driven services.",
+    "introduction": "Product Engineer & Mobile with 7 years building web platforms, backend services and cross-platform apps. I turn open-ended product challenges into fast, maintainable systems — from polished interfaces to serverless services and offline-ready mobile flows.",
     "primaryAction": { "label": "Explore selected work", "href": "#work" },
     "secondaryAction": { "label": "Start a conversation", "href": "#contact" },
     "portrait": {
@@ -24,9 +24,9 @@
       "label": "Product engineer"
     },
     "metrics": [
-      { "value": "23", "label": "Products & learning projects" },
+      { "value": "29", "label": "Products & learning projects" },
       { "value": "15+", "label": "Technologies across the stack" },
-      { "value": "5+", "label": "Years delivering software" },
+      { "value": "7", "label": "Years delivering software" },
       { "value": "B2", "label": "Professional English" }
     ],
     "socialLinks": [
@@ -67,12 +67,12 @@
     "projects": {
       "eyebrow": "Selected work",
       "title": "Products built for conversations, operations and everyday decisions.",
-      "description": "Explore professional products and hands-on studies across frontend, backend and mobile development."
+      "description": "Explore production platforms and hands-on studies spanning modern frontend, serverless backend and cross-platform mobile engineering."
     },
     "experience": {
       "eyebrow": "Experience",
       "title": "A career built close to users, teams and production.",
-      "description": "From operational software to AI-centered communication products, each role strengthened both delivery and technical leadership."
+      "description": "From workforce operations and fintech workflows to AI-centered communication products, each role expanded my product ownership, technical leadership and production impact."
     },
     "skills": {
       "eyebrow": "Technology",
@@ -94,12 +94,12 @@
     {
       "title": "Scalable services",
       "description": "APIs and event-driven services designed around clear domain boundaries and real operations.",
-      "keywords": ["Node.js", "Python", "AWS", "Databases"]
+      "keywords": ["Node.js", "Python", "AWS", "Supabase"]
     },
     {
       "title": "Mobile products",
       "description": "Native and cross-platform flows that turn complex processes into focused mobile experiences.",
-      "keywords": ["Swift", "SwiftUI", "Flutter", "Firebase"]
+      "keywords": ["React Native", "Expo", "Flutter", "Swift"]
     }
   ],
   "contact": { "emailPrompt": "Prefer email?" },
@@ -111,6 +111,97 @@
     ]
   },
   "projects": [
+    {
+      "id": "assignar-beefalo",
+      "title": "Assignar Operations Platform",
+      "summary": "Workforce and field-operations platform delivered across a modern React client and Python/Django REST and GraphQL services.",
+      "category": "Frontend",
+      "technologies": ["React", "TypeScript", "Python", "Django", "GraphQL", "Apollo", "XState"],
+      "preview": {
+        "src": "/media/projects/assignar-beefalo.webp",
+        "alt": "Anonymized Assignar operations dashboard with project map and activity feed",
+        "width": 960,
+        "height": 599
+      },
+      "featured": true
+    },
+    {
+      "id": "assignar-pay-web",
+      "title": "Assignar Pay Web",
+      "summary": "Multi-tenant SaaS workspace for forms, scheduling and field operations, built with server-first web patterns and secure data access.",
+      "category": "Frontend",
+      "technologies": [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Supabase",
+        "PostgreSQL",
+        "Tailwind CSS",
+        "Trigger.dev"
+      ],
+      "preview": {
+        "src": "/media/projects/assignar-pay-web.webp",
+        "alt": "Anonymized Assignar Pay forms management interface",
+        "width": 960,
+        "height": 602
+      },
+      "featured": true
+    },
+    {
+      "id": "assignar-core-api",
+      "title": "Assignar Core API",
+      "summary": "Serverless core services exposing operational capabilities through AWS Lambda, event-driven integrations and resilient data access.",
+      "category": "Backend",
+      "technologies": ["Node.js", "Serverless Framework", "AWS Lambda", "SQS", "DynamoDB", "MySQL"],
+      "preview": {
+        "src": "/media/projects/backend.webp",
+        "alt": "Backend service architecture code preview",
+        "width": 805,
+        "height": 428
+      },
+      "featured": true
+    },
+    {
+      "id": "assignar-db-manager",
+      "title": "Assignar DB Manager",
+      "summary": "Versioned database migration tooling for safe tenant schema evolution, repeatable upgrades and contextual change tracking.",
+      "category": "Backend",
+      "technologies": ["TypeScript", "Node.js", "MySQL", "AWS", "CI/CD"],
+      "preview": {
+        "src": "/media/projects/backend.webp",
+        "alt": "Backend service architecture code preview",
+        "width": 805,
+        "height": 428
+      }
+    },
+    {
+      "id": "assignar-pay-mobile",
+      "title": "Assignar Pay Mobile",
+      "summary": "Cross-platform companion for submissions and field workflows with offline-ready data, secure authentication and shared product modules.",
+      "category": "Mobile",
+      "technologies": ["React Native", "Expo", "TypeScript", "Supabase", "Tamagui", "SQLite"],
+      "preview": {
+        "src": "/media/projects/assignar-pay-mobile.webp",
+        "alt": "Anonymized Assignar Pay mobile submissions dashboard",
+        "width": 960,
+        "height": 600
+      },
+      "featured": true
+    },
+    {
+      "id": "assignar-fieldworker",
+      "title": "Assignar Fieldworker",
+      "summary": "Field operations app bringing assignments, forms, timesheets, dockets and site workflows to crews on iOS and Android.",
+      "category": "Mobile",
+      "technologies": ["React", "Ionic", "Capacitor", "TypeScript", "GraphQL", "SQLite"],
+      "preview": {
+        "src": "/media/projects/assignar-fieldworker.webp",
+        "alt": "Anonymized Assignar Fieldworker mobile assignments screen",
+        "width": 960,
+        "height": 600
+      },
+      "featured": true
+    },
     {
       "id": "keybe-v6",
       "title": "Keybe V6",
@@ -433,12 +524,27 @@
   ],
   "experiences": [
     {
+      "company": "Assignar",
+      "role": "Product Engineer & Mobile · Fullstack developer",
+      "period": "Aug 2024 — Present",
+      "startDate": "2024-08-01",
+      "endDate": null,
+      "summary": "Own product capabilities end to end across web, backend and mobile — modernizing high-traffic workflows, strengthening service quality and accelerating delivery through AI-assisted engineering, CI/CD and AWS observability.",
+      "website": "https://assignar.com/",
+      "logo": {
+        "src": "/media/companies/assignar.avif",
+        "alt": "Assignar company logo",
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
       "company": "Keybe",
       "role": "Fullstack & mobile developer · Frontend team lead",
       "period": "Sep 2021 — Jul 2024",
       "startDate": "2021-09-13",
       "endDate": "2024-07-03",
-      "summary": "Built web and mobile conversation products, led frontend delivery and introduced scalable practices for AI-centered customer experiences.",
+      "summary": "Led a five-person frontend team and helped evolve real-time AI conversation products across web and Flutter — introducing hexagonal boundaries, modular React frontends and measurable Core Web Vitals gains.",
       "website": "https://keybe.us/",
       "logo": {
         "src": "/media/companies/keybe.avif",
@@ -453,7 +559,7 @@
       "period": "Jan 2021 — Sep 2021",
       "startDate": "2021-01-01",
       "endDate": "2021-09-12",
-      "summary": "Delivered capabilities and production support for cloud education products and proposed improvements across service operations.",
+      "summary": "Shipped event-driven microservices and production integrations for an education platform serving 500+ schools, improving reliability through RabbitMQ workflows and focused incident response.",
       "website": "https://www.colegium.com/",
       "logo": {
         "src": "/media/companies/colegium.avif",
@@ -468,7 +574,7 @@
       "period": "Jun 2019 — Dec 2020",
       "startDate": "2019-06-18",
       "endDate": "2020-12-31",
-      "summary": "Designed custom applications for multiple clients and modernized systems maintained across partner organizations.",
+      "summary": "Owned discovery-to-deployment delivery for 8+ custom web and mobile products, building REST APIs and operational dashboards that halved time spent processing business data.",
       "website": "https://pcaingenieria.com/site/",
       "logo": {
         "src": "/media/companies/pca-ingenieria.avif",
@@ -483,7 +589,7 @@
       "period": "Mar 2019 — Jun 2019",
       "startDate": "2019-03-02",
       "endDate": "2019-06-17",
-      "summary": "Owned analysis, implementation, documentation, training and support for client-facing software initiatives.",
+      "summary": "Turned client requirements into production-ready applications and supported adoption through documentation, on-site training and hands-on rollout.",
       "website": "https://crealodigital.com/",
       "logo": {
         "src": "/media/companies/crealo-digital.avif",
@@ -498,7 +604,7 @@
       "period": "Dec 2018 — Mar 2019",
       "startDate": "2018-12-01",
       "endDate": "2019-03-01",
-      "summary": "Maintained business systems, resolved production issues and developed new operational modules from user requirements.",
+      "summary": "Expanded a live travel platform with booking and operations modules, resolving production defects and translating business feedback into adopted usability improvements.",
       "logo": {
         "src": "/media/companies/jetset-viajes.avif",
         "alt": "JetSet Viajes company logo",
@@ -511,17 +617,37 @@
     {
       "title": "Product interfaces",
       "description": "Accessible, responsive products with thoughtful motion and resilient component systems.",
-      "skills": ["React", "Vue.js", "Angular", "Astro", "TypeScript"]
+      "skills": ["React", "Next.js", "Vue.js", "Angular", "Astro", "TypeScript", "Supabase"]
     },
     {
       "title": "Services & cloud",
       "description": "Maintainable APIs, event-driven systems and pragmatic infrastructure decisions.",
-      "skills": ["Node.js", "Python", "PHP", "AWS", "Docker", "PostgreSQL", "MongoDB", "MySQL"]
+      "skills": [
+        "Node.js",
+        "Python",
+        "Django",
+        "Serverless Framework",
+        "AWS",
+        "Docker",
+        "Supabase",
+        "PostgreSQL",
+        "MongoDB",
+        "MySQL"
+      ]
     },
     {
       "title": "Mobile experiences",
       "description": "Native and cross-platform mobile products with clean, user-centered flows.",
-      "skills": ["Swift", "SwiftUI", "UIKit", "Flutter", "Kotlin", "Firebase"]
+      "skills": [
+        "React Native",
+        "Expo",
+        "Ionic",
+        "Capacitor",
+        "Flutter",
+        "Swift",
+        "SwiftUI",
+        "Kotlin"
+      ]
     }
   ]
 }

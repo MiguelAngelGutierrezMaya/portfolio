@@ -3,7 +3,7 @@
   "content": {
     "portfolio": {
       "key": "content/portfolio.json",
-      "sha256": "0c6882135c96023d51b7da8d4e3e92499b28028ee1797be704c9c4ccf0830bb0"
+      "sha256": "126b99d97bbd9fa4b27c06af6a684e53b2416d190ce7f488888d39a1716d659a"
     }
   },
   "assets": {
@@ -17,6 +17,11 @@
     }
   },
   "companyLogos": [
+    {
+      "filename": "assignar.avif",
+      "key": "media/companies/assignar.avif",
+      "sha256": "5a95d4253d132bfe1b6a44d29806ae7daedcf9059a6c8756db6831cf530e4f03"
+    },
     {
       "filename": "colegium.avif",
       "key": "media/companies/colegium.avif",
@@ -44,6 +49,26 @@
     }
   ],
   "projectPreviews": [
+    {
+      "filename": "assignar-beefalo.webp",
+      "key": "media/projects/assignar-beefalo.webp",
+      "sha256": "504eab6dcf98309912a0f9ac141a2a6206a4b5df53edd4b90fe44b1773ff548e"
+    },
+    {
+      "filename": "assignar-fieldworker.webp",
+      "key": "media/projects/assignar-fieldworker.webp",
+      "sha256": "00877dd24bd2df69c38cc4826f3abda69c98d6a05f61e4a3482a6d73a79e09b3"
+    },
+    {
+      "filename": "assignar-pay-mobile.webp",
+      "key": "media/projects/assignar-pay-mobile.webp",
+      "sha256": "6df71536d79cbed071c581223da797d65733e92c3a0af3d9e982bfb4690bdefe"
+    },
+    {
+      "filename": "assignar-pay-web.webp",
+      "key": "media/projects/assignar-pay-web.webp",
+      "sha256": "659962be5eb0d42788aa473f97df987e479d918824fa8fc3e9781526edab455d"
+    },
     {
       "filename": "backend.webp",
       "key": "media/projects/backend.webp",

@@ -32,7 +32,7 @@ export const GET: APIRoute = async () => {
     ...content.experiences.flatMap(experience => [
       `### ${experience.role} — ${experience.company}`,
       '',
-      `${experience.period} (${experience.startDate} to ${experience.endDate})`,
+      `${experience.period} (${experience.startDate} to ${experience.endDate ?? 'present'})`,
       '',
       experience.summary,
       ...(experience.website ? ['', `Company: ${experience.website}`] : []),

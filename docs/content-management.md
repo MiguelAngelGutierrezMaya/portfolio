@@ -61,6 +61,11 @@ file extension so Amplify sends them to SSR Compute before issuing the short-liv
 
 ## Publishing an update
 
+Screenshots sourced from production or staging products must be anonymized before upload. Remove or
+replace personal names, emails, avatars, tenant names, locations, record identifiers, operational
+counts and dates while preserving only the product structure needed to explain the work. Never
+publish the original screenshot when it contains customer, employee or operational data.
+
 1. Edit and validate the local content or media.
 2. Run `pnpm check` before publishing.
 3. Compute SHA-256 for every changed file and update `src/content/manifest.json`.

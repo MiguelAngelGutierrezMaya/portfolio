@@ -8,11 +8,13 @@ describe('GetPortfolioContent', () => {
   it('returns the complete curated portfolio', async () => {
     const content = await GetPortfolioContent.execute(new ContentFilePortfolioRepository());
 
-    expect(content.projects).toHaveLength(23);
-    expect(content.experiences).toHaveLength(5);
+    expect(content.projects).toHaveLength(29);
+    expect(content.experiences).toHaveLength(6);
     expect(content.skillGroups).toHaveLength(3);
     expect(content.capabilities).toHaveLength(3);
     expect(content.profile.brandName).toBe('Migudev');
+    expect(content.experiences[0]?.company).toBe('Assignar');
+    expect(content.experiences[0]?.endDate).toBeNull();
     expect(content.navigation).toHaveLength(4);
   });
 
