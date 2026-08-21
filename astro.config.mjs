@@ -30,9 +30,6 @@ export default defineConfig({
     ],
   }),
   integrations: [react()],
-  build: {
-    inlineStylesheets: 'always',
-  },
   output: 'server',
   compressHTML: true,
   security: {

@@ -72,7 +72,6 @@ const serializedStructuredData = JSON.stringify(pageStructuredData).replaceAll('
       name="twitter:image:alt"
       content="Migudev — Miguel Gutierrez, Product Engineer, Fullstack & Mobile"
     />
-    <script is:inline type="application/ld+json" set:html={serializedStructuredData} />
     <script is:inline>
       document.documentElement.classList.add('js');
     </script>
@@ -80,6 +79,7 @@ const serializedStructuredData = JSON.stringify(pageStructuredData).replaceAll('
   </head>
   <body>
     <slot />
+    <script is:inline type="application/ld+json" set:html={serializedStructuredData} />
     <script>
       import { registerWebVitals } from '@/modules/observability/infrastructure/browser/registerWebVitals';
 
