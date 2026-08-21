@@ -7,7 +7,7 @@ import {
   validateContactMessage,
   type ContactValidationErrors,
 } from '@contact/domain/services/validateContactMessage';
-import { createHttpContactGateway } from '@contact/infrastructure/gateways/HttpContactGateway';
+import { createSameOriginContactGateway } from '@contact/infrastructure/gateways/SameOriginContactGateway';
 
 import './ContactForm.css';
 
@@ -15,22 +15,32 @@ interface ContactFormProps {
   gateway?: ContactGateway;
 }
 
-const defaultGateway = createHttpContactGateway();
+const defaultGateway = createSameOriginContactGateway();
 
 const ContactForm = ({ gateway = defaultGateway }: ContactFormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const mountedAtRef = useRef(0);
   const [errors, setErrors] = useState<ContactValidationErrors>({});
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [feedback, setFeedback] = useState('');
 
-  useEffect(() => () => abortRef.current?.abort(), []);
+  useEffect(() => {
+    mountedAtRef.current = Date.now();
+    return () => abortRef.current?.abort();
+  }, []);
 
   const handleSubmit = async (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
 
-    if (formData.get('company')) return;
+    const honeypot = String(formData.get('company') ?? '');
+    if (honeypot) {
+      setStatus('success');
+      setFeedback('Message received. I will get back to you as soon as possible.');
+      formRef.current?.reset();
+      return;
+    }
 
     const values: ContactMessage = {
       name: String(formData.get('name') ?? ''),
@@ -52,7 +62,10 @@ const ContactForm = ({ gateway = defaultGateway }: ContactFormProps) => {
     setStatus('sending');
     setFeedback('Sending your message…');
 
-    const result = await SendContactMessage.execute(gateway, values, controller.signal);
+    const result = await SendContactMessage.execute(gateway, values, controller.signal, {
+      honeypot,
+      elapsedMs: Date.now() - mountedAtRef.current,
+    });
     if (controller.signal.aborted || abortRef.current !== controller) return;
 
     setStatus(result.success ? 'success' : 'error');
@@ -73,6 +86,7 @@ const ContactForm = ({ gateway = defaultGateway }: ContactFormProps) => {
             id="contact-name"
             name="name"
             type="text"
+            maxLength={80}
             autoComplete="name"
             placeholder="Your name"
             aria-invalid={Boolean(errors.name)}
@@ -90,6 +104,7 @@ const ContactForm = ({ gateway = defaultGateway }: ContactFormProps) => {
             id="contact-email"
             name="email"
             type="email"
+            maxLength={254}
             inputMode="email"
             autoComplete="email"
             placeholder="you@company.com"
@@ -110,6 +125,7 @@ const ContactForm = ({ gateway = defaultGateway }: ContactFormProps) => {
           id="contact-message"
           name="message"
           rows={6}
+          maxLength={4000}
           placeholder="What are you building, and how can I help?"
           aria-invalid={Boolean(errors.message)}
           aria-describedby={errors.message ? 'contact-message-error' : undefined}
@@ -123,7 +139,14 @@ const ContactForm = ({ gateway = defaultGateway }: ContactFormProps) => {
 
       <div className="field field--honeypot" aria-hidden="true">
         <label htmlFor="contact-company">Company</label>
-        <input id="contact-company" name="company" type="text" tabIndex={-1} autoComplete="off" />
+        <input
+          id="contact-company"
+          name="company"
+          type="text"
+          maxLength={200}
+          tabIndex={-1}
+          autoComplete="off"
+        />
       </div>
 
       <div className="contact-form__footer">

@@ -1,0 +1,149 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Private, rate-limited Amazon SES contact delivery for the Migudev portfolio.
+
+Parameters:
+  AmplifyComputeRoleName:
+    Type: String
+    Default: MigudevPortfolioAmplifyComputeRole
+  ContactMailerFunctionName:
+    Type: String
+    Default: migudev-portfolio-contact-mailer
+  ContactRateLimitTableName:
+    Type: String
+    Default: migudev-portfolio-contact-rate-limit
+  SenderEmail:
+    Type: String
+    Default: gutierrezmayamiguelangel@gmail.com
+  RecipientEmail:
+    Type: String
+    Default: gutierrezmayamiguelangel@gmail.com
+
+Resources:
+  ContactRateLimitTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: !Ref ContactRateLimitTableName
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: rateKey
+          AttributeType: S
+      KeySchema:
+        - AttributeName: rateKey
+          KeyType: HASH
+      SSESpecification:
+        SSEEnabled: true
+      TimeToLiveSpecification:
+        AttributeName: expiresAt
+        Enabled: true
+      Tags:
+        - Key: Project
+          Value: migudev-portfolio
+        - Key: DataClassification
+          Value: pseudonymous-security-metadata
+
+  ContactMailerRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: MigudevPortfolioContactMailerRole
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: DeliverRateLimitedPortfolioContact
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Sid: EnforceContactRateLimit
+                Effect: Allow
+                Action:
+                  - dynamodb:DeleteItem
+                  - dynamodb:PutItem
+                  - dynamodb:UpdateItem
+                Resource: !GetAtt ContactRateLimitTable.Arn
+              - Sid: SendOnlyPortfolioContactEmail
+                Effect: Allow
+                Action: ses:SendEmail
+                Resource: !Sub arn:${AWS::Partition}:ses:${AWS::Region}:${AWS::AccountId}:identity/${SenderEmail}
+                Condition:
+                  StringEquals:
+                    ses:FromAddress: !Ref SenderEmail
+                  ForAllValues:StringEquals:
+                    ses:Recipients:
+                      - !Ref RecipientEmail
+              - Sid: WriteFunctionLogs
+                Effect: Allow
+                Action:
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${ContactMailerFunctionName}:*
+      Tags:
+        - Key: Project
+          Value: migudev-portfolio
+
+  ContactMailer:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Ref ContactMailerFunctionName
+      Description: Sends validated portfolio contact messages through Amazon SES.
+      Architectures:
+        - arm64
+      Runtime: nodejs24.x
+      Handler: handler.handler
+      MemorySize: 128
+      Timeout: 10
+      Role: !GetAtt ContactMailerRole.Arn
+      Environment:
+        Variables:
+          CONTACT_RATE_LIMIT_TABLE: !Ref ContactRateLimitTable
+          CONTACT_RECIPIENT_EMAIL: !Ref RecipientEmail
+          CONTACT_SENDER_EMAIL: !Ref SenderEmail
+      CodeUri: functions/contact-mailer/
+      Tags:
+        Project: migudev-portfolio
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - handler.ts
+        Format: cjs
+        Minify: true
+        Sourcemap: false
+        Target: es2022
+
+  ContactMailerLogGroup:
+    Type: AWS::Logs::LogGroup
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      LogGroupName: !Sub /aws/lambda/${ContactMailerFunctionName}
+      RetentionInDays: 30
+      Tags:
+        - Key: Project
+          Value: migudev-portfolio
+
+  AmplifyInvokeContactMailerPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: InvokePrivatePortfolioContactMailer
+      Roles:
+        - !Ref AmplifyComputeRoleName
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: InvokePrivateContactMailer
+            Effect: Allow
+            Action: lambda:InvokeFunction
+            Resource: !GetAtt ContactMailer.Arn
+
+Outputs:
+  ContactMailerFunctionArn:
+    Value: !GetAtt ContactMailer.Arn
+  ContactMailerFunctionName:
+    Value: !Ref ContactMailer
+  ContactRateLimitTableName:
+    Value: !Ref ContactRateLimitTable

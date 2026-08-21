@@ -22,6 +22,7 @@ describe('SendContactMessage', () => {
         email: 'miguel@example.com',
         message: 'A detailed project message.',
       },
+      undefined,
       undefined
     );
   });

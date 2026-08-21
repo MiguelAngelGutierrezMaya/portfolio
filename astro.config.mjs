@@ -16,6 +16,8 @@ export default defineConfig({
       'CONTENT_MANIFEST_KEY',
       'CONTENT_REGION',
       'CONTENT_RUNTIME_CACHE_TTL_SECONDS',
+      'CONTACT_MAILER_FUNCTION',
+      'CONTACT_REGION',
     ],
     customRules: [
       {
@@ -31,6 +33,7 @@ export default defineConfig({
   output: 'server',
   compressHTML: true,
   security: {
+    checkOrigin: true,
     serverIslandBodySizeLimit: 32 * 1024,
   },
   trailingSlash: 'always',
@@ -40,6 +43,7 @@ export default defineConfig({
     },
     ssr: {
       noExternal: [
+        '@aws-sdk/client-lambda',
         '@aws-sdk/client-s3',
         '@aws-sdk/s3-request-presigner',
         'framer-motion',

@@ -102,7 +102,7 @@ handler referenced by `CodeUri`:
 pnpm validate:infra
 pnpm build:infra
 sam deploy \
-  --template-file .aws-sam/build/template.yaml \
+  --template-file .aws-sam/content/template.yaml \
   --stack-name migudev-portfolio-content \
   --resolve-s3 \
   --capabilities CAPABILITY_NAMED_IAM CAPABILITY_AUTO_EXPAND \

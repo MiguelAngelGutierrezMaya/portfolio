@@ -7,4 +7,5 @@ export interface ContactMessage {
 export interface ContactResult {
   success: boolean;
   message: string;
+  code?: 'accepted' | 'invalid' | 'rate_limited' | 'unavailable';
 }

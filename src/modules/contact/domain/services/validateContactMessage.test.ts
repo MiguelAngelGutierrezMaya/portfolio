@@ -20,4 +20,16 @@ describe('validateContactMessage', () => {
       message: 'Tell me a little more — at least 20 characters.',
     });
   });
+
+  it('rejects oversized fields before they reach infrastructure', () => {
+    const errors = validateContactMessage({
+      name: 'M'.repeat(81),
+      email: `${'m'.repeat(250)}@example.com`,
+      message: 'M'.repeat(4001),
+    });
+
+    expect(errors.name).toContain('under 80');
+    expect(errors.email).toBe('Please enter a shorter email address.');
+    expect(errors.message).toContain('under 4000');
+  });
 });

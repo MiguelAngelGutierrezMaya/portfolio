@@ -1,11 +1,15 @@
-import type { ContactGateway } from '@contact/application/ports/ContactGateway';
+import type {
+  ContactGateway,
+  ContactGatewayContext,
+} from '@contact/application/ports/ContactGateway';
 import type { ContactMessage, ContactResult } from '@contact/domain/models/ContactMessage';
 
 export class SendContactMessage {
   static execute(
     gateway: ContactGateway,
     message: ContactMessage,
-    signal?: AbortSignal
+    signal?: AbortSignal,
+    context?: ContactGatewayContext
   ): Promise<ContactResult> {
     return gateway.send(
       {
@@ -13,7 +17,8 @@ export class SendContactMessage {
         email: message.email.trim().toLowerCase(),
         message: message.message.trim(),
       },
-      signal
+      signal,
+      context
     );
   }
 }

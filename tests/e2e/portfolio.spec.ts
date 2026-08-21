@@ -78,6 +78,56 @@ test('supports keyboard navigation and accessible form feedback', async ({ page 
   await expect(page.getByRole('textbox', { name: 'Name' })).toHaveAttribute('aria-invalid', 'true');
 });
 
+test('submits contact messages only through the same-origin server endpoint', async ({
+  page,
+  request,
+}) => {
+  const rejected = await request.post('/api/contact/', {
+    headers: {
+      'Content-Type': 'application/json',
+      Origin: 'https://attacker.example',
+      'X-Requested-With': 'MigudevContactForm',
+    },
+    data: {
+      name: 'Security Test',
+      email: 'security@example.com',
+      message: 'This cross-origin request must never reach the private mailer.',
+      company: '',
+      elapsedMs: 2500,
+    },
+  });
+  expect(rejected.status()).toBe(403);
+
+  let submittedBody: Record<string, unknown> | undefined;
+  await page.route(/\/api\/contact\/?$/, async route => {
+    submittedBody = route.request().postDataJSON() as Record<string, unknown>;
+    await route.fulfill({
+      status: 202,
+      contentType: 'application/json',
+      body: JSON.stringify({ success: true, message: 'Message received.' }),
+    });
+  });
+  await page.goto('/');
+
+  const contactIsland = page.locator('astro-island[component-url*="ContactForm"]');
+  await contactIsland.scrollIntoViewIfNeeded();
+  await expect(contactIsland).not.toHaveAttribute('ssr', '');
+  await page.getByRole('textbox', { name: 'Name' }).fill('Miguel Example');
+  await page.getByRole('textbox', { name: 'Email' }).fill('miguel@example.com');
+  await page
+    .getByRole('textbox', { name: 'Project or opportunity' })
+    .fill('I would like to discuss a secure product engineering opportunity.');
+  await page.getByRole('button', { name: /start a conversation/i }).click();
+
+  await expect(page.getByRole('status')).toContainText('Message received');
+  expect(submittedBody).toMatchObject({
+    name: 'Miguel Example',
+    email: 'miguel@example.com',
+    company: '',
+  });
+  expect(page.url()).toMatch(/^http:\/\/127\.0\.0\.1:/);
+});
+
 test('publishes direct WhatsApp contact and private portfolio media', async ({ page, request }) => {
   await page.goto('/');
 

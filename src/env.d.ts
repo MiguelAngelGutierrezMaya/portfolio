@@ -5,10 +5,6 @@ interface ImportMetaEnv {
   readonly CONTENT_MANIFEST_KEY?: string;
   readonly CONTENT_REGION?: string;
   readonly CONTENT_RUNTIME_CACHE_TTL_SECONDS?: string;
-  readonly PUBLIC_EMAIL_SERVICE_ID?: string;
-  readonly PUBLIC_EMAIL_TEMPLATE_ID?: string;
-  readonly PUBLIC_EMAIL_URL?: string;
-  readonly PUBLIC_EMAIL_USER_ID?: string;
   readonly PUBLIC_FACEBOOK_DOMAIN_VERIFICATION?: string;
   readonly PUBLIC_SITE_URL?: string;
   readonly PUBLIC_WEB_VITALS_ENDPOINT?: string;

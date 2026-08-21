@@ -10,6 +10,7 @@ A content-first personal portfolio built with Astro and focused React islands. T
 - TypeScript 7 with strict and unchecked-index validation
 - Plain CSS design tokens and component layers
 - Zod-validated, privately managed S3 content with a replaceable repository adapter
+- Private IAM-invoked Lambda contact delivery through Amazon SES and DynamoDB rate limiting
 - Vitest and Testing Library for unit and component tests
 - Playwright and Axe for browser, keyboard and accessibility tests
 - Lighthouse CI and `web-vitals` for performance budgets and field telemetry
@@ -19,7 +20,8 @@ A content-first personal portfolio built with Astro and focused React islands. T
 ```text
 infra/
 ├── content-store.yaml               # Private S3, KMS, Lambda and separated Amplify IAM roles
-└── functions/content-presigner/     # Tested TypeScript Lambda source
+├── contact-mailer.yaml              # Private SES mailer, DynamoDB rate limit and least-privilege IAM
+└── functions/                       # Tested TypeScript Lambda sources
 src/
 ├── layouts/                         # Shared document shell and metadata
 ├── content/                         # Versioned editorial content
@@ -27,7 +29,7 @@ src/
 │   ├── contact/
 │   │   ├── domain/                  # Contact models
 │   │   ├── application/             # Ports and use cases
-│   │   └── infrastructure/          # HTTP adapter and UI organism
+│   │   └── infrastructure/          # Same-origin/Lambda adapters and UI organism
 │   ├── legal/                       # Legal content port, repository and template
 │   ├── observability/               # Browser performance adapter
 │   └── portfolio/
@@ -58,8 +60,9 @@ pnpm install
 pnpm dev
 ```
 
-Copy `.env.example` to `.env` and provide the relevant public contact-service values. S3 variables
-are optional locally: without them, the runtime repository serves the bundled content snapshot.
+Copy `.env.example` to `.env`. S3 and contact Lambda variables are optional locally: without S3
+variables, the runtime repository serves the bundled content snapshot; without the mailer function,
+the local contact endpoint fails closed without exposing infrastructure details.
 
 The complete managed content model lives in `src/content/portfolio.json`. In production, the SSR
 repository reads the release manifest and JSON directly from private S3 through a least-privilege
@@ -67,6 +70,8 @@ Amplify Compute role. It verifies SHA-256 and validates the document with Zod be
 cached bundled snapshot remains available if S3 or KMS is temporarily unavailable. Production builds
 still synchronize the snapshot, logo and portrait for deterministic fallback and optimized images.
 See `docs/content-management.md` for the security model, publishing workflow, lifecycle and recovery.
+See `docs/contact-delivery.md` for the private SES architecture, anti-abuse controls and deployment
+runbook.
 
 ## Quality commands
 
@@ -106,6 +111,7 @@ Track enabled are never reported.
 - `/robots.txt` and `/sitemap.xml` — crawl metadata
 - `/llms.txt` and `/llms-full.txt` — on-demand LLM-readable S3 context
 - `/media/projects/[filename]` — allowlisted, short-lived project preview redirect
+- `/api/contact/` — same-origin SSR boundary for private Lambda/SES delivery
 - `/manifest.webmanifest` — install and brand metadata
 
 ## License

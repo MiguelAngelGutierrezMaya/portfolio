@@ -41,7 +41,8 @@ describe('ContactForm', () => {
         email: 'miguel@example.com',
         message: 'I would like to discuss a scalable product engineering project.',
       },
-      expect.any(AbortSignal)
+      expect.any(AbortSignal),
+      expect.objectContaining({ honeypot: '', elapsedMs: expect.any(Number) })
     );
     expect(await screen.findByRole('status')).toHaveTextContent('Message received.');
   });

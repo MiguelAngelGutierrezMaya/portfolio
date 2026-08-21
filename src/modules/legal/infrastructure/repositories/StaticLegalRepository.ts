@@ -6,14 +6,14 @@ const documents: Record<LegalDocumentKey, LegalDocument> = {
     title: 'Privacy Policy',
     description:
       'How this portfolio collects, uses and protects information submitted through the contact form.',
-    lastUpdated: 'August 2, 2026',
+    lastUpdated: 'August 21, 2026',
     introduction:
       'This policy explains what information is collected when you contact me through this portfolio and how that information is handled.',
     sections: [
       {
         title: 'Information collected',
         paragraphs: [
-          'The contact form collects only the information you choose to provide: your name, email address and message. Basic technical request logs may also be processed by the hosting and email providers for security and service delivery.',
+          'The contact form collects only the information you choose to provide: your name, email address and message. To prevent abuse, a short-lived pseudonymous request key derived from network information is processed without storing the raw address in the rate-limit database.',
         ],
       },
       {
@@ -25,13 +25,13 @@ const documents: Record<LegalDocumentKey, LegalDocument> = {
       {
         title: 'Service providers',
         paragraphs: [
-          'Messages are transmitted through an email delivery provider. Hosting, storage and delivery providers may process limited technical information as required to operate their services.',
+          'Messages are processed server-side by AWS Lambda and delivered through Amazon Simple Email Service (SES). Amazon Web Services and the destination mailbox provider may process limited information required to host, secure and deliver the message.',
         ],
       },
       {
         title: 'Retention and security',
         paragraphs: [
-          'Messages are retained only as long as reasonably necessary to respond and maintain relevant professional correspondence. Reasonable technical safeguards are used, but no internet transmission method can guarantee absolute security.',
+          'The contact backend does not persist message contents in its rate-limit database. Delivered messages remain in the destination mailbox only as long as reasonably necessary to respond and maintain relevant professional correspondence. Short-lived anti-abuse records expire automatically.',
         ],
       },
       {
