@@ -1,6 +1,9 @@
+const { chromium } = require('@playwright/test');
+
 module.exports = {
   ci: {
     collect: {
+      chromePath: chromium.executablePath(),
       startServerCommand: 'PORT=4322 HOST=127.0.0.1 pnpm preview',
       startServerReadyPattern: 'Local',
       url: [
@@ -10,7 +13,7 @@ module.exports = {
       ],
       numberOfRuns: 3,
       settings: {
-        chromeFlags: '--headless --no-sandbox --disable-dev-shm-usage',
+        chromeFlags: '--headless --no-sandbox --disable-dev-shm-usage --disable-extensions',
         onlyCategories: ['performance', 'accessibility', 'best-practices', 'seo'],
       },
     },
