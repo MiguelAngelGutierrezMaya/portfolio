@@ -22,6 +22,8 @@ Parameters:
 Resources:
   ContactRateLimitTable:
     Type: AWS::DynamoDB::Table
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
     Properties:
       TableName: !Ref ContactRateLimitTableName
       BillingMode: PAY_PER_REQUEST
@@ -53,37 +55,42 @@ Resources:
             Principal:
               Service: lambda.amazonaws.com
             Action: sts:AssumeRole
-      Policies:
-        - PolicyName: DeliverRateLimitedPortfolioContact
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Sid: EnforceContactRateLimit
-                Effect: Allow
-                Action:
-                  - dynamodb:DeleteItem
-                  - dynamodb:PutItem
-                  - dynamodb:UpdateItem
-                Resource: !GetAtt ContactRateLimitTable.Arn
-              - Sid: SendOnlyPortfolioContactEmail
-                Effect: Allow
-                Action: ses:SendEmail
-                Resource: !Sub arn:${AWS::Partition}:ses:${AWS::Region}:${AWS::AccountId}:identity/${SenderEmail}
-                Condition:
-                  StringEquals:
-                    ses:FromAddress: !Ref SenderEmail
-                  ForAllValues:StringEquals:
-                    ses:Recipients:
-                      - !Ref RecipientEmail
-              - Sid: WriteFunctionLogs
-                Effect: Allow
-                Action:
-                  - logs:CreateLogStream
-                  - logs:PutLogEvents
-                Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${ContactMailerFunctionName}:*
+      ManagedPolicyArns:
+        - !Ref ContactMailerPolicy
       Tags:
         - Key: Project
           Value: migudev-portfolio
+
+  ContactMailerPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: MigudevPortfolioDeliverContact
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: EnforceContactRateLimit
+            Effect: Allow
+            Action:
+              - dynamodb:DeleteItem
+              - dynamodb:PutItem
+              - dynamodb:UpdateItem
+            Resource: !GetAtt ContactRateLimitTable.Arn
+          - Sid: SendOnlyPortfolioContactEmail
+            Effect: Allow
+            Action: ses:SendEmail
+            Resource: !Sub arn:${AWS::Partition}:ses:${AWS::Region}:${AWS::AccountId}:identity/${SenderEmail}
+            Condition:
+              StringEquals:
+                ses:FromAddress: !Ref SenderEmail
+              ForAllValues:StringEquals:
+                ses:Recipients:
+                  - !Ref RecipientEmail
+          - Sid: WriteFunctionLogs
+            Effect: Allow
+            Action:
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+            Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/${ContactMailerFunctionName}:*
 
   ContactMailer:
     Type: AWS::Serverless::Function
@@ -119,6 +126,13 @@ Resources:
     Type: AWS::Logs::LogGroup
     DeletionPolicy: Retain
     UpdateReplacePolicy: Retain
+    Metadata:
+      guard:
+        SuppressedRules:
+          - CLOUDWATCH_LOG_GROUP_ENCRYPTED
+      ComplianceException:
+        Reason: CloudWatch default encryption is sufficient because application logs contain no contact PII; a dedicated customer-managed KMS key would add recurring cost.
+        ReviewAfter: '2027-08-22'
     Properties:
       LogGroupName: !Sub /aws/lambda/${ContactMailerFunctionName}
       RetentionInDays: 30
@@ -127,9 +141,9 @@ Resources:
           Value: migudev-portfolio
 
   AmplifyInvokeContactMailerPolicy:
-    Type: AWS::IAM::Policy
+    Type: AWS::IAM::ManagedPolicy
     Properties:
-      PolicyName: InvokePrivatePortfolioContactMailer
+      ManagedPolicyName: MigudevPortfolioInvokeContactMailer
       Roles:
         - !Ref AmplifyComputeRoleName
       PolicyDocument:

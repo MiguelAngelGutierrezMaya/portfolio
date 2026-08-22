@@ -5,7 +5,7 @@ module.exports = {
     collect: {
       chromePath: chromium.executablePath(),
       startServerCommand: 'PORT=4322 HOST=127.0.0.1 pnpm preview',
-      startServerReadyPattern: 'Local',
+      startServerReadyPattern: 'Server listening',
       url: [
         'http://127.0.0.1:4322/',
         'http://127.0.0.1:4322/privacy/index.html',

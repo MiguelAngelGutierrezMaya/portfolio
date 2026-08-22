@@ -1,0 +1,192 @@
+---
+- name: Empty templates skip resource-specific controls
+  input:
+    Resources: {}
+  expectations:
+    rules:
+      IAM_NO_INLINE_POLICY_CHECK: SKIP
+      CLOUDWATCH_LOG_GROUP_ENCRYPTED: SKIP
+      S3_BUCKET_LOGGING_ENABLED: SKIP
+      S3_PRIVATE_CONTENT_BASELINE: SKIP
+      DYNAMODB_EXPLICIT_LIFECYCLE: SKIP
+      DYNAMODB_RATE_LIMIT_BASELINE: SKIP
+      CLOUDWATCH_LOG_RETENTION_CONFIGURED: SKIP
+
+- name: Inline IAM policies fail
+  input:
+    Resources:
+      ExampleRole:
+        Type: AWS::IAM::Role
+        Properties:
+          Policies:
+            - PolicyName: InlinePolicy
+              PolicyDocument:
+                Version: '2012-10-17'
+                Statement: []
+  expectations:
+    rules:
+      IAM_NO_INLINE_POLICY_CHECK: FAIL
+      CLOUDWATCH_LOG_GROUP_ENCRYPTED: SKIP
+      S3_BUCKET_LOGGING_ENABLED: SKIP
+      S3_PRIVATE_CONTENT_BASELINE: SKIP
+      DYNAMODB_EXPLICIT_LIFECYCLE: SKIP
+      DYNAMODB_RATE_LIMIT_BASELINE: SKIP
+      CLOUDWATCH_LOG_RETENTION_CONFIGURED: SKIP
+
+- name: Managed IAM policies pass
+  input:
+    Resources:
+      ExampleRole:
+        Type: AWS::IAM::Role
+        Properties:
+          ManagedPolicyArns:
+            - arn:aws:iam::123456789012:policy/example
+  expectations:
+    rules:
+      IAM_NO_INLINE_POLICY_CHECK: PASS
+      CLOUDWATCH_LOG_GROUP_ENCRYPTED: SKIP
+      S3_BUCKET_LOGGING_ENABLED: SKIP
+      S3_PRIVATE_CONTENT_BASELINE: SKIP
+      DYNAMODB_EXPLICIT_LIFECYCLE: SKIP
+      DYNAMODB_RATE_LIMIT_BASELINE: SKIP
+      CLOUDWATCH_LOG_RETENTION_CONFIGURED: SKIP
+
+- name: Unencrypted application log group fails customer-managed encryption control
+  input:
+    Resources:
+      ExampleLogs:
+        Type: AWS::Logs::LogGroup
+        Properties:
+          RetentionInDays: 30
+  expectations:
+    rules:
+      IAM_NO_INLINE_POLICY_CHECK: SKIP
+      CLOUDWATCH_LOG_GROUP_ENCRYPTED: FAIL
+      S3_BUCKET_LOGGING_ENABLED: SKIP
+      S3_PRIVATE_CONTENT_BASELINE: SKIP
+      DYNAMODB_EXPLICIT_LIFECYCLE: SKIP
+      DYNAMODB_RATE_LIMIT_BASELINE: SKIP
+      CLOUDWATCH_LOG_RETENTION_CONFIGURED: PASS
+
+- name: Reviewed log encryption exception skips only the cost-bearing control
+  input:
+    Resources:
+      ExampleLogs:
+        Type: AWS::Logs::LogGroup
+        Metadata:
+          guard:
+            SuppressedRules:
+              - CLOUDWATCH_LOG_GROUP_ENCRYPTED
+        Properties:
+          RetentionInDays: 30
+  expectations:
+    rules:
+      IAM_NO_INLINE_POLICY_CHECK: SKIP
+      CLOUDWATCH_LOG_GROUP_ENCRYPTED: SKIP
+      S3_BUCKET_LOGGING_ENABLED: SKIP
+      S3_PRIVATE_CONTENT_BASELINE: SKIP
+      DYNAMODB_EXPLICIT_LIFECYCLE: SKIP
+      DYNAMODB_RATE_LIMIT_BASELINE: SKIP
+      CLOUDWATCH_LOG_RETENTION_CONFIGURED: PASS
+
+- name: S3 logging omission fails without an exception
+  input:
+    Resources:
+      ExampleBucket:
+        Type: AWS::S3::Bucket
+        Properties:
+          BucketEncryption: {}
+          LifecycleConfiguration:
+            Rules:
+              - Status: Enabled
+          PublicAccessBlockConfiguration:
+            BlockPublicAcls: true
+            BlockPublicPolicy: true
+            IgnorePublicAcls: true
+            RestrictPublicBuckets: true
+          VersioningConfiguration:
+            Status: Enabled
+  expectations:
+    rules:
+      IAM_NO_INLINE_POLICY_CHECK: SKIP
+      CLOUDWATCH_LOG_GROUP_ENCRYPTED: SKIP
+      S3_BUCKET_LOGGING_ENABLED: FAIL
+      S3_PRIVATE_CONTENT_BASELINE: PASS
+      DYNAMODB_EXPLICIT_LIFECYCLE: SKIP
+      DYNAMODB_RATE_LIMIT_BASELINE: SKIP
+      CLOUDWATCH_LOG_RETENTION_CONFIGURED: SKIP
+
+- name: Reviewed S3 logging exception preserves the private bucket baseline
+  input:
+    Resources:
+      ExampleBucket:
+        Type: AWS::S3::Bucket
+        Metadata:
+          guard:
+            SuppressedRules:
+              - S3_BUCKET_LOGGING_ENABLED
+        Properties:
+          BucketEncryption: {}
+          LifecycleConfiguration:
+            Rules:
+              - Status: Enabled
+          PublicAccessBlockConfiguration:
+            BlockPublicAcls: true
+            BlockPublicPolicy: true
+            IgnorePublicAcls: true
+            RestrictPublicBuckets: true
+          VersioningConfiguration:
+            Status: Enabled
+  expectations:
+    rules:
+      IAM_NO_INLINE_POLICY_CHECK: SKIP
+      CLOUDWATCH_LOG_GROUP_ENCRYPTED: SKIP
+      S3_BUCKET_LOGGING_ENABLED: SKIP
+      S3_PRIVATE_CONTENT_BASELINE: PASS
+      DYNAMODB_EXPLICIT_LIFECYCLE: SKIP
+      DYNAMODB_RATE_LIMIT_BASELINE: SKIP
+      CLOUDWATCH_LOG_RETENTION_CONFIGURED: SKIP
+
+- name: DynamoDB requires explicit lifecycle policies
+  input:
+    Resources:
+      RateLimitTable:
+        Type: AWS::DynamoDB::Table
+        Properties:
+          BillingMode: PAY_PER_REQUEST
+          SSESpecification:
+            SSEEnabled: true
+          TimeToLiveSpecification:
+            Enabled: true
+  expectations:
+    rules:
+      IAM_NO_INLINE_POLICY_CHECK: SKIP
+      CLOUDWATCH_LOG_GROUP_ENCRYPTED: SKIP
+      S3_BUCKET_LOGGING_ENABLED: SKIP
+      S3_PRIVATE_CONTENT_BASELINE: SKIP
+      DYNAMODB_EXPLICIT_LIFECYCLE: FAIL
+      DYNAMODB_RATE_LIMIT_BASELINE: PASS
+      CLOUDWATCH_LOG_RETENTION_CONFIGURED: SKIP
+
+- name: Cost-aware DynamoDB rate-limit table passes
+  input:
+    Resources:
+      RateLimitTable:
+        Type: AWS::DynamoDB::Table
+        DeletionPolicy: Delete
+        UpdateReplacePolicy: Delete
+        Properties:
+          BillingMode: PAY_PER_REQUEST
+          SSESpecification:
+            SSEEnabled: true
+          TimeToLiveSpecification:
+            Enabled: true
+  expectations:
+    rules:
+      IAM_NO_INLINE_POLICY_CHECK: SKIP
+      CLOUDWATCH_LOG_GROUP_ENCRYPTED: SKIP
+      S3_BUCKET_LOGGING_ENABLED: SKIP
+      S3_PRIVATE_CONTENT_BASELINE: SKIP
+      DYNAMODB_EXPLICIT_LIFECYCLE: PASS
+      DYNAMODB_RATE_LIMIT_BASELINE: PASS
+      CLOUDWATCH_LOG_RETENTION_CONFIGURED: SKIP

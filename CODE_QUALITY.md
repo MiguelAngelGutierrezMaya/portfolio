@@ -27,11 +27,13 @@ UI code follows Atomic Design inside `infrastructure/ui`: atoms, molecules, orga
 - `pnpm typecheck` validates application TypeScript and TSX with TypeScript 7.
 - `pnpm check:astro` validates Astro components through the isolated compiler-API compatibility
   workspace.
-- `pnpm build:lambda` bundles the TypeScript presigner independently of the web application.
-- `pnpm validate:infra` and `pnpm build:infra` validate/package the deployable AWS SAM stack when
-  the AWS SAM CLI is installed.
+- `pnpm build:lambda` can bundle both TypeScript Lambdas independently of the web application.
+- `pnpm validate:infra` runs SAM validation, informational `cfn-lint` checks, Guard unit tests and
+  Guard validation against both deployable templates.
+- `pnpm build:infra` packages both deployable AWS SAM stacks and is part of the core quality gate.
 - `pnpm build` runs both type-checking layers before hybrid Amplify generation.
 - `pnpm lint` covers TypeScript, React and Astro.
+- `pnpm lint:workflows` validates GitHub Actions syntax and shell expressions with `actionlint`.
 - `pnpm format:check` checks all supported source files.
 - `pnpm test` validates domain policies, use cases, adapters and React behavior.
 - `pnpm test:coverage` enforces 80% line/function/statement coverage and 70% branch coverage across

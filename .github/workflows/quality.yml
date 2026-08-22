@@ -19,25 +19,66 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
 
       - name: Configure Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: pnpm
 
+      - name: Configure AWS SAM CLI
+        uses: aws-actions/setup-sam@v3
+        with:
+          version: 1.165.0
+          use-installer: true
+
+      - name: Configure infrastructure and workflow quality tools
+        shell: bash
+        run: |
+          python3 -m venv "${RUNNER_TEMP:?}/cfn-lint"
+          "${RUNNER_TEMP:?}/cfn-lint/bin/python" -m pip install --disable-pip-version-check "cfn-lint==1.55.1"
+          echo "${RUNNER_TEMP:?}/cfn-lint/bin" >> "$GITHUB_PATH"
+
+          guard_tools_dir="${RUNNER_TEMP:?}/cfn-guard"
+          guard_archive="$guard_tools_dir/cfn-guard.tar.gz"
+          mkdir -p "$guard_tools_dir/bin"
+          curl --fail --location --silent --show-error \
+            "https://github.com/aws-cloudformation/cloudformation-guard/releases/download/3.2.0/cfn-guard-v3-x86_64-ubuntu-latest.tar.gz" \
+            --output "$guard_archive"
+          printf '%s  %s\n' \
+            '9f8c4d9f15f7dd54a37ea70a5237ba00aba682fb1e6521a744d12259961dfc13' \
+            "$guard_archive" | sha256sum --check
+          tar --extract --gzip --file "$guard_archive" --directory "$guard_tools_dir"
+          install -m 0755 \
+            "$guard_tools_dir/cfn-guard-v3-x86_64-ubuntu-latest/cfn-guard" \
+            "$guard_tools_dir/bin/cfn-guard"
+          echo "$guard_tools_dir/bin" >> "$GITHUB_PATH"
+
+          actionlint_tools_dir="${RUNNER_TEMP:?}/actionlint"
+          actionlint_archive="$actionlint_tools_dir/actionlint.tar.gz"
+          mkdir -p "$actionlint_tools_dir/bin"
+          curl --fail --location --silent --show-error \
+            "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz" \
+            --output "$actionlint_archive"
+          printf '%s  %s\n' \
+            '8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8' \
+            "$actionlint_archive" | sha256sum --check
+          tar --extract --gzip --file "$actionlint_archive" --directory "$actionlint_tools_dir"
+          install -m 0755 "$actionlint_tools_dir/actionlint" "$actionlint_tools_dir/bin/actionlint"
+          echo "$actionlint_tools_dir/bin" >> "$GITHUB_PATH"
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Install browser
-        run: pnpm exec playwright install --with-deps chromium
-
       - name: Validate source and production build
         run: pnpm check
+
+      - name: Install browser
+        run: pnpm exec playwright install --with-deps chromium
 
       - name: Run end-to-end and accessibility tests
         run: pnpm test:e2e
@@ -47,7 +88,7 @@ jobs:
 
       - name: Upload diagnostic reports
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: quality-reports
           if-no-files-found: ignore

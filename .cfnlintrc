@@ -1,0 +1,7 @@
+templates:
+  - infra/content-store.yaml
+  - infra/contact-mailer.yaml
+regions:
+  - us-east-2
+include_checks:
+  - I

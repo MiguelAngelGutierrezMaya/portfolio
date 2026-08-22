@@ -21,6 +21,7 @@ A content-first personal portfolio built with Astro and focused React islands. T
 infra/
 ├── content-store.yaml               # Private S3, KMS, Lambda and separated Amplify IAM roles
 ├── contact-mailer.yaml              # Private SES mailer, DynamoDB rate limit and least-privilege IAM
+├── guard/                            # Versioned infrastructure rules, tests and cost exceptions
 └── functions/                       # Tested TypeScript Lambda sources
 src/
 ├── layouts/                         # Shared document shell and metadata
@@ -60,6 +61,14 @@ pnpm install
 pnpm dev
 ```
 
+Infrastructure checks additionally require AWS SAM CLI, `cfn-lint` 1.55.1, CloudFormation Guard
+3.2.0 and `actionlint` 1.7.12. On macOS they can be installed without creating or accessing AWS
+resources:
+
+```bash
+brew install aws-sam-cli cfn-lint cloudformation-guard actionlint
+```
+
 Copy `.env.example` to `.env`. S3 and contact Lambda variables are optional locally: without S3
 variables, the runtime repository serves the bundled content snapshot; without the mailer function,
 the local contact endpoint fails closed without exposing infrastructure details.
@@ -78,21 +87,25 @@ runbook.
 ```bash
 pnpm build
 pnpm lint
+pnpm lint:workflows
 pnpm format:check
 pnpm test
 pnpm test:coverage
 pnpm test:e2e
 pnpm test:a11y
 pnpm test:performance
+pnpm validate:infra
 pnpm check
 pnpm check:all
 pnpm audit
 pnpm audit:prod
 ```
 
-`pnpm check` is the local equivalent of the core CI gate. GitHub Actions additionally runs the
-desktop/mobile browser suite and the Lighthouse performance budgets. Dependabot groups production
-and development dependency updates on a weekly schedule.
+`pnpm check` is the local equivalent of the core CI gate. It includes SAM validation, informational
+`cfn-lint` checks, Guard policy tests and validation of both infrastructure templates. GitHub Actions
+installs the same pinned infrastructure tools, then additionally runs the desktop/mobile browser
+suite and Lighthouse performance budgets. Dependabot groups production and development dependency
+updates on a weekly schedule. See `infra/guard/README.md` for the cost-aware policy decisions.
 
 The application is compiled directly with TypeScript 7. Astro Check and the current ESLint parser
 still depend on the compiler API removed from TypeScript 7, so `tools/quality-compat` isolates their

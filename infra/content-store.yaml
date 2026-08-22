@@ -41,6 +41,13 @@ Resources:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
     UpdateReplacePolicy: Retain
+    Metadata:
+      guard:
+        SuppressedRules:
+          - S3_BUCKET_LOGGING_ENABLED
+      ComplianceException:
+        Reason: Server access logging requires a separate destination bucket and creates request and storage charges; the private content bucket retains encryption, versioning, TLS-only access and least-privilege policies.
+        ReviewAfter: '2027-08-22'
     Properties:
       BucketName: !Ref ContentBucketName
       BucketEncryption:
@@ -124,24 +131,29 @@ Resources:
                 aws:SourceArn: !Sub arn:${AWS::Partition}:amplify:${AWS::Region}:${AWS::AccountId}:apps/${AmplifyAppId}*
               StringEquals:
                 aws:SourceAccount: !Ref AWS::AccountId
-      Policies:
-        - PolicyName: RequestPortfolioContentDownloads
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Sid: InvokePrivateContentPresigner
-                Effect: Allow
-                Action: lambda:InvokeFunction
-                Resource: !GetAtt ContentPresigner.Arn
-              - Sid: ApplyAmplifyRoutingRules
-                Effect: Allow
-                Action:
-                  - amplify:GetApp
-                  - amplify:UpdateApp
-                Resource: !Sub arn:${AWS::Partition}:amplify:${AWS::Region}:${AWS::AccountId}:apps/${AmplifyAppId}
+      ManagedPolicyArns:
+        - !Ref AmplifyContentPolicy
       Tags:
         - Key: Project
           Value: migudev-portfolio
+
+  AmplifyContentPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: MigudevPortfolioRequestContentDownloads
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: InvokePrivateContentPresigner
+            Effect: Allow
+            Action: lambda:InvokeFunction
+            Resource: !GetAtt ContentPresigner.Arn
+          - Sid: ApplyAmplifyRoutingRules
+            Effect: Allow
+            Action:
+              - amplify:GetApp
+              - amplify:UpdateApp
+            Resource: !Sub arn:${AWS::Partition}:amplify:${AWS::Region}:${AWS::AccountId}:apps/${AmplifyAppId}
 
   AmplifyContentComputeRole:
     Type: AWS::IAM::Role
@@ -154,36 +166,41 @@ Resources:
             Principal:
               Service: amplify.amazonaws.com
             Action: sts:AssumeRole
-      Policies:
-        - PolicyName: ReadRuntimePortfolioContent
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Sid: ReadManagedObjects
-                Effect: Allow
-                Action:
-                  - s3:GetObject
-                  - s3:GetObjectVersion
-                Resource:
-                  - !Sub ${ContentBucket.Arn}/content/*
-                  - !Sub ${ContentBucket.Arn}/media/companies/*
-                  - !Sub ${ContentBucket.Arn}/media/projects/*
-              - Sid: DecryptManagedObjects
-                Effect: Allow
-                Action: kms:Decrypt
-                Resource: !GetAtt ContentKey.Arn
-                Condition:
-                  StringEquals:
-                    kms:ViaService: !Sub s3.${AWS::Region}.${AWS::URLSuffix}
-                  StringLike:
-                    kms:EncryptionContext:aws:s3:arn:
-                      - !GetAtt ContentBucket.Arn
-                      - !Sub ${ContentBucket.Arn}/content/*
-                      - !Sub ${ContentBucket.Arn}/media/companies/*
-                      - !Sub ${ContentBucket.Arn}/media/projects/*
+      ManagedPolicyArns:
+        - !Ref AmplifyContentComputePolicy
       Tags:
         - Key: Project
           Value: migudev-portfolio
+
+  AmplifyContentComputePolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: MigudevPortfolioReadRuntimeContent
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: ReadManagedObjects
+            Effect: Allow
+            Action:
+              - s3:GetObject
+              - s3:GetObjectVersion
+            Resource:
+              - !Sub ${ContentBucket.Arn}/content/*
+              - !Sub ${ContentBucket.Arn}/media/companies/*
+              - !Sub ${ContentBucket.Arn}/media/projects/*
+          - Sid: DecryptManagedObjects
+            Effect: Allow
+            Action: kms:Decrypt
+            Resource: !GetAtt ContentKey.Arn
+            Condition:
+              StringEquals:
+                kms:ViaService: !Sub s3.${AWS::Region}.${AWS::URLSuffix}
+              StringLike:
+                kms:EncryptionContext:aws:s3:arn:
+                  - !GetAtt ContentBucket.Arn
+                  - !Sub ${ContentBucket.Arn}/content/*
+                  - !Sub ${ContentBucket.Arn}/media/companies/*
+                  - !Sub ${ContentBucket.Arn}/media/projects/*
 
   ContentPresignerRole:
     Type: AWS::IAM::Role
@@ -196,43 +213,48 @@ Resources:
             Principal:
               Service: lambda.amazonaws.com
             Action: sts:AssumeRole
-      Policies:
-        - PolicyName: PresignVersionedPortfolioContent
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Sid: ReadManagedObjects
-                Effect: Allow
-                Action:
-                  - s3:GetObject
-                  - s3:GetObjectVersion
-                Resource:
-                  - !Sub ${ContentBucket.Arn}/content/*
-                  - !Sub ${ContentBucket.Arn}/media/*
-              - Sid: DecryptManagedObjects
-                Effect: Allow
-                Action: kms:Decrypt
-                Resource: !GetAtt ContentKey.Arn
-                Condition:
-                  StringEquals:
-                    kms:ViaService: !Sub s3.${AWS::Region}.${AWS::URLSuffix}
-                  StringLike:
-                    kms:EncryptionContext:aws:s3:arn:
-                      - !GetAtt ContentBucket.Arn
-                      - !Sub ${ContentBucket.Arn}/*
-              - Sid: CreateLogGroup
-                Effect: Allow
-                Action: logs:CreateLogGroup
-                Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:*
-              - Sid: WriteFunctionLogs
-                Effect: Allow
-                Action:
-                  - logs:CreateLogStream
-                  - logs:PutLogEvents
-                Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/migudev-portfolio-content-presigner:*
+      ManagedPolicyArns:
+        - !Ref ContentPresignerPolicy
       Tags:
         - Key: Project
           Value: migudev-portfolio
+
+  ContentPresignerPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      ManagedPolicyName: MigudevPortfolioPresignContent
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: ReadManagedObjects
+            Effect: Allow
+            Action:
+              - s3:GetObject
+              - s3:GetObjectVersion
+            Resource:
+              - !Sub ${ContentBucket.Arn}/content/*
+              - !Sub ${ContentBucket.Arn}/media/*
+          - Sid: DecryptManagedObjects
+            Effect: Allow
+            Action: kms:Decrypt
+            Resource: !GetAtt ContentKey.Arn
+            Condition:
+              StringEquals:
+                kms:ViaService: !Sub s3.${AWS::Region}.${AWS::URLSuffix}
+              StringLike:
+                kms:EncryptionContext:aws:s3:arn:
+                  - !GetAtt ContentBucket.Arn
+                  - !Sub ${ContentBucket.Arn}/*
+          - Sid: CreateLogGroup
+            Effect: Allow
+            Action: logs:CreateLogGroup
+            Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:*
+          - Sid: WriteFunctionLogs
+            Effect: Allow
+            Action:
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+            Resource: !Sub arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/migudev-portfolio-content-presigner:*
 
   ContentPresigner:
     Type: AWS::Serverless::Function

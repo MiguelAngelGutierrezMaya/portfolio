@@ -1,0 +1,93 @@
+# Project security and cost-aware governance rules.
+# The IAM, CloudWatch and S3 rules follow the AWS Guard Rules Registry semantics:
+# https://github.com/aws-cloudformation/aws-guard-rules-registry
+
+let iam_entities = Resources.*[
+  Type in [
+    /AWS::IAM::User/,
+    /AWS::IAM::Role/,
+    /AWS::IAM::Group/
+  ]
+  Metadata.guard.SuppressedRules not exists or
+  Metadata.guard.SuppressedRules.* != "IAM_NO_INLINE_POLICY_CHECK"
+]
+
+rule IAM_NO_INLINE_POLICY_CHECK when %iam_entities !empty {
+  %iam_entities.Properties.Policies empty
+  <<
+    Violation: Inline IAM policies are not allowed.
+    Fix: Move permissions to AWS::IAM::ManagedPolicy and attach the policy by ARN.
+  >>
+}
+
+let cloudwatch_log_groups = Resources.*[
+  Type == "AWS::Logs::LogGroup"
+  Metadata.guard.SuppressedRules not exists or
+  Metadata.guard.SuppressedRules.* != "CLOUDWATCH_LOG_GROUP_ENCRYPTED"
+]
+
+rule CLOUDWATCH_LOG_GROUP_ENCRYPTED when %cloudwatch_log_groups !empty {
+  %cloudwatch_log_groups.Properties.KmsKeyId exists
+  <<
+    Violation: CloudWatch log groups must use a customer-managed KMS key or declare a reviewed resource-level exception.
+  >>
+}
+
+let s3_logging_buckets = Resources.*[
+  Type == "AWS::S3::Bucket"
+  Metadata.guard.SuppressedRules not exists or
+  Metadata.guard.SuppressedRules.* != "S3_BUCKET_LOGGING_ENABLED"
+]
+
+rule S3_BUCKET_LOGGING_ENABLED when %s3_logging_buckets !empty {
+  %s3_logging_buckets.Properties.LoggingConfiguration exists
+  <<
+    Violation: S3 server access logging must be configured or a reviewed resource-level exception must be declared.
+  >>
+}
+
+let s3_buckets = Resources.*[Type == "AWS::S3::Bucket"]
+
+rule S3_PRIVATE_CONTENT_BASELINE when %s3_buckets !empty {
+  %s3_buckets.Properties.PublicAccessBlockConfiguration {
+    BlockPublicAcls == true
+    BlockPublicPolicy == true
+    IgnorePublicAcls == true
+    RestrictPublicBuckets == true
+  }
+  %s3_buckets.Properties.BucketEncryption exists
+  %s3_buckets.Properties.VersioningConfiguration.Status == "Enabled"
+  %s3_buckets.Properties.LifecycleConfiguration.Rules !empty
+  <<
+    Violation: Private content buckets require public access blocking, encryption, versioning and lifecycle management.
+  >>
+}
+
+let dynamodb_tables = Resources.*[Type == "AWS::DynamoDB::Table"]
+
+rule DYNAMODB_EXPLICIT_LIFECYCLE when %dynamodb_tables !empty {
+  %dynamodb_tables.DeletionPolicy exists
+  %dynamodb_tables.UpdateReplacePolicy exists
+  <<
+    Violation: DynamoDB tables must explicitly declare DeletionPolicy and UpdateReplacePolicy.
+  >>
+}
+
+rule DYNAMODB_RATE_LIMIT_BASELINE when %dynamodb_tables !empty {
+  %dynamodb_tables.Properties.BillingMode == "PAY_PER_REQUEST"
+  %dynamodb_tables.Properties.SSESpecification.SSEEnabled == true
+  %dynamodb_tables.Properties.TimeToLiveSpecification.Enabled == true
+  <<
+    Violation: Rate-limit tables require on-demand billing, server-side encryption and TTL cleanup.
+  >>
+}
+
+let retained_log_groups = Resources.*[Type == "AWS::Logs::LogGroup"]
+
+rule CLOUDWATCH_LOG_RETENTION_CONFIGURED when %retained_log_groups !empty {
+  %retained_log_groups.Properties.RetentionInDays exists
+  %retained_log_groups.Properties.RetentionInDays <= 30
+  <<
+    Violation: Application log groups require an explicit retention period no longer than 30 days.
+  >>
+}
