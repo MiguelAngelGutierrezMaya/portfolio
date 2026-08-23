@@ -140,7 +140,7 @@ Resources:
         - Key: Project
           Value: migudev-portfolio
 
-  AmplifyInvokeContactMailerPolicy:
+  AmplifyInvokeContactMailerManagedPolicy:
     Type: AWS::IAM::ManagedPolicy
     Properties:
       ManagedPolicyName: MigudevPortfolioInvokeContactMailer
