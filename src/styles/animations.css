@@ -30,6 +30,41 @@
   }
 }
 
+@keyframes system-breathe {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translate(-50%, -50%) scale(0.86);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.14);
+  }
+}
+
+@keyframes system-flow {
+  to {
+    stroke-dashoffset: -68;
+  }
+}
+
+@keyframes system-orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes profile-dialog-enter {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @keyframes marquee {
   to {
     transform: translateX(-50%);

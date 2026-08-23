@@ -19,6 +19,7 @@ test('renders the complete portfolio and supports project discovery', async ({ p
   ).toBeVisible();
   await expect(page.locator('[data-site-header]')).toBeVisible();
   await expect(page.locator('.availability')).not.toHaveAttribute('aria-busy', 'true');
+  await expect(page.locator('.product-system')).toBeVisible();
 
   const projectIsland = page.locator('astro-island[component-url*="ProjectExplorer"]');
   await projectIsland.scrollIntoViewIfNeeded();
@@ -152,6 +153,37 @@ test('publishes direct WhatsApp contact and private portfolio media', async ({ p
 
   const unpublishedCompany = await request.get('/media/companies/not-published');
   expect(unpublishedCompany.status()).toBe(404);
+});
+
+test('expands the floating profile and keeps WhatsApp as a direct action', async ({ page }) => {
+  await page.goto('/');
+
+  const dock = page.getByRole('complementary', { name: 'Quick contact with Miguel' });
+  const whatsapp = dock.getByRole('link', { name: /whatsapp/i });
+  const profileTrigger = dock.getByRole('button', { name: 'View Miguel Gutierrez profile' });
+
+  await expect(whatsapp).toHaveAttribute('href', 'https://wa.me/573113230033');
+  await expect(whatsapp).toHaveAttribute('target', '_blank');
+  await expect(profileTrigger).toHaveAttribute('aria-expanded', 'false');
+
+  await profileTrigger.click();
+
+  const dialog = page.getByRole('dialog', { name: 'Miguel Angel Gutierrez Maya' });
+  await expect(dialog).toBeVisible();
+  await expect(profileTrigger).toHaveAttribute('aria-expanded', 'true');
+  await expect(dialog.getByRole('img', { name: /miguel/i })).toBeVisible();
+  await expect
+    .poll(() =>
+      dialog
+        .getByRole('img', { name: /miguel/i })
+        .evaluate(image => (image as HTMLImageElement).naturalWidth)
+    )
+    .toBeGreaterThan(0);
+
+  await page.keyboard.press('Escape');
+  await expect(dialog).not.toBeVisible();
+  await expect(profileTrigger).toHaveAttribute('aria-expanded', 'false');
+  await expect(profileTrigger).toBeFocused();
 });
 
 test('opens project imagery in an accessible detail dialog', async ({ page }) => {

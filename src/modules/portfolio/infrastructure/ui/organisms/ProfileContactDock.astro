@@ -1,0 +1,145 @@
+---
+import type { Profile } from '@portfolio/domain/models/Portfolio';
+import ProfileImage from '@portfolio/infrastructure/ui/atoms/ProfileImage.astro';
+
+interface Props {
+  profile: Profile;
+}
+
+const { profile } = Astro.props;
+---
+
+<aside class="profile-contact-dock" data-profile-dock aria-label="Quick contact with Miguel">
+  <div class="profile-contact-dock__shell glass-panel">
+    <span class="profile-contact-dock__label" aria-hidden="true">Let&apos;s connect</span>
+    <a
+      class="profile-contact-dock__whatsapp"
+      href={profile.whatsapp.href}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={`${profile.whatsapp.label} (opens in a new tab)`}
+      title={profile.whatsapp.label}
+    >
+      <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+        <path d="M16 4.2A11.5 11.5 0 0 0 6.1 21.6L4.7 27.2l5.7-1.5A11.5 11.5 0 1 0 16 4.2Z"></path>
+        <path
+          d="M12.1 10.2c-.3-.7-.6-.7-.9-.7h-.8c-.3 0-.7.1-1 .5-.4.4-1.4 1.4-1.4 3.5s1.5 4.1 1.8 4.4c.2.3 3 4.7 7.4 6.3 3.7 1.3 4.4 1 5.2.9.8-.1 2.6-1.1 3-2.1.4-1 .4-1.9.3-2.1-.1-.2-.4-.3-.9-.6l-3-1.4c-.4-.2-.8-.3-1.1.2l-1.4 1.7c-.3.4-.5.4-1 .2-2.7-1.3-4.5-2.4-6.3-5.4-.5-.8.5-.8 1.3-2.5.1-.3.1-.6 0-.8l-1.2-2.1Z"
+        ></path>
+      </svg>
+    </a>
+    <button
+      class="profile-contact-dock__portrait"
+      type="button"
+      data-profile-open
+      aria-controls="profile-dialog"
+      aria-expanded="false"
+      aria-label="View Miguel Gutierrez profile"
+    >
+      <ProfileImage
+        className="profile-contact-dock__avatar-image"
+        alt={profile.portrait.alt}
+        sizes="72px"
+        loading="eager"
+        fetchpriority="low"
+      />
+      <span class="profile-contact-dock__chevron" aria-hidden="true">⌃</span>
+    </button>
+  </div>
+
+  <dialog
+    id="profile-dialog"
+    class="profile-dialog"
+    data-profile-dialog
+    aria-labelledby="profile-dialog-title"
+  >
+    <div class="profile-dialog__panel glass-panel">
+      <button
+        class="profile-dialog__close"
+        type="button"
+        data-profile-close
+        aria-label="Close Miguel Gutierrez profile"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
+
+      <figure class="profile-dialog__portrait">
+        <ProfileImage
+          className="profile-dialog__portrait-image"
+          alt={profile.portrait.alt}
+          sizes="(max-width: 640px) 82vw, 24rem"
+          loading="lazy"
+        />
+      </figure>
+
+      <div class="profile-dialog__content">
+        <span class="eyebrow"><span aria-hidden="true"></span>{profile.portrait.eyebrow}</span>
+        <h2 id="profile-dialog-title">{profile.name}</h2>
+        <strong>{profile.jobTitle}</strong>
+        <p>{profile.introduction}</p>
+        <div class="profile-dialog__actions">
+          <a class="button button--primary" href="#contact" data-profile-contact>
+            {profile.secondaryAction.label}<span aria-hidden="true">↘</span>
+          </a>
+          <span>{profile.availability}</span>
+        </div>
+      </div>
+    </div>
+  </dialog>
+</aside>
+
+<script>
+  const dock = document.querySelector<HTMLElement>('[data-profile-dock]');
+  const dialog = dock?.querySelector<HTMLDialogElement>('[data-profile-dialog]');
+  const openButton = dock?.querySelector<HTMLButtonElement>('[data-profile-open]');
+  const closeButton = dock?.querySelector<HTMLButtonElement>('[data-profile-close]');
+  const contactLink = dock?.querySelector<HTMLAnchorElement>('[data-profile-contact]');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  type ViewTransitionDocument = Document & {
+    startViewTransition?: (update: () => void) => unknown;
+  };
+
+  const update = (callback: () => void) => {
+    const startViewTransition = (document as ViewTransitionDocument).startViewTransition;
+    if (startViewTransition && !reduceMotion.matches) {
+      startViewTransition.call(document, callback);
+      return;
+    }
+    callback();
+  };
+
+  const setExpanded = (expanded: boolean) => {
+    if (!dock || !openButton) return;
+    dock.dataset.expanded = String(expanded);
+    openButton.setAttribute('aria-expanded', String(expanded));
+    document.body.toggleAttribute('data-profile-dialog-open', expanded);
+  };
+
+  const openDialog = () => {
+    if (!dialog || dialog.open) return;
+    update(() => {
+      setExpanded(true);
+      dialog.showModal();
+    });
+  };
+
+  const closeDialog = () => {
+    if (!dialog?.open) return;
+    update(() => {
+      dialog.close();
+      setExpanded(false);
+    });
+  };
+
+  openButton?.addEventListener('click', openDialog);
+  closeButton?.addEventListener('click', closeDialog);
+  contactLink?.addEventListener('click', closeDialog);
+  dialog?.addEventListener('cancel', event => {
+    event.preventDefault();
+    closeDialog();
+  });
+  dialog?.addEventListener('click', event => {
+    if (event.target === dialog) closeDialog();
+  });
+  dialog?.addEventListener('close', () => setExpanded(false));
+</script>
