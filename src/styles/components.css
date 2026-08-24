@@ -658,7 +658,7 @@
 .profile-contact-dock__chevron {
   position: absolute;
   top: -0.72rem;
-  right: 50%;
+  right: calc(50% - 1.5rem);
   z-index: 2;
   display: grid;
   width: 1.45rem;

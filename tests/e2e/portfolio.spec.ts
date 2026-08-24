@@ -174,6 +174,9 @@ test('expands the floating profile and keeps WhatsApp as a direct action', async
   expect(triggerBox).not.toBeNull();
   expect(indicatorBox).not.toBeNull();
   expect(indicatorBox!.y).toBeLessThan(triggerBox!.y);
+  const indicatorCenter = indicatorBox!.x + indicatorBox!.width / 2;
+  const triggerCenter = triggerBox!.x + triggerBox!.width / 2;
+  expect(indicatorCenter).toBeGreaterThan(triggerCenter + 20);
 
   await profileTrigger.click();
 
@@ -234,6 +237,8 @@ test('opens project imagery in an accessible detail dialog', async ({ page }) =>
 test('publishes canonical search and LLM discovery metadata', async ({ page, request }) => {
   await page.goto('/');
 
+  await expect(page.getByRole('link', { name: 'Privacy' })).toHaveAttribute('href', '/privacy/');
+  await expect(page.getByRole('link', { name: 'Terms' })).toHaveAttribute('href', '/terms/');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /^https?:\/\/.+\/$/);
   const structuredData = JSON.parse(
     (await page.locator('script[type="application/ld+json"]').textContent()) ?? '{}'
