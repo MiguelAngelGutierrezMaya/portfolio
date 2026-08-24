@@ -8,6 +8,7 @@ interface ProjectPreviewDialogProps {
   project: Project | null;
   src: string | null;
   transitionName?: string;
+  usesSharedTransition: boolean;
   onRequestClose: () => void;
 }
 
@@ -15,6 +16,7 @@ const ProjectPreviewDialog = ({
   project,
   src,
   transitionName,
+  usesSharedTransition,
   onRequestClose,
 }: ProjectPreviewDialogProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -44,6 +46,7 @@ const ProjectPreviewDialog = ({
     <dialog
       ref={dialogRef}
       className="project-preview-dialog"
+      data-shared-transition={usesSharedTransition ? 'true' : undefined}
       aria-labelledby={titleId}
       onCancel={event => {
         event.preventDefault();
@@ -63,11 +66,13 @@ const ProjectPreviewDialog = ({
 
         <div className="project-preview-dialog__media">
           <img
+            data-project-preview-image
             src={src}
             alt={project.preview.alt}
             width={project.preview.width}
             height={project.preview.height}
-            decoding="async"
+            decoding="sync"
+            fetchPriority="high"
             style={
               transitionName ? ({ viewTransitionName: transitionName } as CSSProperties) : undefined
             }

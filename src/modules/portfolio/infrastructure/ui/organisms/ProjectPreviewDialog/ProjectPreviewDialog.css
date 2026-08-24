@@ -156,7 +156,7 @@ html[data-project-preview-transition='true']::view-transition-group(*) {
   animation-timing-function: var(--ease-out);
 }
 
-html[data-project-preview-transition='true'] .project-preview-dialog {
+.project-preview-dialog[data-shared-transition='true'] {
   animation: none;
 }
 

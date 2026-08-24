@@ -42,12 +42,21 @@ const projects: readonly Project[] = [
     },
   },
 ];
+const originalImageDecodeDescriptor = Object.getOwnPropertyDescriptor(
+  HTMLImageElement.prototype,
+  'decode'
+);
 
 afterEach(() => {
   vi.unstubAllGlobals();
   Reflect.deleteProperty(document, 'startViewTransition');
   delete document.documentElement.dataset.projectPreviewOpen;
   delete document.documentElement.dataset.projectPreviewTransition;
+  if (originalImageDecodeDescriptor) {
+    Object.defineProperty(HTMLImageElement.prototype, 'decode', originalImageDecodeDescriptor);
+  } else {
+    Reflect.deleteProperty(HTMLImageElement.prototype, 'decode');
+  }
 });
 
 describe('ProjectExplorer', () => {
@@ -109,6 +118,7 @@ describe('ProjectExplorer', () => {
     const dialog = screen.getByRole('dialog', { name: 'Mobile Product' });
     expect(dialog).toBeInTheDocument();
     expect(dialog).toHaveAttribute('open');
+    expect(dialog).not.toHaveAttribute('data-shared-transition');
     expect(screen.getByRole('img', { name: 'Mobile Product app interface' })).toBeInTheDocument();
     expect(document.documentElement).toHaveAttribute('data-project-preview-open', 'true');
 
@@ -121,9 +131,20 @@ describe('ProjectExplorer', () => {
 
   it('uses a same-document view transition when the browser supports it', async () => {
     const user = userEvent.setup();
-    const startViewTransition = vi.fn((update: () => void) => {
-      update();
-      return { finished: Promise.resolve() };
+    let resolveDecode: () => void = () => undefined;
+    const decode = vi.fn(
+      () =>
+        new Promise<void>(resolve => {
+          resolveDecode = resolve;
+        })
+    );
+    Object.defineProperty(HTMLImageElement.prototype, 'decode', {
+      configurable: true,
+      value: decode,
+    });
+    const startViewTransition = vi.fn((update: () => void | Promise<void>) => {
+      const updateCallbackDone = Promise.resolve(update());
+      return { finished: updateCallbackDone };
     });
     Object.defineProperty(document, 'startViewTransition', {
       configurable: true,
@@ -134,7 +155,23 @@ describe('ProjectExplorer', () => {
     await user.click(screen.getByRole('button', { name: 'View Mobile Product image in detail' }));
 
     expect(startViewTransition).toHaveBeenCalledOnce();
-    expect(screen.getByRole('dialog', { name: 'Mobile Product' })).toBeInTheDocument();
+    expect(screen.getByRole('dialog', { name: 'Mobile Product' })).toHaveAttribute(
+      'data-shared-transition',
+      'true'
+    );
+    expect(screen.getByRole('img', { name: 'Mobile Product app interface' })).toHaveAttribute(
+      'decoding',
+      'sync'
+    );
+    expect(screen.getByRole('img', { name: 'Mobile Product app interface' })).toHaveAttribute(
+      'fetchpriority',
+      'high'
+    );
+    expect(decode).toHaveBeenCalledOnce();
+    expect(document.documentElement).toHaveAttribute('data-project-preview-transition', 'true');
+
+    resolveDecode();
+
     await waitFor(() =>
       expect(document.documentElement).not.toHaveAttribute('data-project-preview-transition')
     );

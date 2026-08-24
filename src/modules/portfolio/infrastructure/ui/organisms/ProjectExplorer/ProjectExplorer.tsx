@@ -26,7 +26,24 @@ interface PreviewViewTransition {
 }
 
 type PreviewTransitionDocument = Document & {
-  startViewTransition?: (update: () => void) => PreviewViewTransition;
+  startViewTransition?: (update: () => void | Promise<void>) => PreviewViewTransition;
+};
+
+const projectImageDecodeTimeoutMs = 160;
+const canUsePreviewViewTransition = (): boolean =>
+  !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches &&
+  typeof (document as PreviewTransitionDocument).startViewTransition === 'function';
+
+const waitForProjectPreviewImage = async (): Promise<void> => {
+  const image = document.querySelector<HTMLImageElement>('[data-project-preview-image]');
+  if (!image || (image.complete && image.naturalWidth > 0) || typeof image.decode !== 'function') {
+    return;
+  }
+
+  await Promise.race([
+    image.decode().catch(() => undefined),
+    new Promise<void>(resolve => window.setTimeout(resolve, projectImageDecodeTimeoutMs)),
+  ]);
 };
 
 const commitPreviewUpdate = (update: () => void) => {
@@ -35,11 +52,13 @@ const commitPreviewUpdate = (update: () => void) => {
   flushSync(update);
 };
 
-const updateWithPreviewTransition = async (update: () => void): Promise<void> => {
-  const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+const updateWithPreviewTransition = async (
+  update: () => void,
+  prepareNextView?: () => Promise<void>
+): Promise<void> => {
   const transitionDocument = document as PreviewTransitionDocument;
 
-  if (prefersReducedMotion || typeof transitionDocument.startViewTransition !== 'function') {
+  if (!canUsePreviewViewTransition() || !transitionDocument.startViewTransition) {
     commitPreviewUpdate(update);
     return;
   }
@@ -47,9 +66,10 @@ const updateWithPreviewTransition = async (update: () => void): Promise<void> =>
   document.documentElement.dataset.projectPreviewTransition = 'true';
   let didCommitUpdate = false;
   try {
-    const transition = transitionDocument.startViewTransition(() => {
+    const transition = transitionDocument.startViewTransition(async () => {
       commitPreviewUpdate(update);
       didCommitUpdate = true;
+      await prepareNextView?.();
     });
     await transition.finished.catch(() => undefined);
   } catch {
@@ -65,6 +85,7 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
   const [showAllProjects, setShowAllProjects] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [transitionProjectId, setTransitionProjectId] = useState<string | null>(null);
+  const [usesSharedTransition, setUsesSharedTransition] = useState(false);
   const previewTriggerRef = useRef<HTMLButtonElement | null>(null);
   const deferredQuery = useDeferredValue(query.trim().toLowerCase());
 
@@ -87,14 +108,20 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
 
   const openProjectPreview = (project: Project, trigger: HTMLButtonElement) => {
     previewTriggerRef.current = trigger;
-    commitPreviewUpdate(() => setTransitionProjectId(project.id));
-    void updateWithPreviewTransition(() => setSelectedProject(project));
+    commitPreviewUpdate(() => {
+      setTransitionProjectId(project.id);
+      setUsesSharedTransition(canUsePreviewViewTransition());
+    });
+    void updateWithPreviewTransition(() => setSelectedProject(project), waitForProjectPreviewImage);
   };
 
   const closeProjectPreview = () => {
     const trigger = previewTriggerRef.current;
     void updateWithPreviewTransition(() => setSelectedProject(null)).finally(() => {
-      commitPreviewUpdate(() => setTransitionProjectId(null));
+      commitPreviewUpdate(() => {
+        setTransitionProjectId(null);
+        setUsesSharedTransition(false);
+      });
       trigger?.focus();
     });
   };
@@ -228,6 +255,7 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
 
       <ProjectPreviewDialog
         project={selectedProject}
+        usesSharedTransition={usesSharedTransition}
         src={
           selectedProject?.preview
             ? createManagedMediaDeliveryPath(selectedProject.preview.src)

@@ -211,15 +211,17 @@ test('opens project imagery in an accessible detail dialog', async ({ page }) =>
 
   const dialog = page.getByRole('dialog', { name: 'Biky AI Native' });
   await expect(dialog).toBeVisible();
-  await expect(dialog.getByRole('img', { name: /biky ai native/i })).toBeVisible();
+  const dialogImage = dialog.getByRole('img', { name: /biky ai native/i });
+  await expect(dialog).toHaveAttribute('data-shared-transition', 'true');
+  await expect(dialogImage).toBeVisible();
+  await expect(dialogImage).toHaveAttribute('decoding', 'sync');
+  await expect(dialogImage).toHaveAttribute('fetchpriority', 'high');
   await expect(dialog.getByText('SwiftUI')).toBeVisible();
   await expect
-    .poll(() =>
-      dialog
-        .getByRole('img', { name: /biky ai native/i })
-        .evaluate(image => (image as HTMLImageElement).naturalWidth)
-    )
+    .poll(() => dialogImage.evaluate(image => (image as HTMLImageElement).naturalWidth))
     .toBeGreaterThan(0);
+  await expect(page.locator('html')).not.toHaveAttribute('data-project-preview-transition', 'true');
+  await expect(dialog).toHaveCSS('animation-name', 'none');
 
   await page.keyboard.press('Escape');
   await expect(dialog).not.toBeVisible();
