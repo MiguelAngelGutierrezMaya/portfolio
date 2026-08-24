@@ -44,19 +44,19 @@
     "check:all": "pnpm check && pnpm test:e2e && pnpm test:performance"
   },
   "dependencies": {
-    "@astrojs/react": "^6.0.2",
-    "@aws-sdk/client-dynamodb": "^3.1114.0",
-    "@aws-sdk/client-lambda": "^3.1114.0",
-    "@aws-sdk/client-s3": "^3.1101.0",
+    "@astrojs/react": "^6.0.4",
+    "@aws-sdk/client-dynamodb": "^3.1115.0",
+    "@aws-sdk/client-lambda": "^3.1115.0",
+    "@aws-sdk/client-s3": "^3.1115.0",
     "@aws-sdk/client-sesv2": "^3.1115.0",
-    "@aws-sdk/s3-request-presigner": "^3.1101.0",
-    "astro": "^7.1.6",
+    "@aws-sdk/s3-request-presigner": "^3.1115.0",
+    "astro": "^7.2.4",
     "astro-aws-amplify": "^0.6.0",
-    "framer-motion": "^12.43.0",
+    "framer-motion": "^13.1.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "sharp": "^0.35.3",
-    "web-vitals": "^6.0.1",
+    "web-vitals": "^6.1.1",
     "zod": "^4.4.3"
   },
   "devDependencies": {
