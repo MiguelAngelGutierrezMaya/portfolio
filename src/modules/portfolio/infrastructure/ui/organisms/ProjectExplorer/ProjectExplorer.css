@@ -96,6 +96,38 @@
   text-align: right;
 }
 
+.project-explorer__more {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.project-explorer__more button {
+  border: 1px solid rgb(var(--color-accent-rgb) / 32%);
+  border-radius: 999px;
+  background: rgb(var(--color-accent-rgb) / 8%);
+  color: var(--color-text-strong);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 750;
+  padding: 0.8rem 1.1rem;
+  transition:
+    border-color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.project-explorer__more button:hover {
+  border-color: rgb(var(--color-accent-rgb) / 60%);
+  background: rgb(var(--color-accent-rgb) / 14%);
+  transform: translateY(-2px);
+}
+
+.project-explorer__more button:active {
+  transform: translateY(0) scale(0.98);
+}
+
 .project-grid {
   display: grid;
   gap: 1rem;

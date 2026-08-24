@@ -192,6 +192,7 @@ test('opens project imagery in an accessible detail dialog', async ({ page }) =>
   const projectIsland = page.locator('astro-island[component-url*="ProjectExplorer"]');
   await projectIsland.scrollIntoViewIfNeeded();
   await expect(projectIsland).not.toHaveAttribute('ssr', '');
+  await page.getByRole('button', { name: 'Mobile', exact: true }).click();
 
   const trigger = page.getByRole('button', {
     name: 'View Biky AI Native image in detail',

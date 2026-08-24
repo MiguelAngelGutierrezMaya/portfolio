@@ -19,6 +19,7 @@ const personId = new URL('/#person', siteUrl).toString();
 const profilePageId = new URL('/#profile-page', siteUrl).toString();
 const websiteId = new URL('/#website', siteUrl).toString();
 const socialImage = new URL('/og.png', siteUrl).toString();
+const structuredProjects = content.projects.filter(project => project.featured).slice(0, 12);
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -44,7 +45,7 @@ const structuredData = {
         url: socialImage,
         caption: content.profile.portrait.alt,
       },
-      hasPart: content.projects.map((project, index) => ({
+      hasPart: structuredProjects.map((project, index) => ({
         '@type': 'CreativeWork',
         position: index + 1,
         name: project.title,

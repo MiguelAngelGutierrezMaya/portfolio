@@ -16,6 +16,7 @@ interface ProjectExplorerProps {
 type ProjectFilter = 'All' | ProjectCategory;
 
 const filters: ProjectFilter[] = ['All', 'Frontend', 'Backend', 'Mobile'];
+const initialProjectCount = 9;
 const loadMotionFeatures = () => import('./motionFeatures').then(module => module.default);
 const createTransitionName = (projectId: string) =>
   `project-preview-${projectId.replaceAll(/[^a-z0-9-]/gi, '-')}`;
@@ -61,12 +62,13 @@ const updateWithPreviewTransition = async (update: () => void): Promise<void> =>
 const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
   const [activeFilter, setActiveFilter] = useState<ProjectFilter>('All');
   const [query, setQuery] = useState('');
+  const [showAllProjects, setShowAllProjects] = useState(false);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [transitionProjectId, setTransitionProjectId] = useState<string | null>(null);
   const previewTriggerRef = useRef<HTMLButtonElement | null>(null);
   const deferredQuery = useDeferredValue(query.trim().toLowerCase());
 
-  const visibleProjects = useMemo(
+  const matchingProjects = useMemo(
     () =>
       projects.filter(project => {
         const matchesCategory = activeFilter === 'All' || project.category === activeFilter;
@@ -76,6 +78,12 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
       }),
     [activeFilter, deferredQuery, projects]
   );
+  const isDiscoveringProjects = activeFilter !== 'All' || deferredQuery.length > 0;
+  const visibleProjects =
+    showAllProjects || isDiscoveringProjects
+      ? matchingProjects
+      : matchingProjects.slice(0, initialProjectCount);
+  const hasHiddenProjects = visibleProjects.length < matchingProjects.length;
 
   const openProjectPreview = (project: Project, trigger: HTMLButtonElement) => {
     previewTriggerRef.current = trigger;
@@ -201,6 +209,14 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
           </AnimatePresence>
         </m.div>
       </LazyMotion>
+
+      {hasHiddenProjects ? (
+        <div className="project-explorer__more">
+          <button type="button" onClick={() => setShowAllProjects(true)}>
+            Show all {matchingProjects.length} projects <span aria-hidden="true">↓</span>
+          </button>
+        </div>
+      ) : null}
 
       {visibleProjects.length === 0 ? (
         <div className="project-empty" role="status">

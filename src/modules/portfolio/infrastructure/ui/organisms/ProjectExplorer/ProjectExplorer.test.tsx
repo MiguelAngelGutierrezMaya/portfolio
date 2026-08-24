@@ -76,6 +76,27 @@ describe('ProjectExplorer', () => {
     );
   });
 
+  it('progressively reveals a large project catalogue', async () => {
+    const user = userEvent.setup();
+    const largeCatalogue = Array.from({ length: 12 }, (_, index): Project => ({
+      id: `project-${index + 1}`,
+      title: `Project ${index + 1}`,
+      summary: 'A product engineering case study.',
+      category: 'Frontend',
+      technologies: ['TypeScript'],
+    }));
+
+    render(<ProjectExplorer projects={largeCatalogue} />);
+
+    expect(screen.getAllByRole('article')).toHaveLength(9);
+    expect(screen.getByText('Showing 9 of 12 projects')).toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Show all 12 projects' }));
+
+    expect(screen.getAllByRole('article')).toHaveLength(12);
+    expect(screen.getByText('Showing 12 of 12 projects')).toBeInTheDocument();
+  });
+
   it('opens an accessible project preview and restores focus after closing', async () => {
     const user = userEvent.setup();
     render(<ProjectExplorer projects={projects} />);
