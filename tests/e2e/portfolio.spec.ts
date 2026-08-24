@@ -161,10 +161,19 @@ test('expands the floating profile and keeps WhatsApp as a direct action', async
   const dock = page.getByRole('complementary', { name: 'Quick contact with Miguel' });
   const whatsapp = dock.getByRole('link', { name: /whatsapp/i });
   const profileTrigger = dock.getByRole('button', { name: 'View Miguel Gutierrez profile' });
+  const profileIndicator = profileTrigger.locator('.profile-contact-dock__chevron');
 
   await expect(whatsapp).toHaveAttribute('href', 'https://wa.me/573113230033');
   await expect(whatsapp).toHaveAttribute('target', '_blank');
   await expect(profileTrigger).toHaveAttribute('aria-expanded', 'false');
+  await expect(profileTrigger).toHaveCSS('overflow', 'visible');
+  await expect(profileIndicator).toBeVisible();
+
+  const triggerBox = await profileTrigger.boundingBox();
+  const indicatorBox = await profileIndicator.boundingBox();
+  expect(triggerBox).not.toBeNull();
+  expect(indicatorBox).not.toBeNull();
+  expect(indicatorBox!.y).toBeLessThan(triggerBox!.y);
 
   await profileTrigger.click();
 

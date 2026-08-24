@@ -42,7 +42,11 @@ const { profile } = Astro.props;
         loading="eager"
         fetchpriority="low"
       />
-      <span class="profile-contact-dock__chevron" aria-hidden="true">⌃</span>
+      <span class="profile-contact-dock__chevron" aria-hidden="true">
+        <svg viewBox="0 0 24 24" focusable="false">
+          <path d="m6.5 14.5 5.5-5 5.5 5"></path>
+        </svg>
+      </span>
     </button>
   </div>
 

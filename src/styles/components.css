@@ -621,6 +621,7 @@
 }
 
 .profile-contact-dock__portrait {
+  overflow: visible;
   background: var(--color-bg-soft);
   padding: 0;
 }
@@ -637,6 +638,12 @@
   height: 100%;
 }
 
+.profile-contact-dock__portrait picture {
+  display: block;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
 .profile-contact-dock__avatar-image {
   object-fit: cover;
   object-position: center 18%;
@@ -650,19 +657,28 @@
 
 .profile-contact-dock__chevron {
   position: absolute;
-  top: 0.12rem;
-  right: 0.1rem;
+  top: -0.72rem;
+  right: 50%;
+  z-index: 2;
   display: grid;
-  width: 1.15rem;
-  height: 1.15rem;
+  width: 1.45rem;
+  height: 1.45rem;
   place-items: center;
-  border: 1px solid rgb(255 255 255 / 18%);
+  border: 1px solid rgb(255 255 255 / 24%);
   border-radius: 50%;
   background: var(--color-brand);
   color: white;
-  font-size: 0.67rem;
-  font-weight: 800;
-  line-height: 1;
+  box-shadow: 0 0.35rem 1rem rgb(0 0 0 / 32%);
+  transform: translateX(50%);
+}
+
+.profile-contact-dock__chevron svg {
+  width: 0.85rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.4;
 }
 
 body[data-profile-dialog-open] {
