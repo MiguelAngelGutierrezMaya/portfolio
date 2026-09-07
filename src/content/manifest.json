@@ -3,16 +3,16 @@
   "content": {
     "portfolio": {
       "key": "content/portfolio.json",
-      "sha256": "c967668da3e41514159d67cfa84bba1d6a7564c5155bac44ca94dd9b147be07d"
+      "sha256": "a8d5181aca58e591f04fd5fbddffcfccd571741360dd99a6777f4cfb80bc6d73"
     },
     "portfolios": {
       "en": {
         "key": "content/portfolio.json",
-        "sha256": "c967668da3e41514159d67cfa84bba1d6a7564c5155bac44ca94dd9b147be07d"
+        "sha256": "a8d5181aca58e591f04fd5fbddffcfccd571741360dd99a6777f4cfb80bc6d73"
       },
       "es": {
         "key": "content/portfolio.es.json",
-        "sha256": "d5925436bf45fa0ccdb061e41ccdec8dd24227e342790bc49f40b82a22523328"
+        "sha256": "d84b1b52e356c9afb1d377fa1123fe74fb862b2a8c457b36e9fd0b41fcfa92a5"
       }
     }
   },
