@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import type { Project } from '@portfolio/domain/models/Portfolio';
+import { getUiCopy } from '@i18n/infrastructure/uiCopy';
 
 import ProjectExplorer from './ProjectExplorer';
 
@@ -42,6 +43,7 @@ const projects: readonly Project[] = [
     },
   },
 ];
+const copy = getUiCopy('en').projectExplorer;
 const originalImageDecodeDescriptor = Object.getOwnPropertyDescriptor(
   HTMLImageElement.prototype,
   'decode'
@@ -62,7 +64,7 @@ afterEach(() => {
 describe('ProjectExplorer', () => {
   it('filters projects by category', async () => {
     const user = userEvent.setup();
-    render(<ProjectExplorer projects={projects} />);
+    render(<ProjectExplorer projects={projects} copy={copy} />);
 
     await user.click(screen.getByRole('button', { name: /^Mobile$/ }));
 
@@ -75,7 +77,7 @@ describe('ProjectExplorer', () => {
 
   it('searches across title, summary and technologies', async () => {
     const user = userEvent.setup();
-    render(<ProjectExplorer projects={projects} />);
+    render(<ProjectExplorer projects={projects} copy={copy} />);
 
     await user.type(screen.getByRole('searchbox'), 'TypeScript');
 
@@ -95,7 +97,7 @@ describe('ProjectExplorer', () => {
       technologies: ['TypeScript'],
     }));
 
-    render(<ProjectExplorer projects={largeCatalogue} />);
+    render(<ProjectExplorer projects={largeCatalogue} copy={copy} />);
 
     expect(screen.getAllByRole('article')).toHaveLength(9);
     expect(screen.getByText('Showing 9 of 12 projects')).toBeInTheDocument();
@@ -108,7 +110,7 @@ describe('ProjectExplorer', () => {
 
   it('opens an accessible project preview and restores focus after closing', async () => {
     const user = userEvent.setup();
-    render(<ProjectExplorer projects={projects} />);
+    render(<ProjectExplorer projects={projects} copy={copy} />);
 
     const trigger = screen.getByRole('button', {
       name: 'View Mobile Product image in detail',
@@ -122,7 +124,7 @@ describe('ProjectExplorer', () => {
     expect(screen.getByRole('img', { name: 'Mobile Product app interface' })).toBeInTheDocument();
     expect(document.documentElement).toHaveAttribute('data-project-preview-open', 'true');
 
-    await user.click(screen.getByRole('button', { name: 'Close Mobile Product image' }));
+    await user.click(screen.getByRole('button', { name: 'Close Mobile Product' }));
 
     await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
     expect(trigger).toHaveFocus();
@@ -150,7 +152,7 @@ describe('ProjectExplorer', () => {
       configurable: true,
       value: startViewTransition,
     });
-    render(<ProjectExplorer projects={projects} />);
+    render(<ProjectExplorer projects={projects} copy={copy} />);
 
     await user.click(screen.getByRole('button', { name: 'View Mobile Product image in detail' }));
 
@@ -178,7 +180,7 @@ describe('ProjectExplorer', () => {
   });
 
   it('does not make generic backend artwork interactive', () => {
-    render(<ProjectExplorer projects={projects} />);
+    render(<ProjectExplorer projects={projects} copy={copy} />);
 
     expect(
       screen.queryByRole('button', { name: 'View Backend Service image in detail' })

@@ -1,14 +1,16 @@
 ---
 import CapabilityCard from '@portfolio/infrastructure/ui/molecules/CapabilityCard.astro';
+import type { PortfolioUiCopy } from '@i18n/infrastructure/uiCopy';
 import SectionHeading from '@portfolio/infrastructure/ui/atoms/SectionHeading.astro';
 import type { Capability, SectionCopy } from '@portfolio/domain/models/Portfolio';
 
 interface Props {
   heading: SectionCopy;
   capabilities: readonly Capability[];
+  copy: PortfolioUiCopy;
 }
 
-const { heading, capabilities } = Astro.props;
+const { heading, capabilities, copy } = Astro.props;
 ---
 
 <section class="content-section section-shell" aria-labelledby="capabilities-title">
@@ -26,6 +28,7 @@ const { heading, capabilities } = Astro.props;
           title={capability.title}
           description={capability.description}
           keywords={capability.keywords}
+          capabilitiesLabel={copy.capabilities}
         />
       ))
     }

@@ -4,12 +4,18 @@ import type { Profile } from '@portfolio/domain/models/Portfolio';
 interface Props {
   profile: Profile;
   compact?: boolean;
+  homeHref?: string;
+  homeLabel?: string;
 }
 
-const { profile, compact = false } = Astro.props;
+const { profile, compact = false, homeHref = '/', homeLabel = 'home' } = Astro.props;
 ---
 
-<a class="brand" href="/" aria-label={compact ? `${profile.brandName} home` : undefined}>
+<a
+  class="brand"
+  href={homeHref}
+  aria-label={compact ? `${profile.brandName} ${homeLabel}` : undefined}
+>
   <span class="brand__mark" aria-hidden="true">
     <img
       class="brand__logo"

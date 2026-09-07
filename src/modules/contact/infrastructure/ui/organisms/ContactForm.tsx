@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState, type SubmitEvent } from 'react';
 
+import type { Locale } from '@i18n/domain/Locale';
+import type { ContactFormCopy } from '@i18n/infrastructure/uiCopy';
 import type { ContactGateway } from '@contact/application/ports/ContactGateway';
 import { SendContactMessage } from '@contact/application/use-cases/SendContactMessage';
 import type { ContactMessage } from '@contact/domain/models/ContactMessage';
@@ -13,11 +15,13 @@ import './ContactForm.css';
 
 interface ContactFormProps {
   gateway?: ContactGateway;
+  locale: Locale;
+  copy: ContactFormCopy;
 }
 
 const defaultGateway = createSameOriginContactGateway();
 
-const ContactForm = ({ gateway = defaultGateway }: ContactFormProps) => {
+const ContactForm = ({ gateway = defaultGateway, locale, copy }: ContactFormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
   const abortRef = useRef<AbortController | null>(null);
   const mountedAtRef = useRef(0);
@@ -37,7 +41,7 @@ const ContactForm = ({ gateway = defaultGateway }: ContactFormProps) => {
     const honeypot = String(formData.get('company') ?? '');
     if (honeypot) {
       setStatus('success');
-      setFeedback('Message received. I will get back to you as soon as possible.');
+      setFeedback(copy.success);
       formRef.current?.reset();
       return;
     }
@@ -52,7 +56,7 @@ const ContactForm = ({ gateway = defaultGateway }: ContactFormProps) => {
 
     if (Object.keys(validationErrors).length > 0) {
       setStatus('error');
-      setFeedback('Review the highlighted fields and try again.');
+      setFeedback(copy.invalid);
       return;
     }
 
@@ -60,16 +64,23 @@ const ContactForm = ({ gateway = defaultGateway }: ContactFormProps) => {
     const controller = new AbortController();
     abortRef.current = controller;
     setStatus('sending');
-    setFeedback('Sending your message…');
+    setFeedback(copy.submitting);
 
     const result = await SendContactMessage.execute(gateway, values, controller.signal, {
       honeypot,
       elapsedMs: Date.now() - mountedAtRef.current,
+      locale,
     });
     if (controller.signal.aborted || abortRef.current !== controller) return;
 
     setStatus(result.success ? 'success' : 'error');
-    setFeedback(result.message);
+    setFeedback(
+      result.success
+        ? copy.success
+        : result.code === 'rate_limited'
+          ? copy.rateLimited
+          : copy.unavailable
+    );
 
     if (result.success) {
       formRef.current?.reset();
@@ -81,25 +92,27 @@ const ContactForm = ({ gateway = defaultGateway }: ContactFormProps) => {
     <form ref={formRef} className="contact-form" onSubmit={handleSubmit} noValidate>
       <div className="contact-form__row">
         <div className="field">
-          <label htmlFor="contact-name">Name</label>
+          <label htmlFor="contact-name">{copy.nameLabel}</label>
           <input
             id="contact-name"
             name="name"
             type="text"
             maxLength={80}
             autoComplete="name"
-            placeholder="Your name"
+            placeholder={copy.namePlaceholder}
             aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? 'contact-name-error' : undefined}
           />
           {errors.name ? (
             <span id="contact-name-error" className="field__error">
-              {errors.name}
+              {errors.name === 'name_too_short'
+                ? copy.errors.nameTooShort
+                : copy.errors.nameTooLong}
             </span>
           ) : null}
         </div>
         <div className="field">
-          <label htmlFor="contact-email">Email</label>
+          <label htmlFor="contact-email">{copy.emailLabel}</label>
           <input
             id="contact-email"
             name="email"
@@ -107,38 +120,42 @@ const ContactForm = ({ gateway = defaultGateway }: ContactFormProps) => {
             maxLength={254}
             inputMode="email"
             autoComplete="email"
-            placeholder="you@company.com"
+            placeholder={copy.emailPlaceholder}
             aria-invalid={Boolean(errors.email)}
             aria-describedby={errors.email ? 'contact-email-error' : undefined}
           />
           {errors.email ? (
             <span id="contact-email-error" className="field__error">
-              {errors.email}
+              {errors.email === 'email_invalid'
+                ? copy.errors.emailInvalid
+                : copy.errors.emailTooLong}
             </span>
           ) : null}
         </div>
       </div>
 
       <div className="field">
-        <label htmlFor="contact-message">Project or opportunity</label>
+        <label htmlFor="contact-message">{copy.messageLabel}</label>
         <textarea
           id="contact-message"
           name="message"
           rows={6}
           maxLength={4000}
-          placeholder="What are you building, and how can I help?"
+          placeholder={copy.messagePlaceholder}
           aria-invalid={Boolean(errors.message)}
           aria-describedby={errors.message ? 'contact-message-error' : undefined}
         />
         {errors.message ? (
           <span id="contact-message-error" className="field__error">
-            {errors.message}
+            {errors.message === 'message_too_short'
+              ? copy.errors.messageTooShort
+              : copy.errors.messageTooLong}
           </span>
         ) : null}
       </div>
 
       <div className="field field--honeypot" aria-hidden="true">
-        <label htmlFor="contact-company">Company</label>
+        <label htmlFor="contact-company">{copy.companyLabel}</label>
         <input
           id="contact-company"
           name="company"
@@ -151,11 +168,11 @@ const ContactForm = ({ gateway = defaultGateway }: ContactFormProps) => {
 
       <div className="contact-form__footer">
         <button className="button button--primary" type="submit" disabled={status === 'sending'}>
-          {status === 'sending' ? 'Sending…' : 'Start a conversation'}
+          {status === 'sending' ? copy.submitting : copy.submit}
           <span aria-hidden="true">↗</span>
         </button>
         <p className={`form-status form-status--${status}`} role="status" aria-live="polite">
-          {feedback || 'Usually replies within two business days.'}
+          {feedback || copy.idle}
         </p>
       </div>
     </form>

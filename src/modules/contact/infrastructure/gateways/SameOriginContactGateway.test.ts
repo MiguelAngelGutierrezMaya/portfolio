@@ -22,7 +22,7 @@ describe('SameOriginContactGateway', () => {
         method: 'POST',
         credentials: 'same-origin',
         headers: expect.objectContaining({ 'X-Requested-With': 'MigudevContactForm' }),
-        body: JSON.stringify({ ...message, company: '', elapsedMs: 2500 }),
+        body: JSON.stringify({ ...message, locale: 'en', company: '', elapsedMs: 2500 }),
       })
     );
   });

@@ -3,6 +3,7 @@ import { createHash } from 'node:crypto';
 import { GetObjectCommand, S3Client, type GetObjectCommandOutput } from '@aws-sdk/client-s3';
 import { z } from 'zod';
 
+import { defaultLocale, type Locale } from '@i18n/domain/Locale';
 import type { PortfolioRepository } from '@portfolio/application/ports/PortfolioRepository';
 import type { PortfolioContent } from '@portfolio/domain/models/Portfolio';
 import { portfolioContentSchema } from '@portfolio/infrastructure/content/PortfolioContentSchema';
@@ -10,15 +11,28 @@ import { portfolioContentSchema } from '@portfolio/infrastructure/content/Portfo
 const maxManifestBytes = 64 * 1024;
 const maxPortfolioBytes = 512 * 1024;
 
-const manifestSchema = z.object({
-  schemaVersion: z.literal(1),
-  content: z.object({
-    portfolio: z.object({
-      key: z.string().regex(/^content\/[a-z0-9._/-]+$/i),
-      sha256: z.string().regex(/^[a-f0-9]{64}$/i),
-    }),
-  }),
+const contentDescriptorSchema = z.object({
+  key: z.string().regex(/^content\/[a-z0-9._/-]+$/i),
+  sha256: z.string().regex(/^[a-f0-9]{64}$/i),
 });
+
+const manifestSchema = z
+  .object({
+    schemaVersion: z.literal(1),
+    content: z.object({
+      portfolio: contentDescriptorSchema.optional(),
+      portfolios: z
+        .object({
+          en: contentDescriptorSchema,
+          es: contentDescriptorSchema,
+        })
+        .optional(),
+    }),
+  })
+  .refine(manifest => manifest.content.portfolio || manifest.content.portfolios, {
+    message: 'The manifest must declare portfolio content',
+    path: ['content'],
+  });
 
 interface S3PortfolioRepositoryConfig {
   readonly bucket: string;
@@ -68,7 +82,7 @@ export class S3PortfolioRepository implements PortfolioRepository {
     }
   }
 
-  async getContent(): Promise<PortfolioContent> {
+  async getContent(locale: Locale = defaultLocale): Promise<PortfolioContent> {
     const manifestBytes = await readObject(
       this.client,
       this.config.bucket,
@@ -78,7 +92,8 @@ export class S3PortfolioRepository implements PortfolioRepository {
     const manifest = manifestSchema.parse(
       JSON.parse(new TextDecoder().decode(manifestBytes)) as unknown
     );
-    const descriptor = manifest.content.portfolio;
+    const descriptor = manifest.content.portfolios?.[locale] ?? manifest.content.portfolio;
+    if (!descriptor) throw new Error(`Portfolio content is unavailable for locale ${locale}`);
 
     if (descriptor.key.includes('..')) {
       throw new Error('The portfolio content key must stay inside content/');

@@ -4,6 +4,16 @@
     "portfolio": {
       "key": "content/portfolio.json",
       "sha256": "c967668da3e41514159d67cfa84bba1d6a7564c5155bac44ca94dd9b147be07d"
+    },
+    "portfolios": {
+      "en": {
+        "key": "content/portfolio.json",
+        "sha256": "c967668da3e41514159d67cfa84bba1d6a7564c5155bac44ca94dd9b147be07d"
+      },
+      "es": {
+        "key": "content/portfolio.es.json",
+        "sha256": "d5925436bf45fa0ccdb061e41ccdec8dd24227e342790bc49f40b82a22523328"
+      }
     }
   },
   "assets": {

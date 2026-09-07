@@ -8,6 +8,7 @@ const validBody = {
   name: 'Miguel',
   email: 'MIGUEL@EXAMPLE.COM',
   message: 'I would like to discuss a product engineering opportunity.',
+  locale: 'en',
   company: '',
   elapsedMs: 2500,
 };
@@ -40,12 +41,30 @@ describe('POST /api/contact', () => {
         message: validBody.message,
       },
       expect.any(AbortSignal),
-      expect.objectContaining({ sourceIp: '198.51.100.24' })
+      expect.objectContaining({ sourceIp: '198.51.100.24', locale: 'en' })
     );
     await expect(response.json()).resolves.toEqual({
       success: true,
       message: 'Message received. I will get back to you as soon as possible.',
     });
+  });
+
+  it('returns localized feedback and forwards the Spanish locale', async () => {
+    const send = vi.fn().mockResolvedValue({ success: true, code: 'accepted', message: 'ok' });
+    const response = await handleContactRequest(createRequest({ ...validBody, locale: 'es' }), {
+      send,
+    });
+
+    expect(response.status).toBe(202);
+    await expect(response.json()).resolves.toEqual({
+      success: true,
+      message: 'Mensaje recibido. Te responderé lo antes posible.',
+    });
+    expect(send).toHaveBeenCalledWith(
+      expect.any(Object),
+      expect.any(AbortSignal),
+      expect.objectContaining({ locale: 'es' })
+    );
   });
 
   it('accepts the configured canonical origin behind an Amplify reverse proxy', async () => {

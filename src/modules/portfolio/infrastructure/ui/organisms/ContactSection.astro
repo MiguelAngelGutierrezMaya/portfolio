@@ -1,5 +1,7 @@
 ---
 import ContactForm from '@contact/infrastructure/ui/organisms/ContactForm';
+import type { Locale } from '@i18n/domain/Locale';
+import type { PortfolioUiCopy } from '@i18n/infrastructure/uiCopy';
 import SectionHeading from '@portfolio/infrastructure/ui/atoms/SectionHeading.astro';
 import type { ContactContent, Profile, SectionCopy } from '@portfolio/domain/models/Portfolio';
 
@@ -7,9 +9,11 @@ interface Props {
   heading: SectionCopy;
   contact: ContactContent;
   profile: Profile;
+  locale: Locale;
+  copy: PortfolioUiCopy;
 }
 
-const { heading, contact, profile } = Astro.props;
+const { heading, contact, profile, locale, copy } = Astro.props;
 ---
 
 <section id="contact" class="content-section section-shell" aria-labelledby="contact-title">
@@ -36,7 +40,7 @@ const { heading, contact, profile } = Astro.props;
       </div>
     </div>
     <div class="contact-panel__form glass-panel">
-      <ContactForm client:visible />
+      <ContactForm locale={locale} copy={copy.contactForm} client:visible />
     </div>
   </div>
 </section>

@@ -15,9 +15,9 @@ describe('validateContactMessage', () => {
 
   it('returns field-level errors for invalid input', () => {
     expect(validateContactMessage({ name: 'M', email: 'invalid', message: 'Too short' })).toEqual({
-      name: 'Please enter at least two characters.',
-      email: 'Please enter a valid email address.',
-      message: 'Tell me a little more — at least 20 characters.',
+      name: 'name_too_short',
+      email: 'email_invalid',
+      message: 'message_too_short',
     });
   });
 
@@ -28,8 +28,8 @@ describe('validateContactMessage', () => {
       message: 'M'.repeat(4001),
     });
 
-    expect(errors.name).toContain('under 80');
-    expect(errors.email).toBe('Please enter a shorter email address.');
-    expect(errors.message).toContain('under 4000');
+    expect(errors.name).toBe('name_too_long');
+    expect(errors.email).toBe('email_too_long');
+    expect(errors.message).toBe('message_too_long');
   });
 });

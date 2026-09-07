@@ -1,5 +1,6 @@
 ---
 import ButtonLink from '@portfolio/infrastructure/ui/atoms/ButtonLink.astro';
+import type { PortfolioUiCopy } from '@i18n/infrastructure/uiCopy';
 import Metric from '@portfolio/infrastructure/ui/molecules/Metric.astro';
 import ProductSystemVisual from '@portfolio/infrastructure/ui/molecules/ProductSystemVisual.astro';
 import SocialLinks from '@portfolio/infrastructure/ui/molecules/SocialLinks.astro';
@@ -7,9 +8,10 @@ import type { Profile } from '@portfolio/domain/models/Portfolio';
 
 interface Props {
   profile: Profile;
+  copy: PortfolioUiCopy;
 }
 
-const { profile } = Astro.props;
+const { profile, copy } = Astro.props;
 ---
 
 <section id="about" class="hero section-shell" aria-labelledby="hero-title">
@@ -30,13 +32,13 @@ const { profile } = Astro.props;
       />
     </div>
     <div class="hero__socials">
-      <span>Find me online</span>
-      <SocialLinks label="Hero social profiles" links={profile.socialLinks} />
+      <span>{copy.findMeOnline}</span>
+      <SocialLinks label={copy.heroSocialProfiles} links={profile.socialLinks} />
     </div>
   </div>
 
   <div class="hero__visual">
-    <ProductSystemVisual />
+    <ProductSystemVisual copy={copy.productSystem} />
   </div>
 
   <div class="hero__metrics glass-panel reveal">

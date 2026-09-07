@@ -1,0 +1,20 @@
+---
+import Layout from '@layouts/Layout.astro';
+import { GetLegalDocument } from '@legal/application/use-cases/GetLegalDocument';
+import { StaticLegalRepository } from '@legal/infrastructure/repositories/StaticLegalRepository';
+import LegalPage from '@legal/infrastructure/ui/templates/LegalPage.astro';
+
+export const prerender = true;
+
+const document = GetLegalDocument.execute(new StaticLegalRepository(), 'terms', 'es');
+---
+
+<Layout
+  title={`${document.title} — Miguel Gutierrez`}
+  description={document.description}
+  pathname="/es/terms/"
+  locale="es"
+  page="terms"
+>
+  <LegalPage {document} locale="es" page="terms" />
+</Layout>

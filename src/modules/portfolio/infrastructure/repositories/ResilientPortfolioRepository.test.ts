@@ -54,4 +54,19 @@ describe('CachedPortfolioRepository', () => {
 
     await expect(cached.getContent()).resolves.toBe(content);
   });
+
+  it('keeps independent snapshots for each locale', async () => {
+    const spanish = { profile: { brandName: 'Migudev ES' } } as PortfolioContent;
+    const getContent = vi.fn(locale => Promise.resolve(locale === 'es' ? spanish : content));
+    const cached = new CachedPortfolioRepository({ getContent }, 100);
+
+    await expect(cached.getContent('en')).resolves.toBe(content);
+    await expect(cached.getContent('es')).resolves.toBe(spanish);
+    await cached.getContent('en');
+    await cached.getContent('es');
+
+    expect(getContent).toHaveBeenCalledTimes(2);
+    expect(getContent).toHaveBeenNthCalledWith(1, 'en');
+    expect(getContent).toHaveBeenNthCalledWith(2, 'es');
+  });
 });

@@ -2,7 +2,7 @@ import { DeleteItemCommand, PutItemCommand, UpdateItemCommand } from '@aws-sdk/c
 import { SendEmailCommand } from '@aws-sdk/client-sesv2';
 import { describe, expect, it, vi } from 'vitest';
 
-import { createContactMailer } from './handler';
+import { buildContactEmail, createContactMailer } from './handler';
 
 const validEvent = {
   sourceIp: '198.51.100.24',
@@ -27,7 +27,7 @@ const createDependencies = () => ({
 });
 
 describe('contact mailer Lambda', () => {
-  it('rate limits, deduplicates and sends a text-only SES message', async () => {
+  it('rate limits, deduplicates and sends branded HTML with a text alternative', async () => {
     const sendDynamo = vi.fn().mockResolvedValue({});
     const sendEmail = vi.fn().mockResolvedValue({ MessageId: 'private-message-id' });
     const handler = createContactMailer({ ...createDependencies(), sendDynamo, sendEmail });
@@ -51,12 +51,34 @@ describe('contact mailer Lambda', () => {
       ReplyToAddresses: ['miguel@example.com'],
       Content: {
         Simple: {
-          Subject: { Data: 'New Migudev portfolio contact', Charset: 'UTF-8' },
+          Subject: { Data: 'Nueva conversación desde Migudev', Charset: 'UTF-8' },
+          Body: {
+            Text: { Charset: 'UTF-8' },
+            Html: { Charset: 'UTF-8' },
+          },
         },
       },
     });
     expect(emailCommand.input.Content).not.toHaveProperty('Raw');
-    expect(emailCommand.input.Content).not.toHaveProperty('Simple.Body.Html');
+    expect(emailCommand.input.Content?.Simple?.Body?.Html?.Data).toContain('PORTFOLIO · ENGLISH');
+    expect(emailCommand.input.Content?.Simple?.Body?.Text?.Data).toContain('Miguel Example');
+  });
+
+  it('escapes untrusted contact values in the HTML email', () => {
+    const email = buildContactEmail(
+      {
+        name: '<script>alert(1)</script>',
+        email: 'safe@example.com',
+        message: '<img src=x onerror=alert(1)> & hello',
+      },
+      'es'
+    );
+
+    expect(email.html).not.toContain('<script>');
+    expect(email.html).not.toContain('<img src=x');
+    expect(email.html).toContain('&lt;script&gt;');
+    expect(email.html).toContain('&lt;img src=x onerror=alert(1)&gt; &amp; hello');
+    expect(email.html).toContain('PORTFOLIO · ESPAÑOL');
   });
 
   it('fails closed for malformed events without calling AWS services', async () => {

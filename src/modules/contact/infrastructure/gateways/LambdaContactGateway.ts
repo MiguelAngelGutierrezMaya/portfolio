@@ -55,7 +55,7 @@ export class LambdaContactGateway implements ContactGateway {
           InvocationType: 'RequestResponse',
           LogType: 'None',
           Payload: new TextEncoder().encode(
-            JSON.stringify({ message, sourceIp: context.sourceIp })
+            JSON.stringify({ message, sourceIp: context.sourceIp, locale: context.locale ?? 'en' })
           ),
         }),
         signal

@@ -1,4 +1,7 @@
 ---
+import { localizedRoutes, type Locale } from '@i18n/domain/Locale';
+import LanguageSwitcher from '@i18n/infrastructure/LanguageSwitcher.astro';
+import type { PortfolioUiCopy } from '@i18n/infrastructure/uiCopy';
 import BrandMark from '@portfolio/infrastructure/ui/atoms/BrandMark.astro';
 import SocialLinks from '@portfolio/infrastructure/ui/molecules/SocialLinks.astro';
 import type { FooterContent, Profile } from '@portfolio/domain/models/Portfolio';
@@ -6,21 +9,30 @@ import type { FooterContent, Profile } from '@portfolio/domain/models/Portfolio'
 interface Props {
   profile: Profile;
   footer: FooterContent;
+  locale: Locale;
+  copy: PortfolioUiCopy;
+  page?: 'home' | 'privacy' | 'terms';
 }
 
-const { profile, footer } = Astro.props;
+const { profile, footer, locale, copy, page = 'home' } = Astro.props;
 ---
 
 <footer class="site-footer section-shell">
   <div class="site-footer__top">
-    <BrandMark profile={profile} compact />
+    <BrandMark
+      profile={profile}
+      compact
+      homeHref={localizedRoutes[locale].home}
+      homeLabel={copy.brandHome}
+    />
     <p>{footer.tagline}</p>
-    <SocialLinks label="Footer social profiles" links={profile.socialLinks} />
+    <SocialLinks label={copy.footerSocialProfiles} links={profile.socialLinks} />
   </div>
   <div class="site-footer__bottom">
     <span>© {new Date().getFullYear()} {profile.name}</span>
-    <nav aria-label="Legal">
+    <nav aria-label={copy.legalNavigation}>
       {footer.legalLinks.map(link => <a href={link.href}>{link.label}</a>)}
     </nav>
+    <LanguageSwitcher {locale} {page} />
   </div>
 </footer>

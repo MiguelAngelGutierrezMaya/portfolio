@@ -10,6 +10,7 @@ export default defineConfig({
     alias: {
       '@': path.resolve(projectRoot, 'src'),
       '@contact': path.resolve(projectRoot, 'src/modules/contact'),
+      '@i18n': path.resolve(projectRoot, 'src/modules/i18n'),
       '@legal': path.resolve(projectRoot, 'src/modules/legal'),
       '@portfolio': path.resolve(projectRoot, 'src/modules/portfolio'),
     },

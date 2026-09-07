@@ -7,6 +7,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@contact/*": ["./src/modules/contact/*"],
+      "@i18n/*": ["./src/modules/i18n/*"],
       "@layouts/*": ["./src/layouts/*"],
       "@legal/*": ["./src/modules/legal/*"],
       "@portfolio/*": ["./src/modules/portfolio/*"],

@@ -4,9 +4,10 @@ interface Props {
   title: string;
   description: string;
   keywords: readonly string[];
+  capabilitiesLabel?: string;
 }
 
-const { index, title, description, keywords } = Astro.props;
+const { index, title, description, keywords, capabilitiesLabel = 'capabilities' } = Astro.props;
 ---
 
 <article class="capability-card reveal">
@@ -15,7 +16,7 @@ const { index, title, description, keywords } = Astro.props;
     <h3>{title}</h3>
     <p>{description}</p>
   </div>
-  <ul aria-label={`${title} capabilities`}>
+  <ul aria-label={`${title} ${capabilitiesLabel}`}>
     {keywords.map(keyword => <li>{keyword}</li>)}
   </ul>
 </article>

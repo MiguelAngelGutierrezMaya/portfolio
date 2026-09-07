@@ -11,6 +11,37 @@ test.beforeEach(async ({ page }) => {
   );
 });
 
+test('negotiates the browser language and keeps explicit locale URLs stable', async ({
+  page,
+  request,
+}) => {
+  const spanishRedirect = await request.get('/', {
+    headers: { 'Accept-Language': 'es-CO,es;q=0.9,en;q=0.7' },
+    maxRedirects: 0,
+  });
+  const englishRedirect = await request.get('/', {
+    headers: { 'Accept-Language': 'en-US,en;q=0.9' },
+    maxRedirects: 0,
+  });
+
+  expect(spanishRedirect.status()).toBe(302);
+  expect(spanishRedirect.headers().location).toBe('/es/');
+  expect(spanishRedirect.headers().vary).toContain('Accept-Language');
+  expect(englishRedirect.status()).toBe(302);
+  expect(englishRedirect.headers().location).toBe('/en/');
+
+  await page.goto('/es/');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+  await expect(
+    page.getByRole('heading', { level: 1, name: /construyo productos digitales/i })
+  ).toBeVisible();
+  await expect(page.getByRole('link', { name: 'English' }).first()).toHaveAttribute('href', '/en/');
+  await expect(page.getByRole('link', { name: 'Español' }).first()).toHaveAttribute(
+    'aria-current',
+    'page'
+  );
+});
+
 test('renders the complete portfolio and supports project discovery', async ({ page }) => {
   await page.goto('/');
 
@@ -124,6 +155,7 @@ test('submits contact messages only through the same-origin server endpoint', as
   expect(submittedBody).toMatchObject({
     name: 'Miguel Example',
     email: 'miguel@example.com',
+    locale: 'en',
     company: '',
   });
   expect(page.url()).toMatch(/^http:\/\/127\.0\.0\.1:/);
@@ -239,7 +271,14 @@ test('publishes canonical search and LLM discovery metadata', async ({ page, req
 
   await expect(page.getByRole('link', { name: 'Privacy' })).toHaveAttribute('href', '/privacy/');
   await expect(page.getByRole('link', { name: 'Terms' })).toHaveAttribute('href', '/terms/');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /^https?:\/\/.+\/$/);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    /^https?:\/\/.+\/en\/$/
+  );
+  await expect(page.locator('link[rel="alternate"][hreflang="es"]')).toHaveAttribute(
+    'href',
+    /^https?:\/\/.+\/es\/$/
+  );
   const structuredData = JSON.parse(
     (await page.locator('script[type="application/ld+json"]').textContent()) ?? '{}'
   );
@@ -264,7 +303,14 @@ test('publishes canonical search and LLM discovery metadata', async ({ page, req
   expect(await manifest.json()).toEqual(expect.objectContaining({ short_name: 'Migudev' }));
 });
 
-for (const route of ['/', '/privacy/index.html', '/terms/index.html']) {
+for (const route of [
+  '/en/',
+  '/es/',
+  '/privacy/index.html',
+  '/terms/index.html',
+  '/es/privacy/index.html',
+  '/es/terms/index.html',
+]) {
   test(`@a11y has no detectable accessibility violations on ${route}`, async ({ page }) => {
     await page.goto(route);
     await page.waitForLoadState('networkidle');

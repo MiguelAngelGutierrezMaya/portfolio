@@ -17,4 +17,11 @@ describe('GetLegalDocument', () => {
     expect(document.sections.length).toBeGreaterThan(0);
     expect(document.lastUpdated).toBeTruthy();
   });
+
+  it('returns the translated document when Spanish is requested', () => {
+    const document = GetLegalDocument.execute(repository, 'privacy', 'es');
+
+    expect(document.title).toBe('Política de privacidad');
+    expect(document.sections[0]?.title).toBe('Información recopilada');
+  });
 });

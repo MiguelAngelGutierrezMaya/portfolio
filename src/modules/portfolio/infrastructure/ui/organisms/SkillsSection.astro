@@ -1,14 +1,16 @@
 ---
 import type { SectionCopy, SkillGroup } from '@portfolio/domain/models/Portfolio';
+import type { PortfolioUiCopy } from '@i18n/infrastructure/uiCopy';
 import SectionHeading from '@portfolio/infrastructure/ui/atoms/SectionHeading.astro';
 import SkillGroupCard from '@portfolio/infrastructure/ui/molecules/SkillGroupCard.astro';
 
 interface Props {
   skillGroups: readonly SkillGroup[];
   heading: SectionCopy;
+  copy: PortfolioUiCopy;
 }
 
-const { skillGroups, heading } = Astro.props;
+const { skillGroups, heading, copy } = Astro.props;
 const marqueeSkills = skillGroups.flatMap(group => group.skills);
 ---
 
@@ -34,6 +36,10 @@ const marqueeSkills = skillGroups.flatMap(group => group.skills);
     </div>
   </div>
   <div class="skill-grid section-shell">
-    {skillGroups.map(group => <SkillGroupCard group={group} />)}
+    {
+      skillGroups.map(group => (
+        <SkillGroupCard group={group} technologiesLabel={copy.technologies} />
+      ))
+    }
   </div>
 </section>

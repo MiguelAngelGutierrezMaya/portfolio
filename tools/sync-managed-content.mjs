@@ -16,11 +16,17 @@ const urlLifetimeSeconds = 300;
 let awsCliMajorPromise;
 
 const managedFiles = {
-  portfolio: {
+  portfolioEn: {
     kind: 'json',
     maxBytes: 512 * 1024,
     prefix: 'content/',
     destination: 'src/content/portfolio.json',
+  },
+  portfolioEs: {
+    kind: 'json',
+    maxBytes: 512 * 1024,
+    prefix: 'content/',
+    destination: 'src/content/portfolio.es.json',
   },
   brandLogo: {
     kind: 'image',
@@ -195,7 +201,19 @@ if (!Array.isArray(manifest.companyLogos)) {
   throw new Error('manifest.companyLogos must be an array');
 }
 
-await download(manifest.content.portfolio, managedFiles.portfolio);
+const localizedPortfolios = manifest.content.portfolios;
+if (localizedPortfolios !== undefined) {
+  assertObject(localizedPortfolios, 'manifest.content.portfolios');
+}
+const englishPortfolio = localizedPortfolios?.en ?? manifest.content.portfolio;
+if (!englishPortfolio) throw new Error('manifest content is missing the English portfolio');
+
+await download(englishPortfolio, managedFiles.portfolioEn);
+if (localizedPortfolios?.es) {
+  await download(localizedPortfolios.es, managedFiles.portfolioEs);
+} else {
+  process.stdout.write('Spanish portfolio sync skipped: no localized descriptor is published.\n');
+}
 await Promise.all([
   download(manifest.assets.brandLogo, managedFiles.brandLogo),
   download(manifest.assets.profilePortrait, managedFiles.profilePortrait),

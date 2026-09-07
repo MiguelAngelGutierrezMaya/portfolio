@@ -27,10 +27,20 @@ export default defineConfig({
       },
       { source: '/privacy/', target: '/privacy/index.html', status: '200' },
       { source: '/terms/', target: '/terms/index.html', status: '200' },
+      { source: '/es/privacy/', target: '/es/privacy/index.html', status: '200' },
+      { source: '/es/terms/', target: '/es/terms/index.html', status: '200' },
     ],
   }),
   integrations: [react()],
   output: 'server',
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'es'],
+    routing: {
+      prefixDefaultLocale: true,
+      redirectToDefaultLocale: false,
+    },
+  },
   compressHTML: true,
   security: {
     checkOrigin: true,
@@ -56,6 +66,7 @@ export default defineConfig({
       alias: {
         '@': path.resolve(projectRoot, 'src'),
         '@contact': path.resolve(projectRoot, 'src/modules/contact'),
+        '@i18n': path.resolve(projectRoot, 'src/modules/i18n'),
         '@layouts': path.resolve(projectRoot, 'src/layouts'),
         '@legal': path.resolve(projectRoot, 'src/modules/legal'),
         '@portfolio': path.resolve(projectRoot, 'src/modules/portfolio'),

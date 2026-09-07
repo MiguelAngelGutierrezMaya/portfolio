@@ -1,4 +1,7 @@
 ---
+import { localizedRoutes, type Locale } from '@i18n/domain/Locale';
+import LanguageSwitcher from '@i18n/infrastructure/LanguageSwitcher.astro';
+import type { PortfolioUiCopy } from '@i18n/infrastructure/uiCopy';
 import BrandMark from '@portfolio/infrastructure/ui/atoms/BrandMark.astro';
 import AvailabilityStatus from '@portfolio/infrastructure/ui/atoms/AvailabilityStatus.astro';
 import type { Link, Profile } from '@portfolio/domain/models/Portfolio';
@@ -6,15 +9,17 @@ import type { Link, Profile } from '@portfolio/domain/models/Portfolio';
 interface Props {
   profile: Profile;
   navigation: readonly Link[];
+  locale: Locale;
+  copy: PortfolioUiCopy;
 }
 
-const { profile, navigation } = Astro.props;
+const { profile, navigation, locale, copy } = Astro.props;
 ---
 
 <header class="site-header" data-site-header>
   <div class="site-header__glass">
-    <BrandMark profile={profile} />
-    <nav class="desktop-nav" aria-label="Primary navigation">
+    <BrandMark profile={profile} homeHref={localizedRoutes[locale].home} />
+    <nav class="desktop-nav" aria-label={copy.primaryNavigation}>
       {navigation.map(link => <a href={link.href}>{link.label}</a>)}
       <a
         class="desktop-nav__whatsapp"
@@ -22,23 +27,26 @@ const { profile, navigation } = Astro.props;
         target="_blank"
         rel="noreferrer"
       >
-        WhatsApp <span aria-hidden="true">↗</span>
+        {copy.whatsapp}
+        <span aria-hidden="true">↗</span>
       </a>
+      <LanguageSwitcher {locale} />
     </nav>
-    <AvailabilityStatus server:defer>
+    <AvailabilityStatus {locale} server:defer>
       <a class="availability" href="#contact" aria-busy="true" slot="fallback">
         <span aria-hidden="true"></span>
         {profile.availability}
       </a>
     </AvailabilityStatus>
     <details class="mobile-nav">
-      <summary aria-label="Open navigation"><span></span><span></span></summary>
-      <nav aria-label="Mobile navigation">
+      <summary aria-label={copy.openNavigation}><span></span><span></span></summary>
+      <nav aria-label={copy.mobileNavigation}>
         {navigation.map(link => <a href={link.href}>{link.label}</a>)}
         <a href={profile.whatsapp.href} target="_blank" rel="noreferrer">
           {profile.whatsapp.label}
           <span aria-hidden="true">↗</span>
         </a>
+        <LanguageSwitcher {locale} />
       </nav>
     </details>
   </div>

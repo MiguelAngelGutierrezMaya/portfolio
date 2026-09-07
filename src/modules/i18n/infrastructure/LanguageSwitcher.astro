@@ -1,0 +1,33 @@
+---
+import {
+  localizedRoutes,
+  supportedLocales,
+  type Locale,
+  type LocalizedPage,
+} from '@i18n/domain/Locale';
+import { getUiCopy } from '@i18n/infrastructure/uiCopy';
+
+interface Props {
+  locale: Locale;
+  page?: LocalizedPage;
+}
+
+const { locale, page = 'home' } = Astro.props;
+const copy = getUiCopy(locale);
+---
+
+<div class="language-switcher" role="group" aria-label={copy.languageSelector}>
+  {
+    supportedLocales.map(option => (
+      <a
+        href={localizedRoutes[option][page]}
+        lang={option}
+        hreflang={option}
+        aria-current={option === locale ? 'page' : undefined}
+        aria-label={getUiCopy(option).localeName}
+      >
+        {option.toUpperCase()}
+      </a>
+    ))
+  }
+</div>

@@ -34,6 +34,7 @@ describe('LambdaContactGateway', () => {
     expect(JSON.parse(new TextDecoder().decode(command.input.Payload))).toEqual({
       message,
       sourceIp: '198.51.100.24',
+      locale: 'en',
     });
   });
 

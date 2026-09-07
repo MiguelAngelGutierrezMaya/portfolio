@@ -2,6 +2,7 @@ import { AnimatePresence, LazyMotion, m } from 'framer-motion';
 import { useDeferredValue, useMemo, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 
+import type { ProjectExplorerCopy } from '@i18n/infrastructure/uiCopy';
 import type { Project, ProjectCategory } from '@portfolio/domain/models/Portfolio';
 import { createManagedMediaDeliveryPath } from '@portfolio/infrastructure/media/managedMediaPath';
 import ProjectPreviewButton from '@portfolio/infrastructure/ui/molecules/ProjectPreviewButton/ProjectPreviewButton';
@@ -11,6 +12,7 @@ import './ProjectExplorer.css';
 
 interface ProjectExplorerProps {
   projects: readonly Project[];
+  copy: ProjectExplorerCopy;
 }
 
 type ProjectFilter = 'All' | ProjectCategory;
@@ -79,7 +81,7 @@ const updateWithPreviewTransition = async (
   }
 };
 
-const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
+const ProjectExplorer = ({ projects, copy }: ProjectExplorerProps) => {
   const [activeFilter, setActiveFilter] = useState<ProjectFilter>('All');
   const [query, setQuery] = useState('');
   const [showAllProjects, setShowAllProjects] = useState(false);
@@ -129,7 +131,7 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
   return (
     <div className="project-explorer">
       <div className="project-explorer__toolbar glass-panel">
-        <div className="project-explorer__filters" aria-label="Filter projects">
+        <div className="project-explorer__filters" aria-label={copy.filterLabel}>
           {filters.map(filter => (
             <button
               key={filter}
@@ -139,12 +141,12 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
               aria-pressed={activeFilter === filter}
               onClick={() => setActiveFilter(filter)}
             >
-              {filter}
+              {copy.filters[filter]}
             </button>
           ))}
         </div>
         <label className="project-search">
-          <span className="sr-only">Search projects</span>
+          <span className="sr-only">{copy.searchLabel}</span>
           <span aria-hidden="true">⌕</span>
           <input
             id="project-search"
@@ -152,14 +154,14 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
             type="search"
             value={query}
             onChange={event => setQuery(event.target.value)}
-            placeholder="Search technology or product"
+            placeholder={copy.searchPlaceholder}
             autoComplete="off"
           />
         </label>
       </div>
 
       <p className="project-explorer__count" aria-live="polite">
-        Showing {visibleProjects.length} of {projects.length} projects
+        {copy.showing} {visibleProjects.length} {copy.of} {projects.length} {copy.projects}
       </p>
 
       <LazyMotion features={loadMotionFeatures} strict>
@@ -195,9 +197,10 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
                     </div>
                   ) : (
                     <ProjectPreviewButton
-                      projectTitle={project.title}
                       preview={project.preview}
                       src={createManagedMediaDeliveryPath(project.preview.src)}
+                      ariaLabel={`${copy.viewImagePrefix} ${project.title} ${copy.viewImageSuffix}`}
+                      actionLabel={copy.viewLarger}
                       transitionName={
                         transitionProjectId === project.id && selectedProject?.id !== project.id
                           ? createTransitionName(project.id)
@@ -210,14 +213,14 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
 
                 <div>
                   {project.featured ? (
-                    <span className="project-card__featured">Selected work</span>
+                    <span className="project-card__featured">{copy.selectedWork}</span>
                   ) : null}
                   <h3>{project.title}</h3>
                   <p>{project.summary}</p>
                 </div>
 
                 <div className="project-card__footer">
-                  <ul aria-label={`${project.title} technologies`}>
+                  <ul aria-label={`${project.title} ${copy.technologies}`}>
                     {project.technologies.slice(0, 4).map(technology => (
                       <li key={technology}>{technology}</li>
                     ))}
@@ -225,10 +228,10 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
                   {project.repositoryUrl ? (
                     <a href={project.repositoryUrl} target="_blank" rel="noreferrer">
                       <span className="sr-only">{project.title}: </span>
-                      View repository <span aria-hidden="true">↗</span>
+                      {copy.viewRepository} <span aria-hidden="true">↗</span>
                     </a>
                   ) : (
-                    <span className="project-card__private">Private product</span>
+                    <span className="project-card__private">{copy.privateProduct}</span>
                   )}
                 </div>
               </m.article>
@@ -240,7 +243,8 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
       {hasHiddenProjects ? (
         <div className="project-explorer__more">
           <button type="button" onClick={() => setShowAllProjects(true)}>
-            Show all {matchingProjects.length} projects <span aria-hidden="true">↓</span>
+            {copy.showAll} {matchingProjects.length} {copy.projects}{' '}
+            <span aria-hidden="true">↓</span>
           </button>
         </div>
       ) : null}
@@ -248,13 +252,14 @@ const ProjectExplorer = ({ projects }: ProjectExplorerProps) => {
       {visibleProjects.length === 0 ? (
         <div className="project-empty" role="status">
           <span aria-hidden="true">⌁</span>
-          <h3>No matching project</h3>
-          <p>Try a different category or technology.</p>
+          <h3>{copy.noMatchTitle}</h3>
+          <p>{copy.noMatchDescription}</p>
         </div>
       ) : null}
 
       <ProjectPreviewDialog
         project={selectedProject}
+        copy={copy}
         usesSharedTransition={usesSharedTransition}
         src={
           selectedProject?.preview

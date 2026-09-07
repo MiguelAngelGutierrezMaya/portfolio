@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, type CSSProperties } from 'react';
 
 import type { Project } from '@portfolio/domain/models/Portfolio';
+import type { ProjectExplorerCopy } from '@i18n/infrastructure/uiCopy';
 
 import './ProjectPreviewDialog.css';
 
@@ -9,6 +10,7 @@ interface ProjectPreviewDialogProps {
   src: string | null;
   transitionName?: string;
   usesSharedTransition: boolean;
+  copy: ProjectExplorerCopy;
   onRequestClose: () => void;
 }
 
@@ -17,6 +19,7 @@ const ProjectPreviewDialog = ({
   src,
   transitionName,
   usesSharedTransition,
+  copy,
   onRequestClose,
 }: ProjectPreviewDialogProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -58,7 +61,7 @@ const ProjectPreviewDialog = ({
           ref={closeButtonRef}
           type="button"
           className="project-preview-dialog__close"
-          aria-label={`Close ${project.title} image`}
+          aria-label={`${copy.closeImagePrefix} ${project.title}`}
           onClick={onRequestClose}
         >
           <span aria-hidden="true">×</span>
@@ -85,17 +88,17 @@ const ProjectPreviewDialog = ({
             <h2 id={titleId}>{project.title}</h2>
             <p>{project.summary}</p>
           </div>
-          <ul aria-label={`${project.title} technologies`}>
+          <ul aria-label={`${project.title} ${copy.technologies}`}>
             {project.technologies.map(technology => (
               <li key={technology}>{technology}</li>
             ))}
           </ul>
           {project.repositoryUrl ? (
             <a href={project.repositoryUrl} target="_blank" rel="noreferrer">
-              View repository <span aria-hidden="true">↗</span>
+              {copy.viewRepository} <span aria-hidden="true">↗</span>
             </a>
           ) : (
-            <span className="project-preview-dialog__private">Private product</span>
+            <span className="project-preview-dialog__private">{copy.privateProduct}</span>
           )}
         </div>
       </article>

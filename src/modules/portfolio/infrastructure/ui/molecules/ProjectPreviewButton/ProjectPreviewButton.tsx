@@ -5,24 +5,26 @@ import type { ProjectPreview } from '@portfolio/domain/models/Portfolio';
 import './ProjectPreviewButton.css';
 
 interface ProjectPreviewButtonProps {
-  projectTitle: string;
   preview: ProjectPreview;
   src: string;
   transitionName?: string;
+  ariaLabel: string;
+  actionLabel: string;
   onOpen: (trigger: HTMLButtonElement) => void;
 }
 
 const ProjectPreviewButton = ({
-  projectTitle,
   preview,
   src,
   transitionName,
+  ariaLabel,
+  actionLabel,
   onOpen,
 }: ProjectPreviewButtonProps) => (
   <button
     type="button"
     className="project-preview-button project-card__preview-frame"
-    aria-label={`View ${projectTitle} image in detail`}
+    aria-label={ariaLabel}
     aria-haspopup="dialog"
     onClick={event => onOpen(event.currentTarget)}
   >
@@ -37,7 +39,7 @@ const ProjectPreviewButton = ({
       style={transitionName ? ({ viewTransitionName: transitionName } as CSSProperties) : undefined}
     />
     <span className="project-preview-button__action" aria-hidden="true">
-      <span>View larger</span>
+      <span>{actionLabel}</span>
       <span>↗</span>
     </span>
   </button>

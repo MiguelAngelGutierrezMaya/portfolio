@@ -44,6 +44,7 @@ export class SameOriginContactGateway implements ContactGateway {
         },
         body: JSON.stringify({
           ...message,
+          locale: context.locale ?? 'en',
           company: context.honeypot ?? '',
           elapsedMs: context.elapsedMs ?? 0,
         }),

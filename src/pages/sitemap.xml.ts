@@ -4,7 +4,7 @@ export const prerender = true;
 
 export const GET: APIRoute = ({ site }) => {
   const baseUrl = import.meta.env.PUBLIC_SITE_URL || site?.toString() || 'https://example.com';
-  const routes = ['/', '/privacy/', '/terms/'];
+  const routes = ['/', '/en/', '/es/', '/privacy/', '/terms/', '/es/privacy/', '/es/terms/'];
   const urls = routes
     .map(
       route =>

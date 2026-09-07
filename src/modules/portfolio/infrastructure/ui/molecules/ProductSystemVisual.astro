@@ -1,8 +1,18 @@
+---
+import type { PortfolioUiCopy } from '@i18n/infrastructure/uiCopy';
+
+interface Props {
+  copy: PortfolioUiCopy['productSystem'];
+}
+
+const { copy } = Astro.props;
+---
+
 <figure class="product-system glass-panel" aria-labelledby="product-system-caption">
   <div class="product-system__topbar" aria-hidden="true">
     <span></span><span></span><span></span>
     <strong>migudev / production</strong>
-    <small>systems online</small>
+    <small>{copy.status}</small>
   </div>
 
   <div class="product-system__map">
@@ -17,25 +27,25 @@
 
     <div class="product-system__node product-system__node--core">
       <span>01</span>
-      <strong>Product core</strong>
-      <small>clear · fast · human</small>
+      <strong>{copy.core}</strong>
+      <small>{copy.coreValue}</small>
     </div>
     <div class="product-system__node product-system__node--web">
-      <span>02</span><strong>Web</strong><small>interfaces</small>
+      <span>02</span><strong>Web</strong><small>{copy.interfaces}</small>
     </div>
     <div class="product-system__node product-system__node--api">
-      <span>03</span><strong>APIs</strong><small>services</small>
+      <span>03</span><strong>APIs</strong><small>{copy.services}</small>
     </div>
     <div class="product-system__node product-system__node--cloud">
-      <span>04</span><strong>Cloud</strong><small>delivery</small>
+      <span>04</span><strong>Cloud</strong><small>{copy.delivery}</small>
     </div>
     <div class="product-system__node product-system__node--mobile">
-      <span>05</span><strong>Mobile</strong><small>native flows</small>
+      <span>05</span><strong>Mobile</strong><small>{copy.nativeFlows}</small>
     </div>
   </div>
 
   <figcaption id="product-system-caption" class="product-system__caption">
-    <span>From interaction to infrastructure</span>
-    <strong>One product system, engineered end to end.</strong>
+    <span>{copy.eyebrow}</span>
+    <strong>{copy.caption}</strong>
   </figcaption>
 </figure>

@@ -1,8 +1,14 @@
 ---
 import { GetPortfolioContent } from '@portfolio/application/use-cases/GetPortfolioContent';
 import { getRuntimePortfolioRepository } from '@portfolio/infrastructure/repositories/runtimePortfolioRepository';
+import type { Locale } from '@i18n/domain/Locale';
 
-const content = await GetPortfolioContent.execute(getRuntimePortfolioRepository());
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const content = await GetPortfolioContent.execute(getRuntimePortfolioRepository(), locale);
 ---
 
 <a class="availability" href="#contact" aria-live="polite">

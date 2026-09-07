@@ -1,3 +1,4 @@
+import { defaultLocale, type Locale } from '@i18n/domain/Locale';
 import type { PortfolioRepository } from '@portfolio/application/ports/PortfolioRepository';
 import type { PortfolioContent } from '@portfolio/domain/models/Portfolio';
 
@@ -10,19 +11,22 @@ export class ResilientPortfolioRepository implements PortfolioRepository {
     private readonly reportFailure: FailureReporter = () => undefined
   ) {}
 
-  async getContent(): Promise<PortfolioContent> {
+  async getContent(locale: Locale = defaultLocale): Promise<PortfolioContent> {
     try {
-      return await this.primary.getContent();
+      return await this.primary.getContent(locale);
     } catch (error: unknown) {
       this.reportFailure(error);
-      return this.fallback.getContent();
+      return this.fallback.getContent(locale);
     }
   }
 }
 
 export class CachedPortfolioRepository implements PortfolioRepository {
-  private snapshot?: { readonly content: PortfolioContent; readonly expiresAt: number };
-  private pending?: Promise<PortfolioContent>;
+  private readonly snapshots = new Map<
+    Locale,
+    { readonly content: PortfolioContent; readonly expiresAt: number }
+  >();
+  private readonly pending = new Map<Locale, Promise<PortfolioContent>>();
 
   constructor(
     private readonly repository: PortfolioRepository,
@@ -34,28 +38,34 @@ export class CachedPortfolioRepository implements PortfolioRepository {
     }
   }
 
-  async getContent(): Promise<PortfolioContent> {
+  async getContent(locale: Locale = defaultLocale): Promise<PortfolioContent> {
     const currentTime = this.now();
-    if (this.snapshot && currentTime < this.snapshot.expiresAt) {
-      return this.snapshot.content;
+    const snapshot = this.snapshots.get(locale);
+    if (snapshot && currentTime < snapshot.expiresAt) {
+      return snapshot.content;
     }
-    if (this.pending) return this.pending;
+    const pendingRequest = this.pending.get(locale);
+    if (pendingRequest) return pendingRequest;
 
     const request = this.repository
-      .getContent()
+      .getContent(locale)
       .then(content => {
-        this.snapshot = { content, expiresAt: this.now() + this.ttlMilliseconds };
+        this.snapshots.set(locale, {
+          content,
+          expiresAt: this.now() + this.ttlMilliseconds,
+        });
         return content;
       })
       .catch((error: unknown) => {
-        if (this.snapshot) return this.snapshot.content;
+        const staleSnapshot = this.snapshots.get(locale);
+        if (staleSnapshot) return staleSnapshot.content;
         throw error;
       })
       .finally(() => {
-        if (this.pending === request) this.pending = undefined;
+        if (this.pending.get(locale) === request) this.pending.delete(locale);
       });
 
-    this.pending = request;
+    this.pending.set(locale, request);
     return request;
   }
 }

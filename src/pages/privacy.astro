@@ -6,13 +6,15 @@ import LegalPage from '@legal/infrastructure/ui/templates/LegalPage.astro';
 
 export const prerender = true;
 
-const document = GetLegalDocument.execute(new StaticLegalRepository(), 'privacy');
+const document = GetLegalDocument.execute(new StaticLegalRepository(), 'privacy', 'en');
 ---
 
 <Layout
   title={`${document.title} — Miguel Gutierrez`}
   description={document.description}
   pathname="/privacy/"
+  locale="en"
+  page="privacy"
 >
-  <LegalPage document={document} />
+  <LegalPage {document} locale="en" page="privacy" />
 </Layout>

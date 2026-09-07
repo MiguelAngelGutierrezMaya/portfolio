@@ -1,6 +1,16 @@
 import type { ContactMessage } from '@contact/domain/models/ContactMessage';
 
-export type ContactValidationErrors = Partial<Record<keyof ContactMessage, string>>;
+export type ContactValidationErrorCode =
+  | 'name_too_short'
+  | 'name_too_long'
+  | 'email_invalid'
+  | 'email_too_long'
+  | 'message_too_short'
+  | 'message_too_long';
+
+export type ContactValidationErrors = Partial<
+  Record<keyof ContactMessage, ContactValidationErrorCode>
+>;
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const limits = {
@@ -13,19 +23,19 @@ export const validateContactMessage = (message: ContactMessage): ContactValidati
   const errors: ContactValidationErrors = {};
 
   if (message.name.trim().length < 2) {
-    errors.name = 'Please enter at least two characters.';
+    errors.name = 'name_too_short';
   } else if (message.name.trim().length > limits.name) {
-    errors.name = `Please keep your name under ${limits.name} characters.`;
+    errors.name = 'name_too_long';
   }
   if (!emailPattern.test(message.email.trim())) {
-    errors.email = 'Please enter a valid email address.';
+    errors.email = 'email_invalid';
   } else if (message.email.trim().length > limits.email) {
-    errors.email = 'Please enter a shorter email address.';
+    errors.email = 'email_too_long';
   }
   if (message.message.trim().length < 20) {
-    errors.message = 'Tell me a little more — at least 20 characters.';
+    errors.message = 'message_too_short';
   } else if (message.message.trim().length > limits.message) {
-    errors.message = `Please keep your message under ${limits.message} characters.`;
+    errors.message = 'message_too_long';
   }
 
   return errors;

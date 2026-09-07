@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { z } from 'zod';
 
+import { defaultLocale } from '@i18n/domain/Locale';
+import { getUiCopy } from '@i18n/infrastructure/uiCopy';
 import type { ContactGateway } from '@contact/application/ports/ContactGateway';
 import { SendContactMessage } from '@contact/application/use-cases/SendContactMessage';
 import type { ContactResult } from '@contact/domain/models/ContactMessage';
@@ -20,6 +22,7 @@ const contactRequestSchema = z.strictObject({
     .int()
     .nonnegative()
     .max(24 * 60 * 60 * 1000),
+  locale: z.enum(['en', 'es']).default(defaultLocale),
 });
 
 const responseHeaders = {
@@ -34,11 +37,11 @@ const jsonResponse = (status: number, result: ContactResult): Response =>
     headers: responseHeaders,
   });
 
-const acceptedResponse = (): Response =>
+const acceptedResponse = (locale = defaultLocale): Response =>
   jsonResponse(202, {
     success: true,
     code: 'accepted',
-    message: 'Message received. I will get back to you as soon as possible.',
+    message: getUiCopy(locale).contactForm.success,
   });
 
 const readSourceIp = (request: Request): string => {
@@ -132,7 +135,7 @@ export const handleContactRequest = async (
     });
   }
 
-  if (parsed.data.company) return acceptedResponse();
+  if (parsed.data.company) return acceptedResponse(parsed.data.locale);
 
   const message = {
     name: parsed.data.name,
@@ -150,9 +153,10 @@ export const handleContactRequest = async (
   const result = await SendContactMessage.execute(gateway, message, request.signal, {
     sourceIp: readSourceIp(request),
     elapsedMs: parsed.data.elapsedMs,
+    locale: parsed.data.locale,
   });
 
-  if (result.success) return acceptedResponse();
+  if (result.success) return acceptedResponse(parsed.data.locale);
   if (result.code === 'rate_limited') return jsonResponse(429, result);
   return jsonResponse(503, result);
 };

@@ -20,7 +20,7 @@ presigned on demand only after the requested filename is found in validated port
 - Private signer: `migudev-portfolio-content-presigner`
 - SSR Compute role: `MigudevPortfolioAmplifyComputeRole`
 - Manifest: `content/manifest.json`
-- Editorial document: `content/portfolio.json`
+- Editorial documents: `content/portfolio.json` and `content/portfolio.es.json`
 - Brand media: `media/brand/`
 - Profile media: `media/profile/`
 - Company logos: `media/companies/`
@@ -37,9 +37,15 @@ declared routing rules.
 
 ## Managed content contract
 
-`src/content/portfolio.json` is validated at the infrastructure boundary with Zod. It owns profile,
-navigation, calls to action, metrics, social profiles, section copy, capabilities, projects,
-experience, technology groups, contact copy and footer links.
+`src/content/portfolio.json` and `src/content/portfolio.es.json` are validated at the infrastructure
+boundary with the same Zod schema. They own localized profile, navigation, calls to action, metrics,
+social profiles, section copy, capabilities, projects, experience, technology groups, contact copy
+and footer links. Stable interface labels and validation messages live in the typed i18n adapter so
+missing translations fail during development instead of reaching production.
+
+The manifest keeps the original `content.portfolio` pointer for backward compatibility and adds
+explicit localized pointers under `content.portfolios.en` and `content.portfolios.es`. SSR chooses
+the descriptor from the requested route and caches each locale independently.
 
 `src/content/manifest.json` maps the private S3 objects to build destinations. Each entry includes a
 SHA-256 digest. Project preview entries use this shape:
@@ -81,6 +87,11 @@ Example upload commands:
 ```bash
 aws s3 cp src/content/portfolio.json \
   s3://migudev-portfolio-content-108703089452-us-east-2/content/portfolio.json \
+  --content-type application/json --cache-control no-store \
+  --profile miguel.gutierrez-prod --region us-east-2
+
+aws s3 cp src/content/portfolio.es.json \
+  s3://migudev-portfolio-content-108703089452-us-east-2/content/portfolio.es.json \
   --content-type application/json --cache-control no-store \
   --profile miguel.gutierrez-prod --region us-east-2
 

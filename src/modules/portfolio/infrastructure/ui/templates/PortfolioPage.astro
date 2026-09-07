@@ -1,4 +1,6 @@
 ---
+import type { Locale } from '@i18n/domain/Locale';
+import { getUiCopy } from '@i18n/infrastructure/uiCopy';
 import type { PortfolioContent } from '@portfolio/domain/models/Portfolio';
 import CapabilitiesSection from '@portfolio/infrastructure/ui/organisms/CapabilitiesSection.astro';
 import ContactSection from '@portfolio/infrastructure/ui/organisms/ContactSection.astro';
@@ -12,27 +14,36 @@ import SkillsSection from '@portfolio/infrastructure/ui/organisms/SkillsSection.
 
 interface Props {
   content: PortfolioContent;
+  locale: Locale;
 }
 
-const { content } = Astro.props;
+const { content, locale } = Astro.props;
+const copy = getUiCopy(locale);
 ---
 
-<a class="skip-link" href="#main-content">Skip to content</a>
-<LiquidHeader profile={content.profile} navigation={content.navigation} />
-<ProfileContactDock profile={content.profile} />
+<a class="skip-link" href="#main-content">{copy.skipToContent}</a>
+<LiquidHeader profile={content.profile} navigation={content.navigation} {locale} {copy} />
+<ProfileContactDock profile={content.profile} {copy} />
 <main id="main-content" tabindex="-1">
-  <HeroSection profile={content.profile} />
+  <HeroSection profile={content.profile} {copy} />
   <CapabilitiesSection
     heading={content.sections.capabilities}
     capabilities={content.capabilities}
+    {copy}
   />
-  <ProjectsSection heading={content.sections.projects} projects={content.projects} />
+  <ProjectsSection
+    heading={content.sections.projects}
+    projects={content.projects}
+    copy={copy.projectExplorer}
+  />
   <ExperienceSection heading={content.sections.experience} experiences={content.experiences} />
-  <SkillsSection heading={content.sections.skills} skillGroups={content.skillGroups} />
+  <SkillsSection heading={content.sections.skills} skillGroups={content.skillGroups} {copy} />
   <ContactSection
     heading={content.sections.contact}
     contact={content.contact}
     profile={content.profile}
+    {locale}
+    {copy}
   />
 </main>
-<SiteFooter profile={content.profile} footer={content.footer} />
+<SiteFooter profile={content.profile} footer={content.footer} {locale} {copy} />

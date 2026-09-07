@@ -7,9 +7,12 @@ module.exports = {
       startServerCommand: 'PORT=4322 HOST=127.0.0.1 pnpm preview',
       startServerReadyPattern: 'Server listening',
       url: [
-        'http://127.0.0.1:4322/',
+        'http://127.0.0.1:4322/en/',
+        'http://127.0.0.1:4322/es/',
         'http://127.0.0.1:4322/privacy/index.html',
         'http://127.0.0.1:4322/terms/index.html',
+        'http://127.0.0.1:4322/es/privacy/index.html',
+        'http://127.0.0.1:4322/es/terms/index.html',
       ],
       numberOfRuns: 3,
       settings: {

@@ -3,15 +3,18 @@ import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
 import type { ContactGateway } from '@contact/application/ports/ContactGateway';
+import { getUiCopy } from '@i18n/infrastructure/uiCopy';
 
 import ContactForm from './ContactForm';
 
 describe('ContactForm', () => {
+  const copy = getUiCopy('en').contactForm;
+
   it('shows accessible field errors without contacting the gateway', async () => {
     const user = userEvent.setup();
     const gateway: ContactGateway = { send: vi.fn() };
 
-    render(<ContactForm gateway={gateway} />);
+    render(<ContactForm gateway={gateway} locale="en" copy={copy} />);
     await user.click(screen.getByRole('button', { name: /start a conversation/i }));
 
     expect(screen.getByLabelText('Name')).toHaveAttribute('aria-invalid', 'true');
@@ -26,7 +29,7 @@ describe('ContactForm', () => {
     const user = userEvent.setup();
     const send = vi.fn().mockResolvedValue({ success: true, message: 'Message received.' });
 
-    render(<ContactForm gateway={{ send }} />);
+    render(<ContactForm gateway={{ send }} locale="en" copy={copy} />);
     await user.type(screen.getByLabelText('Name'), '  Miguel  ');
     await user.type(screen.getByLabelText('Email'), 'MIGUEL@EXAMPLE.COM');
     await user.type(
@@ -42,7 +45,7 @@ describe('ContactForm', () => {
         message: 'I would like to discuss a scalable product engineering project.',
       },
       expect.any(AbortSignal),
-      expect.objectContaining({ honeypot: '', elapsedMs: expect.any(Number) })
+      expect.objectContaining({ honeypot: '', elapsedMs: expect.any(Number), locale: 'en' })
     );
     expect(await screen.findByRole('status')).toHaveTextContent('Message received.');
   });

@@ -26,8 +26,12 @@ Private contact-mailer Lambda ──► DynamoDB rate limit and deduplication
   works.
 - Amplify Compute invokes Lambda through `lambda:InvokeFunction`. There is no API Gateway, Lambda
   Function URL or Lambda resource policy granting public access.
-- Lambda repeats validation, strips unsafe control characters and sends a text-only email with a
-  fixed subject. User input is never inserted into sender or subject headers.
+- Lambda repeats validation, strips unsafe control characters and sends a branded, responsive HTML
+  email with a plain-text alternative and fixed subject. All visitor-controlled values are HTML
+  escaped; the message contains no remote images, scripts or tracking pixels. User input is never
+  inserted into sender or subject headers.
+- The selected page locale travels through the server-side boundary so the email identifies whether
+  the visitor used English or Spanish without exposing Lambda details to the browser.
 - The SES execution policy is scoped to the verified sender identity and further constrained to the
   configured From and recipient addresses. The visitor email is used only as `Reply-To`.
 - DynamoDB atomically permits three attempts per source in each 15-minute window and suppresses

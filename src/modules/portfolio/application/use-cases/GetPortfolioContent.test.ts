@@ -30,13 +30,25 @@ describe('GetPortfolioContent', () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
+  it('returns the localized editorial content for Spanish', async () => {
+    const content = await GetPortfolioContent.execute(new ContentFilePortfolioRepository(), 'es');
+
+    expect(content.profile.introduction).toContain('Ingeniero de producto y Mobile');
+    expect(content.footer.legalLinks.map(link => link.href)).toEqual([
+      '/es/privacy/',
+      '/es/terms/',
+    ]);
+    expect(content.projects).toHaveLength(30);
+  });
+
   it('rejects malformed content at the infrastructure boundary', async () => {
-    const repository = new ContentFilePortfolioRepository({
+    const malformed = {
       schemaVersion: 1,
       projects: [],
       experiences: [],
       skillGroups: [],
-    });
+    };
+    const repository = new ContentFilePortfolioRepository({ en: malformed, es: malformed });
 
     await expect(GetPortfolioContent.execute(repository)).rejects.toThrow();
   });

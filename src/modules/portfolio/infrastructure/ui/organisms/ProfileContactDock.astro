@@ -1,23 +1,25 @@
 ---
+import type { PortfolioUiCopy } from '@i18n/infrastructure/uiCopy';
 import type { Profile } from '@portfolio/domain/models/Portfolio';
 import ProfileImage from '@portfolio/infrastructure/ui/atoms/ProfileImage.astro';
 
 interface Props {
   profile: Profile;
+  copy: PortfolioUiCopy;
 }
 
-const { profile } = Astro.props;
+const { profile, copy } = Astro.props;
 ---
 
-<aside class="profile-contact-dock" data-profile-dock aria-label="Quick contact with Miguel">
+<aside class="profile-contact-dock" data-profile-dock aria-label={copy.profileDock.region}>
   <div class="profile-contact-dock__shell glass-panel">
-    <span class="profile-contact-dock__label" aria-hidden="true">Let&apos;s connect</span>
+    <span class="profile-contact-dock__label" aria-hidden="true">{copy.profileDock.connect}</span>
     <a
       class="profile-contact-dock__whatsapp"
       href={profile.whatsapp.href}
       target="_blank"
       rel="noreferrer"
-      aria-label={`${profile.whatsapp.label} (opens in a new tab)`}
+      aria-label={`${profile.whatsapp.label} (${copy.opensNewTab})`}
       title={profile.whatsapp.label}
     >
       <svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
@@ -33,7 +35,7 @@ const { profile } = Astro.props;
       data-profile-open
       aria-controls="profile-dialog"
       aria-expanded="false"
-      aria-label="View Miguel Gutierrez profile"
+      aria-label={copy.profileDock.viewProfile}
     >
       <ProfileImage
         className="profile-contact-dock__avatar-image"
@@ -61,7 +63,7 @@ const { profile } = Astro.props;
         class="profile-dialog__close"
         type="button"
         data-profile-close
-        aria-label="Close Miguel Gutierrez profile"
+        aria-label={copy.profileDock.closeProfile}
       >
         <span aria-hidden="true">×</span>
       </button>

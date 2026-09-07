@@ -1,0 +1,38 @@
+---
+import { localizedRoutes, type Locale } from '@i18n/domain/Locale';
+import { getUiCopy } from '@i18n/infrastructure/uiCopy';
+import Layout from '@layouts/Layout.astro';
+import { createPortfolioStructuredData } from '@portfolio/application/services/createPortfolioStructuredData';
+import { GetPortfolioContent } from '@portfolio/application/use-cases/GetPortfolioContent';
+import { getRuntimePortfolioRepository } from '@portfolio/infrastructure/repositories/runtimePortfolioRepository';
+import PortfolioPage from '@portfolio/infrastructure/ui/templates/PortfolioPage.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const copy = getUiCopy(locale);
+
+Astro.response.headers.set(
+  'Cache-Control',
+  'public, max-age=0, s-maxage=60, stale-while-revalidate=86400'
+);
+Astro.response.headers.set('Content-Language', locale);
+
+const content = await GetPortfolioContent.execute(getRuntimePortfolioRepository(), locale);
+const configuredSite =
+  import.meta.env.PUBLIC_SITE_URL || Astro.site?.toString() || Astro.url.origin;
+const structuredData = createPortfolioStructuredData(content, locale, configuredSite);
+---
+
+<Layout
+  title={copy.metadata.homeTitle}
+  description={copy.metadata.homeDescription}
+  pathname={localizedRoutes[locale].home}
+  page="home"
+  {locale}
+  {structuredData}
+>
+  <PortfolioPage {content} {locale} />
+</Layout>

@@ -1,0 +1,721 @@
+{
+  "schemaVersion": 1,
+  "profile": {
+    "name": "Miguel Angel Gutierrez Maya",
+    "brandName": "Migudev",
+    "jobTitle": "Ingeniero de producto · Fullstack y Mobile",
+    "location": "Cali, Colombia · Trabajando globalmente",
+    "email": "gutierrezmayamiguelangel@gmail.com",
+    "whatsapp": {
+      "label": "Escríbeme por WhatsApp",
+      "href": "https://wa.me/573113230033"
+    },
+    "availability": "Disponible para oportunidades",
+    "headline": {
+      "lead": "Construyo productos digitales que se sienten",
+      "accent": "claros, rápidos y humanos."
+    },
+    "introduction": "Ingeniero de producto y Mobile con 7 años construyendo plataformas web, servicios backend y aplicaciones multiplataforma. Convierto desafíos de producto abiertos en sistemas rápidos y mantenibles: desde interfaces pulidas hasta servicios serverless y experiencias móviles preparadas para trabajar sin conexión.",
+    "primaryAction": {
+      "label": "Explorar proyectos destacados",
+      "href": "#work"
+    },
+    "secondaryAction": {
+      "label": "Iniciar una conversación",
+      "href": "#contact"
+    },
+    "portrait": {
+      "alt": "Retrato profesional de Miguel Gutierrez",
+      "eyebrow": "Fullstack · Mobile",
+      "label": "Ingeniero de producto"
+    },
+    "metrics": [
+      {
+        "value": "30",
+        "label": "Productos y proyectos de aprendizaje"
+      },
+      {
+        "value": "15+",
+        "label": "Tecnologías en todo el stack"
+      },
+      {
+        "value": "7",
+        "label": "Años entregando software"
+      },
+      {
+        "value": "B2",
+        "label": "Inglés profesional"
+      }
+    ],
+    "socialLinks": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/MiguelAngelGutierrezMaya",
+        "profileUrl": "https://github.com/MiguelAngelGutierrezMaya"
+      },
+      {
+        "label": "LinkedIn",
+        "href": "https://www.linkedin.com/in/miguel-gutierrez-maya-918461164/",
+        "profileUrl": "https://www.linkedin.com/in/miguel-gutierrez-maya-918461164/"
+      },
+      {
+        "label": "X",
+        "href": "https://x.com/MiguelA20878385",
+        "profileUrl": "https://x.com/MiguelA20878385"
+      },
+      {
+        "label": "Instagram",
+        "href": "https://www.instagram.com/gutierrezmayamiguel/",
+        "profileUrl": "https://www.instagram.com/gutierrezmayamiguel/"
+      }
+    ]
+  },
+  "navigation": [
+    {
+      "label": "Sobre mí",
+      "href": "#about"
+    },
+    {
+      "label": "Proyectos",
+      "href": "#work"
+    },
+    {
+      "label": "Experiencia",
+      "href": "#experience"
+    },
+    {
+      "label": "Contacto",
+      "href": "#contact"
+    }
+  ],
+  "sections": {
+    "capabilities": {
+      "eyebrow": "Lo que aporto",
+      "title": "Una visión de producto a lo largo de todo el stack.",
+      "description": "Conecto diseño de interacción, arquitectura de software y contexto de negocio para crear experiencias más fáciles de usar y mantener."
+    },
+    "projects": {
+      "eyebrow": "Trabajo destacado",
+      "title": "Productos creados para conversaciones, operaciones y decisiones cotidianas.",
+      "description": "Explora plataformas en producción y proyectos prácticos que abarcan frontend moderno, backend serverless e ingeniería móvil multiplataforma."
+    },
+    "experience": {
+      "eyebrow": "Experiencia",
+      "title": "Una carrera construida cerca de usuarios, equipos y producción.",
+      "description": "Desde operaciones de campo y flujos fintech hasta productos de comunicación con IA, cada rol fortaleció mi liderazgo técnico, visión de producto e impacto en producción."
+    },
+    "skills": {
+      "eyebrow": "Tecnología",
+      "title": "Las herramientas cambian. Los buenos principios de ingeniería permanecen.",
+      "description": "Un conjunto amplio de tecnologías aplicado con límites claros, rendimiento medible y prácticas de entrega mantenibles."
+    },
+    "contact": {
+      "eyebrow": "Construyamos",
+      "title": "¿Tienes un desafío de producto significativo?",
+      "description": "Cuéntame sobre el producto, el equipo y el resultado que buscas. Estoy abierto a oportunidades de tiempo completo y colaboraciones enfocadas."
+    }
+  },
+  "capabilities": [
+    {
+      "title": "Interfaces de producto",
+      "description": "Sistemas de diseño accesibles y experiencias responsivas con movimiento intencional.",
+      "keywords": ["React", "Vue", "Astro", "TypeScript"]
+    },
+    {
+      "title": "Servicios escalables",
+      "description": "APIs y servicios orientados a eventos, diseñados con límites de dominio claros y operaciones reales.",
+      "keywords": ["Node.js", "Python", "AWS", "Supabase"]
+    },
+    {
+      "title": "Productos móviles",
+      "description": "Flujos nativos y multiplataforma que convierten procesos complejos en experiencias móviles enfocadas.",
+      "keywords": ["React Native", "Expo", "Flutter", "Swift"]
+    }
+  ],
+  "contact": {
+    "emailPrompt": "¿Prefieres el correo?"
+  },
+  "footer": {
+    "tagline": "Ingeniería de productos digitales con claridad, curiosidad y cuidado.",
+    "legalLinks": [
+      {
+        "label": "Privacidad",
+        "href": "/es/privacy/"
+      },
+      {
+        "label": "Términos",
+        "href": "/es/terms/"
+      }
+    ]
+  },
+  "projects": [
+    {
+      "id": "assignar-beefalo",
+      "title": "Assignar Operations Platform",
+      "summary": "Plataforma de gestión de personal y operaciones de campo desarrollada sobre un cliente moderno en React y servicios REST y GraphQL con Python y Django.",
+      "category": "Frontend",
+      "technologies": ["React", "TypeScript", "Python", "Django", "GraphQL", "Apollo", "XState"],
+      "preview": {
+        "src": "/media/projects/assignar-beefalo.webp",
+        "alt": "Dashboard anonimizado de operaciones de Assignar con mapa de proyectos y actividad",
+        "width": 960,
+        "height": 599
+      },
+      "featured": true
+    },
+    {
+      "id": "assignar-pay-web",
+      "title": "Assignar Pay Web",
+      "summary": "Espacio SaaS multiempresa para formularios, programación y operaciones de campo, construido con patrones web server-first y acceso seguro a datos.",
+      "category": "Frontend",
+      "technologies": [
+        "Next.js",
+        "React",
+        "TypeScript",
+        "Supabase",
+        "PostgreSQL",
+        "Tailwind CSS",
+        "Trigger.dev"
+      ],
+      "preview": {
+        "src": "/media/projects/assignar-pay-web.webp",
+        "alt": "Interfaz anonimizada de gestión de formularios de Assignar Pay",
+        "width": 960,
+        "height": 602
+      },
+      "featured": true
+    },
+    {
+      "id": "assignar-core-api",
+      "title": "Assignar Core API",
+      "summary": "Servicios centrales serverless que exponen capacidades operativas mediante AWS Lambda, integraciones orientadas a eventos y acceso resiliente a datos.",
+      "category": "Backend",
+      "technologies": ["Node.js", "Serverless Framework", "AWS Lambda", "SQS", "DynamoDB", "MySQL"],
+      "preview": {
+        "src": "/media/projects/backend.webp",
+        "alt": "Vista previa de código de arquitectura de servicios backend",
+        "width": 805,
+        "height": 428,
+        "presentation": "generic"
+      },
+      "featured": true
+    },
+    {
+      "id": "assignar-db-manager",
+      "title": "Assignar DB Manager",
+      "summary": "Herramientas de migración versionada para evolucionar esquemas por tenant de forma segura, ejecutar actualizaciones repetibles y conservar el contexto de cada cambio.",
+      "category": "Backend",
+      "technologies": ["TypeScript", "Node.js", "MySQL", "AWS", "CI/CD"],
+      "preview": {
+        "src": "/media/projects/backend.webp",
+        "alt": "Vista previa de código de arquitectura de servicios backend",
+        "width": 805,
+        "height": 428,
+        "presentation": "generic"
+      }
+    },
+    {
+      "id": "assignar-pay-mobile",
+      "title": "Assignar Pay Mobile",
+      "summary": "Aplicación multiplataforma para envíos y flujos de campo con datos sin conexión, autenticación segura y módulos compartidos de producto.",
+      "category": "Mobile",
+      "technologies": ["React Native", "Expo", "TypeScript", "Supabase", "Tamagui", "SQLite"],
+      "preview": {
+        "src": "/media/projects/assignar-pay-mobile.webp",
+        "alt": "Dashboard móvil anonimizado de envíos de Assignar Pay",
+        "width": 960,
+        "height": 600
+      },
+      "featured": true
+    },
+    {
+      "id": "assignar-fieldworker",
+      "title": "Assignar Fieldworker",
+      "summary": "Aplicación de operaciones de campo que lleva asignaciones, formularios, hojas de tiempo, comprobantes y flujos de obra a equipos iOS y Android.",
+      "category": "Mobile",
+      "technologies": ["React", "Ionic", "Capacitor", "TypeScript", "GraphQL", "SQLite"],
+      "preview": {
+        "src": "/media/projects/assignar-fieldworker.webp",
+        "alt": "Pantalla móvil anonimizada de asignaciones de Assignar Fieldworker",
+        "width": 960,
+        "height": 600
+      },
+      "featured": true
+    },
+    {
+      "id": "keybe-v6",
+      "title": "Keybe V6",
+      "summary": "Espacio multicanal para conversaciones asistidas por IA, CRM, campañas y embudos de ventas.",
+      "category": "Frontend",
+      "technologies": ["Vue.js", "TypeScript", "Tailwind CSS", "SCSS"],
+      "preview": {
+        "src": "/media/projects/keybe-v6.webp",
+        "alt": "Interfaz del espacio de conversaciones de Keybe V6",
+        "width": 960,
+        "height": 780
+      },
+      "featured": true
+    },
+    {
+      "id": "biky",
+      "title": "Biky",
+      "summary": "Plataforma de configuración de asistentes de IA, sus capacidades, personalidad e identidad visual.",
+      "category": "Frontend",
+      "technologies": ["Vue.js", "TypeScript", "Tailwind CSS"],
+      "preview": {
+        "src": "/media/projects/biky.webp",
+        "alt": "Interfaz de configuración del asistente de IA Biky",
+        "width": 960,
+        "height": 509
+      },
+      "featured": true
+    },
+    {
+      "id": "keybe-flows",
+      "title": "Keybe Flows",
+      "summary": "Constructor visual de automatizaciones para flujos conversacionales e integraciones con terceros.",
+      "category": "Frontend",
+      "technologies": ["React", "TypeScript", "Tailwind CSS"],
+      "preview": {
+        "src": "/media/projects/keybe-flows.webp",
+        "alt": "Constructor visual de automatizaciones Keybe Flows",
+        "width": 960,
+        "height": 675
+      },
+      "featured": true
+    },
+    {
+      "id": "keybe-metrics",
+      "title": "Keybe Metrics",
+      "summary": "Analítica interactiva de ventas, leads y rendimiento de equipos para operaciones con clientes.",
+      "category": "Frontend",
+      "technologies": ["Vue.js", "TypeScript", "Data visualization"],
+      "preview": {
+        "src": "/media/projects/keybe-metrics.webp",
+        "alt": "Dashboard de analítica de Keybe Metrics",
+        "width": 960,
+        "height": 685
+      }
+    },
+    {
+      "id": "cosechapp",
+      "title": "4.0 Brands — Cosechapp",
+      "summary": "Experiencia de gestión de productos, pedidos e inventario diseñada para equipos agrícolas.",
+      "category": "Frontend",
+      "technologies": ["Vue.js", "JavaScript", "CSS"],
+      "preview": {
+        "src": "/media/projects/cosechapp.webp",
+        "alt": "Interfaz de gestión agrícola de Cosechapp",
+        "width": 960,
+        "height": 713
+      }
+    },
+    {
+      "id": "syncrasy",
+      "title": "Syncrasy Medcloud",
+      "summary": "Espacio de información médica enfocado en flujos operativos claros.",
+      "category": "Frontend",
+      "technologies": ["Angular", "TypeScript", "CSS"],
+      "preview": {
+        "src": "/media/projects/syncrasy.webp",
+        "alt": "Interfaz del espacio médico Syncrasy Medcloud",
+        "width": 960,
+        "height": 671
+      }
+    },
+    {
+      "id": "tip-top-web",
+      "title": "Tip Top English",
+      "summary": "Gestión de cursos, materiales, clases y reuniones para un servicio de aprendizaje de inglés.",
+      "category": "Frontend",
+      "technologies": ["React", "JavaScript", "CSS"],
+      "preview": {
+        "src": "/media/projects/tip-top-web.webp",
+        "alt": "Interfaz de la plataforma educativa Tip Top English",
+        "width": 960,
+        "height": 699
+      },
+      "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/tip-tip-front"
+    },
+    {
+      "id": "siellano-web",
+      "title": "Siellano",
+      "summary": "Interfaz para gestionar citas médicas, pacientes e historias clínicas.",
+      "category": "Frontend",
+      "technologies": ["React", "TypeScript", "CSS"],
+      "preview": {
+        "src": "/media/projects/siellano-web.webp",
+        "alt": "Interfaz de gestión médica Siellano",
+        "width": 960,
+        "height": 565
+      },
+      "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/medical-history-web"
+    },
+    {
+      "id": "node-auth",
+      "title": "Servicio de autenticación Node",
+      "summary": "Microservicio de autenticación y autorización creado como estudio de arquitectura hexagonal.",
+      "category": "Backend",
+      "technologies": ["Node.js", "Express", "MongoDB", "Docker"],
+      "preview": {
+        "src": "/media/projects/backend.webp",
+        "alt": "Vista previa de código de arquitectura de servicios backend",
+        "width": 805,
+        "height": 428,
+        "presentation": "generic"
+      },
+      "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/hex-architecture-node-js",
+      "featured": true
+    },
+    {
+      "id": "keybe-chat-services",
+      "title": "Keybe Chat Services",
+      "summary": "Servicios orientados a eventos para orquestar conversaciones en múltiples canales de atención.",
+      "category": "Backend",
+      "technologies": ["NestJS", "AWS Lambda", "SQS", "Redis", "MongoDB"],
+      "preview": {
+        "src": "/media/projects/backend.webp",
+        "alt": "Vista previa de código de arquitectura de servicios backend",
+        "width": 805,
+        "height": 428,
+        "presentation": "generic"
+      },
+      "featured": true
+    },
+    {
+      "id": "brands-services",
+      "title": "4.0 Brands Services",
+      "summary": "Monorepo para productos agrícolas, pedidos, productores y operaciones de inventario.",
+      "category": "Backend",
+      "technologies": ["PHP", "Laravel", "MySQL"],
+      "preview": {
+        "src": "/media/projects/backend.webp",
+        "alt": "Vista previa de código de arquitectura de servicios backend",
+        "width": 805,
+        "height": 428,
+        "presentation": "generic"
+      }
+    },
+    {
+      "id": "colegium-services",
+      "title": "Colegium Microservices",
+      "summary": "Servicios del dominio educativo para flujos de datos y firmas digitales.",
+      "category": "Backend",
+      "technologies": ["Node.js", "PostgreSQL", "RabbitMQ"],
+      "preview": {
+        "src": "/media/projects/backend.webp",
+        "alt": "Vista previa de código de arquitectura de servicios backend",
+        "width": 805,
+        "height": 428,
+        "presentation": "generic"
+      }
+    },
+    {
+      "id": "tip-top-api",
+      "title": "Tip Top English API",
+      "summary": "Backend para cursos, clases, materiales educativos y reuniones programadas.",
+      "category": "Backend",
+      "technologies": ["Python", "Django", "PostgreSQL", "Docker"],
+      "preview": {
+        "src": "/media/projects/backend.webp",
+        "alt": "Vista previa de código de arquitectura de servicios backend",
+        "width": 805,
+        "height": 428,
+        "presentation": "generic"
+      },
+      "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/tip-top-backend"
+    },
+    {
+      "id": "siellano-api",
+      "title": "Siellano Services",
+      "summary": "API del dominio clínico para citas, profesionales, pacientes e historias médicas.",
+      "category": "Backend",
+      "technologies": ["Python", "Django", "MongoDB", "Docker"],
+      "preview": {
+        "src": "/media/projects/backend.webp",
+        "alt": "Vista previa de código de arquitectura de servicios backend",
+        "width": 805,
+        "height": 428,
+        "presentation": "generic"
+      },
+      "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/medical-history-backend"
+    },
+    {
+      "id": "keybe-app",
+      "title": "Keybe App",
+      "summary": "Espacio móvil multiplataforma para conversaciones con clientes, CRM y eventos.",
+      "category": "Mobile",
+      "technologies": ["Flutter", "Dart", "Firebase"],
+      "preview": {
+        "src": "/media/projects/keybe-app.webp",
+        "alt": "Espacio móvil de conversaciones de Keybe",
+        "width": 540,
+        "height": 1170
+      },
+      "featured": true
+    },
+    {
+      "id": "biky-ai-native",
+      "title": "Biky AI Native",
+      "summary": "Espacio nativo para iOS y Android orientado a asesores de IA, con conversaciones en tiempo real, flujos de clientes offline-first, lógica de negocio compartida y experiencias propias de cada plataforma.",
+      "category": "Mobile",
+      "technologies": [
+        "Kotlin Multiplatform",
+        "Swift",
+        "SwiftUI",
+        "Kotlin",
+        "Jetpack Compose",
+        "Apollo GraphQL",
+        "SQLDelight"
+      ],
+      "preview": {
+        "src": "/media/projects/biky-ai-native.webp",
+        "alt": "Bandeja de conversaciones iOS anonimizada de Biky AI Native",
+        "width": 960,
+        "height": 600
+      },
+      "featured": true
+    },
+    {
+      "id": "platzi-tweets",
+      "title": "Platzi Tweets",
+      "summary": "Prototipo social nativo para iOS con publicaciones de texto, imágenes y ubicación.",
+      "category": "Mobile",
+      "technologies": ["Swift", "UIKit", "Firebase"],
+      "preview": {
+        "src": "/media/projects/platzi-tweets.webp",
+        "alt": "Interfaz nativa iOS de Platzi Tweets",
+        "width": 399,
+        "height": 853
+      },
+      "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/platzi-tweets"
+    },
+    {
+      "id": "expense-tracker",
+      "title": "Expense Tracker",
+      "summary": "Aplicación financiera en SwiftUI para registrar y comprender gastos personales.",
+      "category": "Mobile",
+      "technologies": ["Swift", "SwiftUI", "Firebase"],
+      "preview": {
+        "src": "/media/projects/expense-tracker.webp",
+        "alt": "Aplicación Expense Tracker desarrollada con SwiftUI",
+        "width": 960,
+        "height": 701
+      },
+      "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/ai-expense-tracker",
+      "featured": true
+    },
+    {
+      "id": "messager",
+      "title": "Messager",
+      "summary": "Estudio de mensajería nativa en tiempo real para iOS, enfocado en arquitectura UIKit.",
+      "category": "Mobile",
+      "technologies": ["Swift", "UIKit", "Firebase"],
+      "preview": {
+        "src": "/media/projects/messager.webp",
+        "alt": "Interfaz de chat nativa iOS de Messager",
+        "width": 960,
+        "height": 641
+      },
+      "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/Messager"
+    },
+    {
+      "id": "chat-app-ios",
+      "title": "Chat App",
+      "summary": "Aplicación de mensajería que explora patrones nativos de iOS e integración con Firebase.",
+      "category": "Mobile",
+      "technologies": ["Swift", "UIKit", "Firebase"],
+      "preview": {
+        "src": "/media/projects/chat-app-ios.webp",
+        "alt": "Interfaz de mensajería nativa iOS de Chat App",
+        "width": 960,
+        "height": 659
+      },
+      "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/ChatAppIOS"
+    },
+    {
+      "id": "make-it-so",
+      "title": "Make It So",
+      "summary": "Gestor de tareas limpio en SwiftUI respaldado por servicios de Firebase.",
+      "category": "Mobile",
+      "technologies": ["Swift", "SwiftUI", "Firebase"],
+      "preview": {
+        "src": "/media/projects/make-it-so.webp",
+        "alt": "Gestor de tareas Make It So en SwiftUI",
+        "width": 960,
+        "height": 704
+      },
+      "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/make-it-so"
+    },
+    {
+      "id": "netflix-ui",
+      "title": "Netflix UI",
+      "summary": "Estudio de movimiento e interfaz inspirado en experiencias de selección de perfiles.",
+      "category": "Mobile",
+      "technologies": ["Swift", "SwiftUI", "Motion"],
+      "preview": {
+        "src": "/media/projects/netflix-ui.webp",
+        "alt": "Estudio de movimiento Netflix UI en SwiftUI",
+        "width": 960,
+        "height": 662
+      },
+      "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/netflix-ui"
+    },
+    {
+      "id": "speech-transcribing",
+      "title": "Voz a texto",
+      "summary": "Prototipo de transcripción de voz para reuniones en iOS.",
+      "category": "Mobile",
+      "technologies": ["Swift", "SwiftUI", "Speech"],
+      "preview": {
+        "src": "/media/projects/speech-transcribing.webp",
+        "alt": "Interfaz iOS de transcripción de voz a texto",
+        "width": 960,
+        "height": 639
+      },
+      "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/specch-to-text-transcribing"
+    },
+    {
+      "id": "rick-and-morty",
+      "title": "Rick and Morty",
+      "summary": "Explorador nativo de episodios y personajes construido con arquitectura limpia.",
+      "category": "Mobile",
+      "technologies": ["Swift", "UIKit", "Clean Architecture"],
+      "preview": {
+        "src": "/media/projects/rick-and-morty.webp",
+        "alt": "Explorador nativo iOS de Rick and Morty",
+        "width": 960,
+        "height": 711
+      },
+      "repositoryUrl": "https://github.com/MiguelAngelGutierrezMaya/rick-and-morty"
+    }
+  ],
+  "experiences": [
+    {
+      "company": "Assignar",
+      "role": "Ingeniero de producto y Mobile · Desarrollador Fullstack",
+      "period": "Ago 2024 — Actualidad",
+      "startDate": "2024-08-01",
+      "endDate": null,
+      "summary": "Lidero capacidades de producto de extremo a extremo en web, backend y mobile: modernizo flujos de alto tráfico, fortalezco la calidad de los servicios y acelero la entrega con ingeniería asistida por IA, CI/CD y observabilidad en AWS.",
+      "website": "https://assignar.com/",
+      "logo": {
+        "src": "/media/companies/assignar.avif",
+        "alt": "Logo de la empresa Assignar",
+        "width": 256,
+        "height": 256
+      }
+    },
+    {
+      "company": "Keybe",
+      "role": "Desarrollador Fullstack y Mobile · Líder de frontend",
+      "period": "Sep 2021 — Jul 2024",
+      "startDate": "2021-09-13",
+      "endDate": "2024-07-03",
+      "summary": "Lideré un equipo frontend de cinco personas y ayudé a evolucionar productos de conversación con IA en tiempo real para web y Flutter, introduciendo límites hexagonales, frontends React modulares y mejoras medibles en Core Web Vitals.",
+      "website": "https://keybe.us/",
+      "logo": {
+        "src": "/media/companies/keybe.avif",
+        "alt": "Logo de la empresa Keybe",
+        "width": 361,
+        "height": 294
+      }
+    },
+    {
+      "company": "Colegium",
+      "role": "Desarrollador backend",
+      "period": "Ene 2021 — Sep 2021",
+      "startDate": "2021-01-01",
+      "endDate": "2021-09-12",
+      "summary": "Entregué microservicios orientados a eventos e integraciones en producción para una plataforma educativa utilizada por más de 500 colegios, mejorando la confiabilidad con flujos RabbitMQ y respuesta enfocada a incidentes.",
+      "website": "https://www.colegium.com/",
+      "logo": {
+        "src": "/media/companies/colegium.avif",
+        "alt": "Logo de la empresa Colegium",
+        "width": 156,
+        "height": 157
+      }
+    },
+    {
+      "company": "PCA Ingeniería",
+      "role": "Desarrollador Fullstack",
+      "period": "Jun 2019 — Dic 2020",
+      "startDate": "2019-06-18",
+      "endDate": "2020-12-31",
+      "summary": "Lideré de descubrimiento a despliegue más de ocho productos web y móviles a la medida, construyendo APIs REST y tableros operativos que redujeron a la mitad el tiempo dedicado al procesamiento de datos.",
+      "website": "https://pcaingenieria.com/site/",
+      "logo": {
+        "src": "/media/companies/pca-ingenieria.avif",
+        "alt": "Logo de la empresa PCA Ingeniería",
+        "width": 368,
+        "height": 139
+      }
+    },
+    {
+      "company": "Créalo Digital",
+      "role": "Desarrollador Fullstack",
+      "period": "Mar 2019 — Jun 2019",
+      "startDate": "2019-03-02",
+      "endDate": "2019-06-17",
+      "summary": "Convertí necesidades de clientes en aplicaciones listas para producción y apoyé su adopción mediante documentación, capacitación presencial y acompañamiento en la puesta en marcha.",
+      "website": "https://crealodigital.com/",
+      "logo": {
+        "src": "/media/companies/crealo-digital.avif",
+        "alt": "Logo de la empresa Créalo Digital",
+        "width": 182,
+        "height": 178
+      }
+    },
+    {
+      "company": "JetSet Viajes",
+      "role": "Desarrollador Fullstack",
+      "period": "Dic 2018 — Mar 2019",
+      "startDate": "2018-12-01",
+      "endDate": "2019-03-01",
+      "summary": "Amplié una plataforma de viajes en producción con módulos de reservas y operación, resolviendo defectos y convirtiendo retroalimentación del negocio en mejoras de usabilidad adoptadas.",
+      "logo": {
+        "src": "/media/companies/jetset-viajes.avif",
+        "alt": "Logo de la empresa JetSet Viajes",
+        "width": 453,
+        "height": 511
+      }
+    }
+  ],
+  "skillGroups": [
+    {
+      "title": "Interfaces de producto",
+      "description": "Productos accesibles y responsivos con movimiento intencional y sistemas de componentes resilientes.",
+      "skills": ["React", "Next.js", "Vue.js", "Angular", "Astro", "TypeScript", "Supabase"]
+    },
+    {
+      "title": "Servicios y cloud",
+      "description": "APIs mantenibles, sistemas orientados a eventos y decisiones pragmáticas de infraestructura.",
+      "skills": [
+        "Node.js",
+        "Python",
+        "Django",
+        "Serverless Framework",
+        "AWS",
+        "Docker",
+        "Supabase",
+        "PostgreSQL",
+        "MongoDB",
+        "MySQL"
+      ]
+    },
+    {
+      "title": "Experiencias móviles",
+      "description": "Productos móviles nativos y multiplataforma con flujos limpios y centrados en las personas.",
+      "skills": [
+        "React Native",
+        "Expo",
+        "Ionic",
+        "Capacitor",
+        "Flutter",
+        "Swift",
+        "SwiftUI",
+        "Kotlin"
+      ]
+    }
+  ]
+}

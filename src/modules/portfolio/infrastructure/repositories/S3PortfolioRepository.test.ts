@@ -4,6 +4,7 @@ import { GetObjectCommand, type S3Client } from '@aws-sdk/client-s3';
 import { describe, expect, it, vi } from 'vitest';
 
 import portfolioSource from '@/content/portfolio.json';
+import spanishPortfolioSource from '@/content/portfolio.es.json';
 
 import { S3PortfolioRepository } from './S3PortfolioRepository';
 
@@ -41,6 +42,42 @@ describe('S3PortfolioRepository', () => {
       Key: 'content/manifest.json',
     });
     expect(send.mock.calls[1]?.[0].input.Key).toBe('content/portfolio.json');
+  });
+
+  it('selects the requested localized descriptor from the release manifest', async () => {
+    const englishJson = JSON.stringify(portfolioSource);
+    const spanishJson = JSON.stringify(spanishPortfolioSource);
+    const send = vi
+      .fn()
+      .mockResolvedValueOnce({
+        Body: body(
+          JSON.stringify({
+            schemaVersion: 1,
+            content: {
+              portfolios: {
+                en: {
+                  key: 'content/portfolio.json',
+                  sha256: createHash('sha256').update(englishJson).digest('hex'),
+                },
+                es: {
+                  key: 'content/portfolio.es.json',
+                  sha256: createHash('sha256').update(spanishJson).digest('hex'),
+                },
+              },
+            },
+          })
+        ),
+      })
+      .mockResolvedValueOnce({ Body: body(spanishJson) });
+    const repository = new S3PortfolioRepository(
+      { bucket: 'private-content', region: 'us-east-2' },
+      { send } as unknown as Pick<S3Client, 'send'>
+    );
+
+    await expect(repository.getContent('es')).resolves.toMatchObject({
+      profile: { introduction: expect.stringContaining('Ingeniero de producto') },
+    });
+    expect(send.mock.calls[1]?.[0].input.Key).toBe('content/portfolio.es.json');
   });
 
   it('rejects content that does not match the release digest', async () => {

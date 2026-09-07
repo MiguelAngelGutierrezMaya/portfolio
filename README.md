@@ -32,6 +32,7 @@ src/
 │   │   ├── application/             # Ports and use cases
 │   │   └── infrastructure/          # Same-origin/Lambda adapters and UI organism
 │   ├── legal/                       # Legal content port, repository and template
+│   ├── i18n/                        # Locale domain, browser negotiation and typed UI copy
 │   ├── observability/               # Browser performance adapter
 │   └── portfolio/
 │       ├── domain/                  # Portfolio entities
@@ -46,8 +47,10 @@ tools/
 └── quality-compat/                  # Isolated Astro/ESLint compiler compatibility
 ```
 
-Astro renders the public portfolio on demand from private S3 content, while privacy and terms remain
-prerendered static HTML. The availability indicator is a small Server Island with an immediate
+Astro negotiates `/` from the browser `Accept-Language` header and redirects to the stable `/en/` or
+`/es/` SSR route. Both routes render localized editorial content on demand from private S3, while
+the English and Spanish privacy and terms pages remain prerendered static HTML. The availability
+indicator is a small Server Island with an immediate
 fallback; the critical profile and project content stays in the SSR response for SEO. React hydrates
 only the project filtering/search experience and the contact form when they approach the viewport.
 
@@ -73,7 +76,8 @@ Copy `.env.example` to `.env`. S3 and contact Lambda variables are optional loca
 variables, the runtime repository serves the bundled content snapshot; without the mailer function,
 the local contact endpoint fails closed without exposing infrastructure details.
 
-The complete managed content model lives in `src/content/portfolio.json`. In production, the SSR
+The managed English and Spanish content snapshots live in `src/content/portfolio.json` and
+`src/content/portfolio.es.json`. In production, the SSR
 repository reads the release manifest and JSON directly from private S3 through a least-privilege
 Amplify Compute role. It verifies SHA-256 and validates the document with Zod before rendering. A
 cached bundled snapshot remains available if S3 or KMS is temporarily unavailable. Production builds
@@ -118,9 +122,10 @@ Track enabled are never reported.
 
 ## Routes
 
-- `/` — SSR portfolio backed by private S3
-- `/privacy/` — prerendered privacy policy
-- `/terms/` — prerendered terms of use
+- `/` — browser-language negotiation with a non-cacheable redirect
+- `/en/` and `/es/` — localized SSR portfolios backed by private S3
+- `/privacy/`, `/terms/` — stable English legal routes retained for external integrations
+- `/es/privacy/`, `/es/terms/` — prerendered Spanish legal routes
 - `/robots.txt` and `/sitemap.xml` — crawl metadata
 - `/llms.txt` and `/llms-full.txt` — on-demand LLM-readable S3 context
 - `/media/projects/[filename]` — allowlisted, short-lived project preview redirect
