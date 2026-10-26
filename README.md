@@ -116,6 +116,10 @@ still depend on the compiler API removed from TypeScript 7, so `tools/quality-co
 TypeScript 6 runtime without downgrading the application compiler. Remove this compatibility
 workspace once those upstream tools publish native TypeScript 7 support.
 
+pnpm is pinned to 12.15.0 in both the package manifest and Amplify build. See the
+[October 2026 dependency review](docs/dependency-upgrade-2026-10.md) for upgrade
+details, compatibility exceptions, and the retained 24-hour release-age policy.
+
 The runtime records CLS, INP and LCP in `window.__PORTFOLIO_WEB_VITALS__`. Set
 `PUBLIC_WEB_VITALS_ENDPOINT` only when a telemetry collector is available; visitors with Do Not
 Track enabled are never reported.

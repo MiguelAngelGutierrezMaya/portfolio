@@ -1,6 +1,9 @@
 packages:
   - 'tools/*'
 
+# Retain pnpm 12's supply-chain cooling-off period in every environment.
+minimumReleaseAge: 1440
+
 allowBuilds:
   esbuild: true
 peerDependencyRules:
@@ -8,6 +11,8 @@ peerDependencyRules:
     # eslint-plugin-astro 3 requires both ESLint 10 and jsx-a11y 6.10.2.
     'eslint-plugin-jsx-a11y>eslint': '10'
 overrides:
+  # The current OpenTelemetry SDK used by Lighthouse requires API <1.10.0.
+  '@opentelemetry/api': 1.9.1
   # Keep Astro's WASM compiler and language tools on the same stable ABI.
   '@emnapi/core': 1.11.3
   '@emnapi/runtime': 1.11.3
