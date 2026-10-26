@@ -14,7 +14,8 @@ permissions:
 
 jobs:
   quality:
-    runs-on: ubuntu-latest
+    # Keep browser/performance checks stable across GitHub's ubuntu-latest migrations.
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
 
     steps:
