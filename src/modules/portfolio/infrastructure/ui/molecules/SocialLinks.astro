@@ -10,11 +10,9 @@ const { label, links } = Astro.props;
 ---
 
 <nav class="social-links" aria-label={label}>
-  {
-    links.map(link => (
-      <a href={link.href} target="_blank" rel="noreferrer">
-        {link.label} <span aria-hidden="true">↗</span>
-      </a>
-    ))
-  }
+  {links.map(link => (
+    <a href={link.href} target="_blank" rel="noreferrer">
+      {link.label} <span aria-hidden="true">↗</span>
+    </a>
+  ))}
 </nav>

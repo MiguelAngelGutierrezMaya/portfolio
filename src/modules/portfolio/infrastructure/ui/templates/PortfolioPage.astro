@@ -21,7 +21,9 @@ const { content, locale } = Astro.props;
 const copy = getUiCopy(locale);
 ---
 
-<a class="skip-link" href="#main-content">{copy.skipToContent}</a>
+<a class="skip-link" href="#main-content">
+  {copy.skipToContent}
+</a>
 <LiquidHeader profile={content.profile} navigation={content.navigation} {locale} {copy} />
 <ProfileContactDock profile={content.profile} {copy} />
 <main id="main-content" tabindex="-1">

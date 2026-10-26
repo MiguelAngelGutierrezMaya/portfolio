@@ -15,9 +15,16 @@ const { profile, copy } = Astro.props;
 ---
 
 <section id="about" class="hero section-shell" aria-labelledby="hero-title">
-  <div class="hero__ambient" aria-hidden="true"><span></span><span></span><span></span></div>
+  <div class="hero__ambient" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
   <div class="hero__copy">
-    <span class="eyebrow hero__eyebrow"><span aria-hidden="true"></span>{profile.location}</span>
+    <span class="eyebrow hero__eyebrow">
+      <span aria-hidden="true"></span>
+      {profile.location}
+    </span>
     <h1 id="hero-title">
       {profile.headline.lead}
       <span class="hero__accent">{profile.headline.accent}</span>
@@ -42,6 +49,8 @@ const { profile, copy } = Astro.props;
   </div>
 
   <div class="hero__metrics glass-panel reveal">
-    {profile.metrics.map(metric => <Metric value={metric.value} label={metric.label} />)}
+    {profile.metrics.map(metric => (
+      <Metric value={metric.value} label={metric.label} />
+    ))}
   </div>
 </section>

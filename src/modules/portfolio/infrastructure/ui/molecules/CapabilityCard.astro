@@ -17,6 +17,8 @@ const { index, title, description, keywords, capabilitiesLabel = 'capabilities' 
     <p>{description}</p>
   </div>
   <ul aria-label={`${title} ${capabilitiesLabel}`}>
-    {keywords.map(keyword => <li>{keyword}</li>)}
+    {keywords.map(keyword => (
+      <li>{keyword}</li>
+    ))}
   </ul>
 </article>

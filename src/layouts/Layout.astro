@@ -63,11 +63,9 @@ const alternateOpenGraphLocale = locale === 'es' ? 'en_US' : 'es_CO';
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
     <meta name="theme-color" content="#090b0f" />
     <meta name="color-scheme" content="dark" />
-    {
-      facebookVerification && (
-        <meta name="facebook-domain-verification" content={facebookVerification} />
-      )
-    }
+    {facebookVerification && (
+      <meta name="facebook-domain-verification" content={facebookVerification} />
+    )}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang="en" href={englishUrl} />

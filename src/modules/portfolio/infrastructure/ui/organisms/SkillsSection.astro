@@ -25,21 +25,17 @@ const marqueeSkills = skillGroups.flatMap(group => group.skills);
   </div>
   <div class="skills-marquee" aria-hidden="true">
     <div class="skills-marquee__track">
-      {
-        [...marqueeSkills, ...marqueeSkills].map(skill => (
-          <span>
-            {skill}
-            <i />
-          </span>
-        ))
-      }
+      {[...marqueeSkills, ...marqueeSkills].map(skill => (
+        <span>
+          {skill}
+          <i />
+        </span>
+      ))}
     </div>
   </div>
   <div class="skill-grid section-shell">
-    {
-      skillGroups.map(group => (
-        <SkillGroupCard group={group} technologiesLabel={copy.technologies} />
-      ))
-    }
+    {skillGroups.map(group => (
+      <SkillGroupCard group={group} technologiesLabel={copy.technologies} />
+    ))}
   </div>
 </section>

@@ -239,7 +239,7 @@ test('opens project imagery in an accessible detail dialog', async ({ page }) =>
   await page.getByRole('button', { name: 'Mobile', exact: true }).click();
 
   const trigger = page.getByRole('button', {
-    name: 'View Biky AI Native image in detail',
+    name: 'View larger: View Biky AI Native image in detail',
   });
   await trigger.scrollIntoViewIfNeeded();
   await trigger.click();
@@ -262,7 +262,7 @@ test('opens project imagery in an accessible detail dialog', async ({ page }) =>
   await expect(dialog).not.toBeVisible();
   await expect(trigger).toBeFocused();
   await expect(
-    page.getByRole('button', { name: 'View Assignar Core API image in detail' })
+    page.getByRole('button', { name: 'View larger: View Assignar Core API image in detail' })
   ).toHaveCount(0);
 });
 
@@ -314,6 +314,18 @@ for (const route of [
   test(`@a11y has no detectable accessibility violations on ${route}`, async ({ page }) => {
     await page.goto(route);
     await page.waitForLoadState('networkidle');
+
+    // Voice-control users must be able to activate links using their visible labels.
+    for (const [locale, name] of [
+      ['en', 'EN — English'],
+      ['es', 'ES — Español'],
+    ] as const) {
+      const languageLinks = page.locator(`.language-switcher a[lang="${locale}"]:visible`);
+      await expect(languageLinks.first()).toBeVisible();
+      for (const link of await languageLinks.all()) {
+        await expect(link).toHaveAccessibleName(name);
+      }
+    }
 
     const results = await new AxeBuilder({ page }).analyze();
     expect(results.violations).toEqual([]);

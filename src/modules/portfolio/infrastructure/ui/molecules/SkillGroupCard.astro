@@ -15,6 +15,8 @@ const { group, technologiesLabel = 'technologies' } = Astro.props;
     <p>{group.description}</p>
   </div>
   <ul aria-label={`${group.title} ${technologiesLabel}`}>
-    {group.skills.map(skill => <li>{skill}</li>)}
+    {group.skills.map(skill => (
+      <li>{skill}</li>
+    ))}
   </ul>
 </article>

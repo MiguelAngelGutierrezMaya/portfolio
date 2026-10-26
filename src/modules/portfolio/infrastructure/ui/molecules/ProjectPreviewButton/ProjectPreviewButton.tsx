@@ -24,7 +24,7 @@ const ProjectPreviewButton = ({
   <button
     type="button"
     className="project-preview-button project-card__preview-frame"
-    aria-label={ariaLabel}
+    aria-label={`${actionLabel}: ${ariaLabel}`}
     aria-haspopup="dialog"
     onClick={event => onOpen(event.currentTarget)}
   >

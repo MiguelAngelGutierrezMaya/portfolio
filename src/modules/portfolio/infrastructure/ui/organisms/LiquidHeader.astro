@@ -20,7 +20,9 @@ const { profile, navigation, locale, copy } = Astro.props;
   <div class="site-header__glass">
     <BrandMark profile={profile} homeHref={localizedRoutes[locale].home} />
     <nav class="desktop-nav" aria-label={copy.primaryNavigation}>
-      {navigation.map(link => <a href={link.href}>{link.label}</a>)}
+      {navigation.map(link => (
+        <a href={link.href}>{link.label}</a>
+      ))}
       <a
         class="desktop-nav__whatsapp"
         href={profile.whatsapp.href}
@@ -39,9 +41,14 @@ const { profile, navigation, locale, copy } = Astro.props;
       </a>
     </AvailabilityStatus>
     <details class="mobile-nav">
-      <summary aria-label={copy.openNavigation}><span></span><span></span></summary>
+      <summary aria-label={copy.openNavigation}>
+        <span></span>
+        <span></span>
+      </summary>
       <nav aria-label={copy.mobileNavigation}>
-        {navigation.map(link => <a href={link.href}>{link.label}</a>)}
+        {navigation.map(link => (
+          <a href={link.href}>{link.label}</a>
+        ))}
         <a href={profile.whatsapp.href} target="_blank" rel="noreferrer">
           {profile.whatsapp.label}
           <span aria-hidden="true">↗</span>
