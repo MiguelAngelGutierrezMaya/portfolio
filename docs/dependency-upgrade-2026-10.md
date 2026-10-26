@@ -1,7 +1,8 @@
 # Stable dependency refresh — 2026-10-26
 
-This update is based on the fixes in PR #23 (which includes PR #20). Merge those
-PRs first; this PR contains only the subsequent dependency refresh.
+This update builds on the fixes from PR #23 (which includes PR #20), now merged
+into `main`. The upgrade PR targets `main` and contains only the subsequent
+dependency refresh.
 
 ## Updated tooling and application dependencies
 
