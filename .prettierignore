@@ -6,3 +6,10 @@ dist
 .vscode
 public
 pnpm-lock.yaml
+coverage
+playwright-report
+test-results
+.lighthouseci
+.amplify-hosting
+.artifacts
+.aws-sam

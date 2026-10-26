@@ -24,7 +24,7 @@ const copy = getUiCopy(locale);
         lang={option}
         hreflang={option}
         aria-current={option === locale ? 'page' : undefined}
-        aria-label={getUiCopy(option).localeName}
+        aria-label={`${option.toUpperCase()} — ${getUiCopy(option).localeName}`}
       >
         {option.toUpperCase()}
       </a>

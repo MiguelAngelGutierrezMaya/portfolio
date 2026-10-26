@@ -62,6 +62,20 @@ afterEach(() => {
 });
 
 describe('ProjectExplorer', () => {
+  it.each(['en', 'es'] as const)(
+    'includes the visible preview action in its accessible name in %s',
+    locale => {
+      const localizedCopy = getUiCopy(locale).projectExplorer;
+      render(<ProjectExplorer projects={projects} copy={localizedCopy} />);
+
+      expect(
+        screen.getByRole('button', {
+          name: `${localizedCopy.viewLarger}: ${localizedCopy.viewImagePrefix} Mobile Product ${localizedCopy.viewImageSuffix}`,
+        })
+      ).toBeInTheDocument();
+    }
+  );
+
   it('filters projects by category', async () => {
     const user = userEvent.setup();
     render(<ProjectExplorer projects={projects} copy={copy} />);
@@ -113,7 +127,7 @@ describe('ProjectExplorer', () => {
     render(<ProjectExplorer projects={projects} copy={copy} />);
 
     const trigger = screen.getByRole('button', {
-      name: 'View Mobile Product image in detail',
+      name: 'View larger: View Mobile Product image in detail',
     });
     await user.click(trigger);
 
@@ -154,7 +168,9 @@ describe('ProjectExplorer', () => {
     });
     render(<ProjectExplorer projects={projects} copy={copy} />);
 
-    await user.click(screen.getByRole('button', { name: 'View Mobile Product image in detail' }));
+    await user.click(
+      screen.getByRole('button', { name: 'View larger: View Mobile Product image in detail' })
+    );
 
     expect(startViewTransition).toHaveBeenCalledOnce();
     expect(screen.getByRole('dialog', { name: 'Mobile Product' })).toHaveAttribute(
@@ -183,7 +199,7 @@ describe('ProjectExplorer', () => {
     render(<ProjectExplorer projects={projects} copy={copy} />);
 
     expect(
-      screen.queryByRole('button', { name: 'View Backend Service image in detail' })
+      screen.queryByRole('button', { name: 'View larger: View Backend Service image in detail' })
     ).not.toBeInTheDocument();
     expect(screen.getByRole('img', { name: 'Generic backend architecture preview' })).toBeVisible();
   });
