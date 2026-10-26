@@ -22,7 +22,9 @@ const portfolioContent = await GetPortfolioContent.execute(
 );
 ---
 
-<a class="skip-link" href="#legal-content">{copy.skipToContent}</a>
+<a class="skip-link" href="#legal-content">
+  {copy.skipToContent}
+</a>
 <header class="legal-header section-shell">
   <BrandMark
     profile={portfolioContent.profile}
@@ -31,39 +33,44 @@ const portfolioContent = await GetPortfolioContent.execute(
   />
   <div class="legal-header__actions">
     <LanguageSwitcher {locale} {page} />
-    <a href={localizedRoutes[locale].home}>{copy.legal.back} <span aria-hidden="true">↗</span></a>
+    <a href={localizedRoutes[locale].home}>
+      {copy.legal.back} <span aria-hidden="true">↗</span>
+    </a>
   </div>
 </header>
 
 <main id="legal-content" class="legal-page section-shell" tabindex="-1">
   <header class="legal-hero">
-    <span class="eyebrow"><span aria-hidden="true"></span>{copy.legal.eyebrow}</span>
+    <span class="eyebrow">
+      <span aria-hidden="true"></span>
+      {copy.legal.eyebrow}
+    </span>
     <h1>{document.title}</h1>
     <p>{document.introduction}</p>
-    <time datetime="2026-08-21">{copy.legal.lastUpdated} {document.lastUpdated}</time>
+    <time datetime="2026-08-21">
+      {copy.legal.lastUpdated} {document.lastUpdated}
+    </time>
   </header>
 
   <div class="legal-sections">
-    {
-      document.sections.map((section, index) => (
-        <section class="legal-section reveal">
-          <span>{String(index + 1).padStart(2, '0')}</span>
-          <div>
-            <h2>{section.title}</h2>
-            {section.paragraphs.map(paragraph => (
-              <p>{paragraph}</p>
-            ))}
-            {section.items && (
-              <ul>
-                {section.items.map(item => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </section>
-      ))
-    }
+    {document.sections.map((section, index) => (
+      <section class="legal-section reveal">
+        <span>{String(index + 1).padStart(2, '0')}</span>
+        <div>
+          <h2>{section.title}</h2>
+          {section.paragraphs.map(paragraph => (
+            <p>{paragraph}</p>
+          ))}
+          {section.items && (
+            <ul>
+              {section.items.map(item => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </section>
+    ))}
   </div>
 </main>
 <SiteFooter

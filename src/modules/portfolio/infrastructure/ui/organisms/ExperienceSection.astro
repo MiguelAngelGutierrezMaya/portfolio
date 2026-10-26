@@ -19,10 +19,8 @@ const { experiences, heading } = Astro.props;
     description={heading.description}
   />
   <div class="experience-list">
-    {
-      experiences.map((experience, index) => (
-        <ExperienceItem experience={experience} index={index} />
-      ))
-    }
+    {experiences.map((experience, index) => (
+      <ExperienceItem experience={experience} index={index} />
+    ))}
   </div>
 </section>

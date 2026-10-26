@@ -28,12 +28,10 @@ const { profile, compact = false, homeHref = '/', homeLabel = 'home' } = Astro.p
       decoding="async"
     />
   </span>
-  {
-    !compact && (
-      <span class="brand__copy">
-        <strong>{profile.name}</strong>
-        <small>{profile.jobTitle}</small>
-      </span>
-    )
-  }
+  {!compact && (
+    <span class="brand__copy">
+      <strong>{profile.name}</strong>
+      <small>{profile.jobTitle}</small>
+    </span>
+  )}
 </a>

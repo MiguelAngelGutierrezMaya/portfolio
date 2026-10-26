@@ -21,16 +21,14 @@ const { heading, capabilities, copy } = Astro.props;
     description={heading.description}
   />
   <div class="capability-grid">
-    {
-      capabilities.map((capability, index) => (
-        <CapabilityCard
-          index={String(index + 1).padStart(2, '0')}
-          title={capability.title}
-          description={capability.description}
-          keywords={capability.keywords}
-          capabilitiesLabel={copy.capabilities}
-        />
-      ))
-    }
+    {capabilities.map((capability, index) => (
+      <CapabilityCard
+        index={String(index + 1).padStart(2, '0')}
+        title={capability.title}
+        description={capability.description}
+        keywords={capability.keywords}
+        capabilitiesLabel={copy.capabilities}
+      />
+    ))}
   </div>
 </section>

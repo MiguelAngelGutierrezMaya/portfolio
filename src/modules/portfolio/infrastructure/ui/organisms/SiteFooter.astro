@@ -29,9 +29,13 @@ const { profile, footer, locale, copy, page = 'home' } = Astro.props;
     <SocialLinks label={copy.footerSocialProfiles} links={profile.socialLinks} />
   </div>
   <div class="site-footer__bottom">
-    <span>© {new Date().getFullYear()} {profile.name}</span>
+    <span>
+      © {new Date().getFullYear()} {profile.name}
+    </span>
     <nav aria-label={copy.legalNavigation}>
-      {footer.legalLinks.map(link => <a href={link.href}>{link.label}</a>)}
+      {footer.legalLinks.map(link => (
+        <a href={link.href}>{link.label}</a>
+      ))}
     </nav>
     <LanguageSwitcher {locale} {page} />
   </div>

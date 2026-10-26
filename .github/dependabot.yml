@@ -5,6 +5,11 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    # Review compiler major upgrades manually while quality-compat requires TS 6.
+    # Minor and patch updates (including the application's TS 7 line) remain enabled.
+    ignore:
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
     groups:
       production-dependencies:
         dependency-type: production

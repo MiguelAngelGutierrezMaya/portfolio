@@ -10,7 +10,9 @@ const { copy } = Astro.props;
 
 <figure class="product-system glass-panel" aria-labelledby="product-system-caption">
   <div class="product-system__topbar" aria-hidden="true">
-    <span></span><span></span><span></span>
+    <span></span>
+    <span></span>
+    <span></span>
     <strong>migudev / production</strong>
     <small>{copy.status}</small>
   </div>
@@ -31,16 +33,24 @@ const { copy } = Astro.props;
       <small>{copy.coreValue}</small>
     </div>
     <div class="product-system__node product-system__node--web">
-      <span>02</span><strong>Web</strong><small>{copy.interfaces}</small>
+      <span>02</span>
+      <strong>Web</strong>
+      <small>{copy.interfaces}</small>
     </div>
     <div class="product-system__node product-system__node--api">
-      <span>03</span><strong>APIs</strong><small>{copy.services}</small>
+      <span>03</span>
+      <strong>APIs</strong>
+      <small>{copy.services}</small>
     </div>
     <div class="product-system__node product-system__node--cloud">
-      <span>04</span><strong>Cloud</strong><small>{copy.delivery}</small>
+      <span>04</span>
+      <strong>Cloud</strong>
+      <small>{copy.delivery}</small>
     </div>
     <div class="product-system__node product-system__node--mobile">
-      <span>05</span><strong>Mobile</strong><small>{copy.nativeFlows}</small>
+      <span>05</span>
+      <strong>Mobile</strong>
+      <small>{copy.nativeFlows}</small>
     </div>
   </div>
 
