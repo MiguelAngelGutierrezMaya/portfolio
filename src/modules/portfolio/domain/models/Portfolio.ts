@@ -7,6 +7,8 @@ export interface Link {
 
 export interface SocialLink extends Link {
   readonly profileUrl: string;
+  readonly emoji?: string;
+  readonly description?: string;
 }
 
 export interface SectionCopy {

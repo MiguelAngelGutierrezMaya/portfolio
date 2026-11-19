@@ -42,6 +42,39 @@ test('negotiates the browser language and keeps explicit locale URLs stable', as
   );
 });
 
+for (const [locale, mediumName] of [
+  ['en', 'Medium Science & tech'],
+  ['es', 'Medium Ciencia y tecnología'],
+] as const) {
+  test(`presents writing and profiles in ${locale} on the home and footer`, async ({ page }) => {
+    await page.goto(`/${locale}/`);
+    for (const nav of [
+      page.locator('#about .social-links'),
+      page.locator('footer .social-links'),
+    ]) {
+      const links = nav.getByRole('link');
+      await expect(links).toHaveCount(5);
+      const medium = links.first();
+      await expect(medium).toHaveAccessibleName(mediumName);
+      await expect(medium).toHaveAttribute('href', 'https://medium.com/@gutierrezmayamiguelangel');
+      await expect(nav.locator('.social-links__emoji[aria-hidden="true"]')).toHaveCount(5);
+      await medium.focus();
+      await page.keyboard.press('Tab');
+      await expect(nav.getByRole('link', { name: /GitHub/ })).toBeFocused();
+      expect(
+        await links.evaluateAll(items =>
+          items.every(item => {
+            const rect = item.getBoundingClientRect();
+            return (
+              rect.height >= 48 && rect.width >= 48 && rect.left >= 0 && rect.right <= innerWidth
+            );
+          })
+        )
+      ).toBe(true);
+    }
+  });
+}
+
 test('renders the complete portfolio and supports project discovery', async ({ page }) => {
   await page.goto('/');
 

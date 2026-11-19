@@ -49,22 +49,37 @@
     ],
     "socialLinks": [
       {
+        "label": "Medium",
+        "emoji": "✍️",
+        "description": "Ciencia y tecnología",
+        "href": "https://medium.com/@gutierrezmayamiguelangel",
+        "profileUrl": "https://medium.com/@gutierrezmayamiguelangel"
+      },
+      {
         "label": "GitHub",
+        "emoji": "💻",
+        "description": "Código fuente",
         "href": "https://github.com/MiguelAngelGutierrezMaya",
         "profileUrl": "https://github.com/MiguelAngelGutierrezMaya"
       },
       {
         "label": "LinkedIn",
+        "emoji": "💼",
+        "description": "Trayectoria",
         "href": "https://www.linkedin.com/in/miguel-gutierrez-maya-918461164/",
         "profileUrl": "https://www.linkedin.com/in/miguel-gutierrez-maya-918461164/"
       },
       {
         "label": "X",
+        "emoji": "💬",
+        "description": "Notas breves",
         "href": "https://x.com/MiguelA20878385",
         "profileUrl": "https://x.com/MiguelA20878385"
       },
       {
         "label": "Instagram",
+        "emoji": "📷",
+        "description": "Fotografía",
         "href": "https://www.instagram.com/gutierrezmayamiguel/",
         "profileUrl": "https://www.instagram.com/gutierrezmayamiguel/"
       }

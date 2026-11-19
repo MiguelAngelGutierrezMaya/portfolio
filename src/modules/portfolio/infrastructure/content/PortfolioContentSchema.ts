@@ -10,6 +10,8 @@ const linkSchema = z.object({
 const socialLinkSchema = linkSchema.extend({
   href: z.url(),
   profileUrl: z.url(),
+  emoji: z.string().min(1).max(16).optional(),
+  description: z.string().min(1).max(80).optional(),
 });
 
 const whatsappLinkSchema = z.object({
