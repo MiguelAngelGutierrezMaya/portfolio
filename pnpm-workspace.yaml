@@ -17,7 +17,7 @@ overrides:
   '@emnapi/core': 1.11.3
   '@emnapi/runtime': 1.11.3
   # Security floors for transitive packages retained by upstream lockfile ranges.
-  'basic-ftp@<6.2.1': 6.2.1
+  'basic-ftp@<6.2.4': 6.2.4
   'body-parser@<1.20.9': 1.20.9
   'compression@<1.8.2': 1.8.2
   'devalue@>=5.0.0 <5.9.3': 5.9.3
@@ -40,6 +40,7 @@ overrides:
   'flatted@<3.4.2': 3.4.2
   'lighthouse@12.6.1': 13.5.0
   'minimatch@>=3.0.0 <3.1.4': 3.1.4
+  'minimatch@>=10.0.0 <11.0.1': 11.0.1
   'mdast-util-to-hast@>=13.0.0 <13.2.1': 13.2.1
   'nanoid@<3.3.18': 3.3.18
   'picomatch@<2.3.2': 2.3.2

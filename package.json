@@ -50,7 +50,7 @@
     "@aws-sdk/client-s3": "^3.1156.0",
     "@aws-sdk/client-sesv2": "^3.1156.0",
     "@aws-sdk/s3-request-presigner": "^3.1156.0",
-    "astro": "^7.4.2",
+    "astro": "~7.4.7",
     "astro-aws-amplify": "^0.6.0",
     "framer-motion": "^14.6.0",
     "react": "^19.3.1",
