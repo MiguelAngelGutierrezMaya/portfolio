@@ -6,6 +6,7 @@ import type { ProjectExplorerCopy } from '@i18n/infrastructure/uiCopy';
 import type { Project, ProjectCategory } from '@portfolio/domain/models/Portfolio';
 import { createManagedMediaDeliveryPath } from '@portfolio/infrastructure/media/managedMediaPath';
 import ProjectPreviewButton from '@portfolio/infrastructure/ui/molecules/ProjectPreviewButton/ProjectPreviewButton';
+import ProjectLinks from '@portfolio/infrastructure/ui/molecules/ProjectLinks';
 import ProjectPreviewDialog from '@portfolio/infrastructure/ui/organisms/ProjectPreviewDialog/ProjectPreviewDialog';
 
 import './ProjectExplorer.css';
@@ -220,19 +221,18 @@ const ProjectExplorer = ({ projects, copy }: ProjectExplorerProps) => {
                 </div>
 
                 <div className="project-card__footer">
-                  <ul aria-label={`${project.title} ${copy.technologies}`}>
-                    {project.technologies.slice(0, 4).map(technology => (
-                      <li key={technology}>{technology}</li>
-                    ))}
-                  </ul>
-                  {project.repositoryUrl ? (
-                    <a href={project.repositoryUrl} target="_blank" rel="noreferrer">
-                      <span className="sr-only">{project.title}: </span>
-                      {copy.viewRepository} <span aria-hidden="true">↗</span>
-                    </a>
-                  ) : (
-                    <span className="project-card__private">{copy.privateProduct}</span>
+                  {project.technologies.length > 0 && (
+                    <ul aria-label={`${project.title} ${copy.technologies}`}>
+                      {project.technologies.slice(0, 4).map(technology => (
+                        <li key={technology}>{technology}</li>
+                      ))}
+                    </ul>
                   )}
+                  <ProjectLinks
+                    project={project}
+                    copy={copy}
+                    privateClassName="project-card__private"
+                  />
                 </div>
               </m.article>
             ))}

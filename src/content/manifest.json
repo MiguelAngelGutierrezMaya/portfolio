@@ -3,16 +3,16 @@
   "content": {
     "portfolio": {
       "key": "content/portfolio.json",
-      "sha256": "686c675f3247001e01894d0dab51b8469434bd1a7f181a429b1c67c1310a3fb2"
+      "sha256": "bb17e57afc565dd28589c608bf1fa5b22331c63337864fd4697ce631aeec0e83"
     },
     "portfolios": {
       "en": {
         "key": "content/portfolio.json",
-        "sha256": "686c675f3247001e01894d0dab51b8469434bd1a7f181a429b1c67c1310a3fb2"
+        "sha256": "bb17e57afc565dd28589c608bf1fa5b22331c63337864fd4697ce631aeec0e83"
       },
       "es": {
         "key": "content/portfolio.es.json",
-        "sha256": "33b8fa92f610d516281c2458f0c58a1abf221fdaa237b34ce519d03e884d8754"
+        "sha256": "96af8e77065d1437c60ecd8fe05077c2230d3301f06a4dc1b3465587039fa86f"
       }
     }
   },
@@ -59,6 +59,16 @@
     }
   ],
   "projectPreviews": [
+    {
+      "filename": "financial-management.webp",
+      "key": "media/projects/financial-management.webp",
+      "sha256": "341b175a9221903be48d8487e9b865684d7d6b3787a7f97c8b25f19061967ac0"
+    },
+    {
+      "filename": "yenuba.webp",
+      "key": "media/projects/yenuba.webp",
+      "sha256": "517eb32050da75e6ce381dc86240d808d350e69c4432fde6404465cd0c25517f"
+    },
     {
       "filename": "assignar-beefalo.webp",
       "key": "media/projects/assignar-beefalo.webp",

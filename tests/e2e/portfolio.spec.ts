@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
+import { fileURLToPath } from 'node:url';
 
 test.beforeEach(async ({ page }) => {
   await page.route(/\/media\/(companies|projects)\//, route =>
@@ -57,7 +58,22 @@ for (const [locale, mediumName] of [
       const medium = links.first();
       await expect(medium).toHaveAccessibleName(mediumName);
       await expect(medium).toHaveAttribute('href', 'https://medium.com/@gutierrezmayamiguelangel');
-      await expect(nav.locator('.social-links__emoji[aria-hidden="true"]')).toHaveCount(5);
+      const logos = nav.locator('svg[aria-hidden="true"] use');
+      await expect(logos).toHaveCount(5);
+      for (const [index, brand] of [
+        'medium',
+        'github',
+        'linkedin',
+        'x-twitter',
+        'instagram',
+      ].entries()) {
+        await expect(logos.nth(index)).toHaveAttribute('href', new RegExp(`^/[^#]+#${brand}$`));
+        await expect
+          .poll(() =>
+            logos.nth(index).evaluate(icon => (icon as SVGGraphicsElement).getBBox().width)
+          )
+          .toBeGreaterThan(0);
+      }
       await medium.focus();
       await page.keyboard.press('Tab');
       await expect(nav.getByRole('link', { name: /GitHub/ })).toBeFocused();
@@ -71,6 +87,51 @@ for (const [locale, mediumName] of [
           })
         )
       ).toBe(true);
+    }
+  });
+}
+
+for (const [locale, website, repository] of [
+  ['en', 'Visit website', 'View repository'],
+  ['es', 'Visitar sitio web', 'Ver repositorio'],
+] as const) {
+  test(`shows public project links and private imagery in ${locale}`, async ({ page }) => {
+    for (const slug of ['financial-management', 'yenuba']) {
+      const path = fileURLToPath(
+        new URL(`../../src/content/media/projects/${slug}.webp`, import.meta.url)
+      );
+      await page.route(new RegExp(`/media/projects/${slug}/?$`), route =>
+        route.fulfill({ path, contentType: 'image/webp' })
+      );
+    }
+    await page.goto(`/${locale}/`);
+    const explorer = page.locator('astro-island[component-url*="ProjectExplorer"]');
+    await explorer.scrollIntoViewIfNeeded();
+    await expect(explorer).not.toHaveAttribute('ssr', '');
+    const finance = page
+      .getByRole('article')
+      .filter({ has: page.getByRole('heading', { name: 'Financial Management' }) });
+    await expect(
+      finance.getByRole('link', { name: `Financial Management: ${website}` })
+    ).toHaveAttribute('href', 'https://financial-management.migudev.com/landing');
+    await expect(
+      finance.getByRole('link', { name: `Financial Management: ${repository}` })
+    ).toHaveAttribute('href', 'https://github.com/migu-developer/financial-management');
+    const yenuba = page
+      .getByRole('article')
+      .filter({ has: page.getByRole('heading', { name: 'Yenuba' }) });
+    await expect(yenuba.getByRole('link')).toHaveCount(0);
+    await expect(yenuba.getByRole('list')).toHaveCount(0);
+    for (const [title, card] of [
+      ['Financial Management', finance],
+      ['Yenuba', yenuba],
+    ] as const) {
+      await card.getByRole('button').click();
+      const dialog = page.getByRole('dialog', { name: title });
+      await expect(dialog.getByRole('img')).toHaveJSProperty('naturalWidth', 1080);
+      await expect(dialog.getByRole('link')).toHaveCount(title === 'Yenuba' ? 0 : 2);
+      await page.keyboard.press('Escape');
+      await expect(dialog).not.toBeVisible();
     }
   });
 }
@@ -89,7 +150,7 @@ test('renders the complete portfolio and supports project discovery', async ({ p
   await projectIsland.scrollIntoViewIfNeeded();
   await expect(projectIsland).not.toHaveAttribute('ssr', '');
   await page.getByRole('button', { name: 'Mobile', exact: true }).click();
-  await expect(page.getByText('Showing 12 of 30 projects')).toBeVisible();
+  await expect(page.getByText('Showing 12 of 32 projects')).toBeVisible();
 
   await page.getByRole('searchbox').fill('React Native');
   await expect(page.getByRole('heading', { name: 'Assignar Pay Mobile' })).toBeVisible();

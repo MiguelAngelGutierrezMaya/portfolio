@@ -1,0 +1,31 @@
+---
+import sprite from '@/assets/social-platforms.svg?url&no-inline';
+
+interface Props {
+  href: string;
+}
+
+// Use the profile host, not localized copy or a URL supplied as an icon.
+const platforms = new Map([
+  ['medium.com', 'medium'],
+  ['github.com', 'github'],
+  ['linkedin.com', 'linkedin'],
+  ['x.com', 'x-twitter'],
+  ['instagram.com', 'instagram'],
+]);
+const hostname = new URL(Astro.props.href).hostname.replace(/^www\./, '');
+const platform = platforms.get(hostname);
+---
+
+{platform && (
+  <svg
+    class="social-links__logo"
+    width="22"
+    height="22"
+    fill="currentColor"
+    aria-hidden="true"
+    focusable="false"
+  >
+    <use href={`${sprite}#${platform}`} width="22" height="22" />
+  </svg>
+)}

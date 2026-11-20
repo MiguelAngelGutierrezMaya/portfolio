@@ -10,7 +10,6 @@ const linkSchema = z.object({
 const socialLinkSchema = linkSchema.extend({
   href: z.url(),
   profileUrl: z.url(),
-  emoji: z.string().min(1).max(16).optional(),
   description: z.string().min(1).max(80).optional(),
 });
 
@@ -72,8 +71,9 @@ const projectSchema = z.object({
   title: z.string().min(1),
   summary: z.string().min(20),
   category: z.enum(['Frontend', 'Backend', 'Mobile']),
-  technologies: z.array(z.string().min(1)).min(1),
+  technologies: z.array(z.string().min(1)),
   repositoryUrl: z.url().optional(),
+  websiteUrl: z.url({ protocol: /^https$/ }).optional(),
   preview: projectPreviewSchema.optional(),
   featured: z.boolean().optional(),
 });

@@ -237,6 +237,13 @@
   line-height: 1.65;
 }
 
+.project-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+
 .project-card__footer {
   display: grid;
   gap: 1rem;

@@ -36,6 +36,7 @@ export interface ProjectExplorerCopy {
   readonly projects: string;
   readonly selectedWork: string;
   readonly viewRepository: string;
+  readonly visitWebsite: string;
   readonly privateProduct: string;
   readonly showAll: string;
   readonly noMatchTitle: string;
@@ -166,6 +167,7 @@ const copies: Record<Locale, PortfolioUiCopy> = {
       projects: 'projects',
       selectedWork: 'Selected work',
       viewRepository: 'View repository',
+      visitWebsite: 'Visit website',
       privateProduct: 'Private product',
       showAll: 'Show all',
       noMatchTitle: 'No matching project',
@@ -259,6 +261,7 @@ const copies: Record<Locale, PortfolioUiCopy> = {
       projects: 'proyectos',
       selectedWork: 'Trabajo destacado',
       viewRepository: 'Ver repositorio',
+      visitWebsite: 'Visitar sitio web',
       privateProduct: 'Producto privado',
       showAll: 'Ver los',
       noMatchTitle: 'No hay proyectos coincidentes',

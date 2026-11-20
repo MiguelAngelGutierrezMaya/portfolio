@@ -24,7 +24,7 @@
       "label": "Product engineer"
     },
     "metrics": [
-      { "value": "30", "label": "Products & learning projects" },
+      { "value": "32", "label": "Products & learning projects" },
       { "value": "15+", "label": "Technologies across the stack" },
       { "value": "7", "label": "Years delivering software" },
       { "value": "B2", "label": "Professional English" }
@@ -32,35 +32,30 @@
     "socialLinks": [
       {
         "label": "Medium",
-        "emoji": "✍️",
         "description": "Science & tech",
         "href": "https://medium.com/@gutierrezmayamiguelangel",
         "profileUrl": "https://medium.com/@gutierrezmayamiguelangel"
       },
       {
         "label": "GitHub",
-        "emoji": "💻",
         "description": "Source code",
         "href": "https://github.com/MiguelAngelGutierrezMaya",
         "profileUrl": "https://github.com/MiguelAngelGutierrezMaya"
       },
       {
         "label": "LinkedIn",
-        "emoji": "💼",
         "description": "Career",
         "href": "https://www.linkedin.com/in/miguel-gutierrez-maya-918461164/",
         "profileUrl": "https://www.linkedin.com/in/miguel-gutierrez-maya-918461164/"
       },
       {
         "label": "X",
-        "emoji": "💬",
         "description": "Short posts",
         "href": "https://x.com/MiguelA20878385",
         "profileUrl": "https://x.com/MiguelA20878385"
       },
       {
         "label": "Instagram",
-        "emoji": "📷",
         "description": "Photos",
         "href": "https://www.instagram.com/gutierrezmayamiguel/",
         "profileUrl": "https://www.instagram.com/gutierrezmayamiguel/"
@@ -126,6 +121,35 @@
     ]
   },
   "projects": [
+    {
+      "id": "financial-management",
+      "title": "Financial Management",
+      "summary": "Track income and expenses across currencies on web and mobile, then compare periods to see what changed. A conversational assistant turns a plain-language expense into a draft you review before it reaches your ledger.",
+      "category": "Frontend",
+      "technologies": ["React Native", "Expo", "AWS Lambda", "PostgreSQL", "Amazon Bedrock"],
+      "websiteUrl": "https://financial-management.migudev.com/landing",
+      "repositoryUrl": "https://github.com/migu-developer/financial-management",
+      "preview": {
+        "src": "/media/projects/financial-management.webp",
+        "alt": "Illustrative monthly finance dashboard comparing income, expenses and daily trends",
+        "width": 1080,
+        "height": 587
+      },
+      "featured": true
+    },
+    {
+      "id": "yenuba",
+      "title": "Yenuba",
+      "summary": "A workspace for business owners who manage more than one company. Switch between companies, invite teammates, decide who can see or change each company’s data, and manage its subscription without mixing teams or records.",
+      "category": "Frontend",
+      "technologies": [],
+      "preview": {
+        "src": "/media/projects/yenuba.webp",
+        "alt": "Anonymized Yenuba workspace with company navigation and an empty business overview",
+        "width": 1080,
+        "height": 642
+      }
+    },
     {
       "id": "assignar-beefalo",
       "title": "Assignar Operations Platform",

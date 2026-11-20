@@ -31,7 +31,7 @@
     },
     "metrics": [
       {
-        "value": "30",
+        "value": "32",
         "label": "Productos y proyectos de aprendizaje"
       },
       {
@@ -50,35 +50,30 @@
     "socialLinks": [
       {
         "label": "Medium",
-        "emoji": "✍️",
         "description": "Ciencia y tecnología",
         "href": "https://medium.com/@gutierrezmayamiguelangel",
         "profileUrl": "https://medium.com/@gutierrezmayamiguelangel"
       },
       {
         "label": "GitHub",
-        "emoji": "💻",
         "description": "Código fuente",
         "href": "https://github.com/MiguelAngelGutierrezMaya",
         "profileUrl": "https://github.com/MiguelAngelGutierrezMaya"
       },
       {
         "label": "LinkedIn",
-        "emoji": "💼",
         "description": "Trayectoria",
         "href": "https://www.linkedin.com/in/miguel-gutierrez-maya-918461164/",
         "profileUrl": "https://www.linkedin.com/in/miguel-gutierrez-maya-918461164/"
       },
       {
         "label": "X",
-        "emoji": "💬",
         "description": "Notas breves",
         "href": "https://x.com/MiguelA20878385",
         "profileUrl": "https://x.com/MiguelA20878385"
       },
       {
         "label": "Instagram",
-        "emoji": "📷",
         "description": "Fotografía",
         "href": "https://www.instagram.com/gutierrezmayamiguel/",
         "profileUrl": "https://www.instagram.com/gutierrezmayamiguel/"
@@ -164,6 +159,35 @@
     ]
   },
   "projects": [
+    {
+      "id": "financial-management",
+      "title": "Financial Management",
+      "summary": "Registra ingresos y gastos en distintas monedas desde la web o el móvil y compara periodos para entender cómo cambia tu saldo. Un asistente convierte un gasto escrito en lenguaje natural en un borrador que revisas antes de guardarlo.",
+      "category": "Frontend",
+      "technologies": ["React Native", "Expo", "AWS Lambda", "PostgreSQL", "Amazon Bedrock"],
+      "websiteUrl": "https://financial-management.migudev.com/landing",
+      "repositoryUrl": "https://github.com/migu-developer/financial-management",
+      "preview": {
+        "src": "/media/projects/financial-management.webp",
+        "alt": "Resumen mensual de ejemplo con ingresos, gastos y su evolución diaria",
+        "width": 1080,
+        "height": 587
+      },
+      "featured": true
+    },
+    {
+      "id": "yenuba",
+      "title": "Yenuba",
+      "summary": "Un espacio de trabajo para quienes gestionan varias empresas. Permite cambiar de empresa, invitar al equipo, definir quién puede consultar o modificar sus datos y administrar su suscripción sin mezclar personas ni registros.",
+      "category": "Frontend",
+      "technologies": [],
+      "preview": {
+        "src": "/media/projects/yenuba.webp",
+        "alt": "Espacio de trabajo anonimizado de Yenuba con navegación por empresa y panel inicial sin datos",
+        "width": 1080,
+        "height": 642
+      }
+    },
     {
       "id": "assignar-beefalo",
       "title": "Assignar Operations Platform",

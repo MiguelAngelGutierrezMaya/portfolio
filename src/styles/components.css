@@ -861,8 +861,9 @@ body[data-profile-dialog-open] {
   background: var(--color-surface-strong);
 }
 
-.social-links__emoji {
-  font-size: 1rem;
+.social-links__logo {
+  flex: none;
+  display: block;
 }
 
 .hero__socials .social-links a:first-child {

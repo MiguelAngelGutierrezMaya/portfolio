@@ -1,5 +1,6 @@
 ---
 import type { SocialLink } from '@portfolio/domain/models/Portfolio';
+import SocialPlatformLogo from '@portfolio/infrastructure/ui/atoms/SocialPlatformLogo.astro';
 
 interface Props {
   label: string;
@@ -12,11 +13,7 @@ const { label, links } = Astro.props;
 <nav class="social-links" aria-label={label}>
   {links.map(link => (
     <a href={link.href} rel="me">
-      {link.emoji && (
-        <span class="social-links__emoji" aria-hidden="true">
-          {link.emoji}
-        </span>
-      )}
+      <SocialPlatformLogo href={link.profileUrl} />
       <span class="social-links__copy">
         <strong>{link.label}</strong>
         {link.description && <small>{link.description}</small>}

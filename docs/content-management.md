@@ -65,6 +65,12 @@ dimensions prevent layout shifts. Filenames, prefixes, extensions and file sizes
 referenced by the validated portfolio document. Browser-facing media routes intentionally omit the
 file extension so Amplify sends them to SSR Compute before issuing the short-lived S3 redirect.
 
+New, anonymized project preview sources can be kept under `src/content/media/projects/`. These
+files are upload inputs and test fixtures, not public static assets. Publish each WebP at its
+manifest key before publishing the localized JSON. `websiteUrl` links to a live product;
+`repositoryUrl` links to its source. Omit both for a description-only project and use an empty
+`technologies` array when its stack should not be disclosed.
+
 ## Publishing an update
 
 Screenshots sourced from production or staging products must be anonymized before upload. Remove or

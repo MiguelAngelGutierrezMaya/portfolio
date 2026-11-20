@@ -7,7 +7,6 @@ export interface Link {
 
 export interface SocialLink extends Link {
   readonly profileUrl: string;
-  readonly emoji?: string;
   readonly description?: string;
 }
 
@@ -87,6 +86,7 @@ export interface Project {
   readonly category: ProjectCategory;
   readonly technologies: readonly string[];
   readonly repositoryUrl?: string;
+  readonly websiteUrl?: string;
   readonly preview?: ProjectPreview;
   readonly featured?: boolean;
 }

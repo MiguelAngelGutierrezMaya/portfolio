@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef, type CSSProperties } from 'react';
 
 import type { Project } from '@portfolio/domain/models/Portfolio';
 import type { ProjectExplorerCopy } from '@i18n/infrastructure/uiCopy';
+import ProjectLinks from '@portfolio/infrastructure/ui/molecules/ProjectLinks';
 
 import './ProjectPreviewDialog.css';
 
@@ -88,18 +89,18 @@ const ProjectPreviewDialog = ({
             <h2 id={titleId}>{project.title}</h2>
             <p>{project.summary}</p>
           </div>
-          <ul aria-label={`${project.title} ${copy.technologies}`}>
-            {project.technologies.map(technology => (
-              <li key={technology}>{technology}</li>
-            ))}
-          </ul>
-          {project.repositoryUrl ? (
-            <a href={project.repositoryUrl} target="_blank" rel="noreferrer">
-              {copy.viewRepository} <span aria-hidden="true">↗</span>
-            </a>
-          ) : (
-            <span className="project-preview-dialog__private">{copy.privateProduct}</span>
+          {project.technologies.length > 0 && (
+            <ul aria-label={`${project.title} ${copy.technologies}`}>
+              {project.technologies.map(technology => (
+                <li key={technology}>{technology}</li>
+              ))}
+            </ul>
           )}
+          <ProjectLinks
+            project={project}
+            copy={copy}
+            privateClassName="project-preview-dialog__private"
+          />
         </div>
       </article>
     </dialog>
